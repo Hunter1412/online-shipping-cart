@@ -1,0 +1,59 @@
+@using Microsoft.EntityFrameworkCore
+@using System.Data
+@using OnlineShoppingCart.Data
+
+@inject ApplicationDbContext dbContex;
+
+@{
+    ViewData["Title"] = "Info of Database";
+    var connect = dbContex.Database.GetDbConnection();
+    var dbname = connect.Database;
+    var can_connect = dbContex.Database.CanConnect();
+    dbContex.Database.GetAppliedMigrations();
+}
+
+<partial name="_AlertMessage" />
+
+<h2>Information Database:</h2>
+<p> - Database: @dbname</p>
+<p> - Source: @connect.DataSource</p>
+<p> - State: @connect.State</p>
+<hr>
+<h2>Migrations:</h2>
+@foreach (var migration in dbContex.Database.GetAppliedMigrations())
+{
+    <p>@migration</p>
+}
+
+@foreach (var migration in dbContex.Database.GetPendingMigrations())
+{
+    <p>@migration (pending)</p>
+}
+
+
+@if (!can_connect)
+{
+    <p class="alert alert-danger" role="alert">Can't connect Database</p>
+}
+
+@if (dbContex.Database.GetPendingMigrations().Any())
+{
+    <form method="POST">
+    <button type="submit" class="btn btn-success" asp-action="Migrate">Create Database (update migration)</button>
+</form>
+}
+
+@if (can_connect)
+{
+    <hr />
+    <h2>Tables of Database:</h2>
+    await dbContex.Database.OpenConnectionAsync();
+    var table = dbContex.Database.GetDbConnection().GetSchema("Tables");
+    <ol>
+    @foreach (System.Data.DataRow row in table.Rows)
+        {
+            <li>@row["TABLE_NAME"]</li>
+        }
+    </ol>
+    <a class="btn btn-danger" asp-action="DeleteDb">Delete Database: @dbname</a>
+}

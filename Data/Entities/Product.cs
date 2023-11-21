@@ -32,7 +32,9 @@ namespace OnlineShoppingCart.Data.Entities
         public double? Promotion { get; set; }
 
         [Required]
-        public int? Quantity { get; set; }
+        public int? InputQuantity { get; set; }
+
+        public int? InventoryQuantity { get; set; }
 
         public DateTime? CreateAt { get; private set; }
         public Product()

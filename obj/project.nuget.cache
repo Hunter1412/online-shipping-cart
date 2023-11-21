@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "J/GxKk+l2uQtWARwCO231d3pUPo59c7EfYpvOWmfMzA7oWduw7LveduKuENrqgLzhU+M1kOWigg9CaNNfFtI0w==",
+  "dgSpecHash": "hYoZi4CYv71wOSCng+j9Nw8xWBkKjVccLRks/LbMGz02u9//+vk0Z4y0aHk613wV3QMmFaOSxIA6DGcOclvqUg==",
   "success": true,
   "projectFilePath": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/OnlineShoppingCart.csproj",
   "expectedPackageFiles": [
@@ -13,6 +13,7 @@
     "/Users/thachnguyenlongvinh/.nuget/packages/microsoft.aspnetcore.cryptography.internal/7.0.0/microsoft.aspnetcore.cryptography.internal.7.0.0.nupkg.sha512",
     "/Users/thachnguyenlongvinh/.nuget/packages/microsoft.aspnetcore.cryptography.keyderivation/7.0.0/microsoft.aspnetcore.cryptography.keyderivation.7.0.0.nupkg.sha512",
     "/Users/thachnguyenlongvinh/.nuget/packages/microsoft.aspnetcore.identity.entityframeworkcore/7.0.0/microsoft.aspnetcore.identity.entityframeworkcore.7.0.0.nupkg.sha512",
+    "/Users/thachnguyenlongvinh/.nuget/packages/microsoft.aspnetcore.identity.ui/7.0.0/microsoft.aspnetcore.identity.ui.7.0.0.nupkg.sha512",
     "/Users/thachnguyenlongvinh/.nuget/packages/microsoft.aspnetcore.razor.language/6.0.0/microsoft.aspnetcore.razor.language.6.0.0.nupkg.sha512",
     "/Users/thachnguyenlongvinh/.nuget/packages/microsoft.bcl.asyncinterfaces/5.0.0/microsoft.bcl.asyncinterfaces.5.0.0.nupkg.sha512",
     "/Users/thachnguyenlongvinh/.nuget/packages/microsoft.build/17.3.2/microsoft.build.17.3.2.nupkg.sha512",
@@ -50,6 +51,8 @@
     "/Users/thachnguyenlongvinh/.nuget/packages/microsoft.extensions.dependencyinjection/7.0.0/microsoft.extensions.dependencyinjection.7.0.0.nupkg.sha512",
     "/Users/thachnguyenlongvinh/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/7.0.0/microsoft.extensions.dependencyinjection.abstractions.7.0.0.nupkg.sha512",
     "/Users/thachnguyenlongvinh/.nuget/packages/microsoft.extensions.dependencymodel/7.0.0/microsoft.extensions.dependencymodel.7.0.0.nupkg.sha512",
+    "/Users/thachnguyenlongvinh/.nuget/packages/microsoft.extensions.fileproviders.abstractions/7.0.0/microsoft.extensions.fileproviders.abstractions.7.0.0.nupkg.sha512",
+    "/Users/thachnguyenlongvinh/.nuget/packages/microsoft.extensions.fileproviders.embedded/7.0.0/microsoft.extensions.fileproviders.embedded.7.0.0.nupkg.sha512",
     "/Users/thachnguyenlongvinh/.nuget/packages/microsoft.extensions.identity.core/7.0.0/microsoft.extensions.identity.core.7.0.0.nupkg.sha512",
     "/Users/thachnguyenlongvinh/.nuget/packages/microsoft.extensions.identity.stores/7.0.0/microsoft.extensions.identity.stores.7.0.0.nupkg.sha512",
     "/Users/thachnguyenlongvinh/.nuget/packages/microsoft.extensions.logging/7.0.0/microsoft.extensions.logging.7.0.0.nupkg.sha512",
