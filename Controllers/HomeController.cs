@@ -23,10 +23,18 @@ public class HomeController : Controller
         return View();
     }
 
+    //test
     public IActionResult Shop()
     {
         return View();
     }
+
+    //test
+    public IActionResult ShopSingle()
+    {
+        return View();
+    }
+
 
     public IActionResult Privacy()
     {

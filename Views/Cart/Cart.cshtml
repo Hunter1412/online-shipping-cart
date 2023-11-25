@@ -1,0 +1,85 @@
+@model List<OnlineShoppingCart.Models.CartItem>
+
+@{
+    ViewData["Title"] = "Cart";
+}
+<div class="container">
+    <h1>Your Cart</h1>
+    @if (Model.Count > 0)
+    {
+        double total = 0;
+        int n = 1;
+
+        <table class="table table-hover table-inverse table-responsive">
+            <thead class="thead-inverse">
+                <tr>
+                    <th>#</th>
+                    <th>Product</th>
+                    <th>Unit price</th>
+                    <th>Quantity</th>
+                    <th>Amount</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    double amount = item.Quantity * (double)(item.Product.Price - item.Product.Promotion);
+                    total += amount;
+                    <tr>
+                        <td>@(n++)</td>
+                        <td>@item.Product.Name</td>
+                        <td>@item.Product.Price.ToString("n0")</td>
+                        <td><input asp-for="@item.Quantity" id="@($"quantity_{item.Product.Id}")" /></td>
+                        <td>@amount.ToString("n0")</td>
+                        <td>
+                            <button class="btn btn-success update_cart_item" data-id="@item.Product.Id">Update</button>
+                            <a asp-route="remove-cart" asp-route-id="@item.Product.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4" class="text-right">Total cart:</td>
+                    <td>@(total.ToString("n0"))</td>
+                </tr>
+            </tfoot>
+        </table>
+        <a asp-controller="Order" asp-action="CheckOut" class="btn btn-success">Check out</a>
+
+    }
+    else
+    {
+        <div>
+            <p class="alert alert-danger">Cart is empty,
+                <a asp-controller="Home" asp-action="Shop">Go to Shop</a>
+            </p>
+        </div>
+    }
+</div>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $(".update_cart_item").click(function (event) {
+                event.preventDefault();
+                var id = $(this.attr("data-id"));
+                var quantity = $("#quantity-" + id).val();
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.RouteUrl("update-cart")",
+                    data: {
+                        id: id,
+                        quantity: quantity
+                    },
+                    success: function (result) {
+                        window.location.href = "@Url.RouteUrl("cart")"
+                    }
+                })
+            });
+        });
+    </script>
+}

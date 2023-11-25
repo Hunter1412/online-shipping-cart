@@ -12,6 +12,8 @@ namespace OnlineShoppingCart.Data.Entities
         public string? Content { get; set; }
         public int Rating { get; set; }
 
+        public string? Image { get; set; }
+
         public string? UserId { get; set; }
         [ForeignKey("UserId")]
         public AppUser? AppUser { get; set; }

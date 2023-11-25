@@ -352,6 +352,9 @@ namespace OnlineShoppingCart.Migrations
                     b.Property<DateTime>("CreateAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid?>("ParentId")
                         .HasColumnType("uniqueidentifier");
 
@@ -381,9 +384,6 @@ namespace OnlineShoppingCart.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("FeedbackId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("ImageName")
                         .HasColumnType("nvarchar(max)");
 
@@ -394,8 +394,6 @@ namespace OnlineShoppingCart.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("FeedbackId");
 
                     b.HasIndex("ProductId");
 
@@ -702,15 +700,9 @@ namespace OnlineShoppingCart.Migrations
 
             modelBuilder.Entity("OnlineShoppingCart.Data.Entities.Image", b =>
                 {
-                    b.HasOne("OnlineShoppingCart.Data.Entities.Feedback", "Feedback")
-                        .WithMany()
-                        .HasForeignKey("FeedbackId");
-
                     b.HasOne("OnlineShoppingCart.Data.Entities.Product", "Product")
                         .WithMany("Images")
                         .HasForeignKey("ProductId");
-
-                    b.Navigation("Feedback");
 
                     b.Navigation("Product");
                 });

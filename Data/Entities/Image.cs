@@ -18,11 +18,5 @@ namespace OnlineShoppingCart.Data.Entities
         [ForeignKey("ProductId")]
         public Product? Product { get; set; }
 
-
-        public Guid? FeedbackId { get; set; }
-        [ForeignKey("FeedbackId")]
-        public Feedback? Feedback { get; set; }
-
-
     }
 }

@@ -1,0 +1,62 @@
+@using OnlineShoppingCart.Models.DTOs;
+@model ProductDTO;
+
+
+<div class="card mb-4 product-wap rounded-0">
+    <div class="card rounded-0">
+        <img class="card-img rounded-0 img-fluid" src="~/assets/img/shop_11.jpg" alt="product name">
+        <div class="card-img-overlay rounded-0 d-flex align-items-start justify-content-start">
+            <small class="bg-danger px-2 rounded-1 text-light">Save</small>
+        </div>
+        <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-end justify-content-end">
+            <ul class="list-unstyled">
+                <li>
+                    <a class="btn btn-success text-white" href="shop-single.html">
+                        <i class="far fa-heart"></i>
+                    </a>
+                </li>
+                <li>
+                    <a class="btn btn-success text-white mt-2" asp-action="ShopSingle">
+                        <i class="far fa-eye"></i>
+                    </a>
+                </li>
+                <li>
+                    <a class="btn btn-success text-white mt-2" asp-route="cart" asp-route-productid="">
+                        <i class="fas fa-cart-plus"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="card-body">
+        <a asp-action="ShopSingle" class="h3 text-decoration-none card-title">Produt name</a>
+        <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
+            <li>M/L/X/XL</li>
+            <li class="pt-2">
+                <span class="product-color-dot color-dot-red float-left rounded-circle ml-1"></span>
+                <span class="product-color-dot color-dot-blue float-left rounded-circle ml-1"></span>
+                <span class="product-color-dot color-dot-black float-left rounded-circle ml-1"></span>
+                <span class="product-color-dot color-dot-light float-left rounded-circle ml-1"></span>
+                <span class="product-color-dot color-dot-green float-left rounded-circle ml-1"></span>
+            </li>
+        </ul>
+        @if (1 > 0)
+        {
+            <ul class="list-unstyled d-flex justify-content-between mb-1">
+                <li>
+                    @for (var i = 1; i <= 5; i++)
+                    {
+                        var avg = 3.4;
+                        var color = (i <= avg) ? "text-warning" : "text-muted";
+                        <i class="@color fa fa-star" aria-hidden="true"></i>
+                    }
+                </li>
+                <a href="#" class="card-link">2 reviews</a>
+            </ul>
+        }
+        <div class="d-flex justify-content-between mb-0">
+            <p class="text-success mb-0">$250.00</p>
+            <p class="text-danger mb-0" style="text-decoration: line-through;">$5.00</p>
+        </div>
+    </div>
+</div>
