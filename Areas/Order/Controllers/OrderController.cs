@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace OnlineShoppingCart.Areas.Order.Controllers
 {
+    [Area("Order")]
     public class OrderController : Controller
     {
         private readonly ILogger<OrderController> _logger;
@@ -14,8 +15,7 @@ namespace OnlineShoppingCart.Areas.Order.Controllers
             _logger = logger;
         }
 
-
-
+        [HttpGet("/admin/order")]
         public IActionResult Index()
         {
             return View();

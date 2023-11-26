@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="~/assets/css/fontawesome.min.css">
 
     @await RenderSectionAsync("SlidersCss", required: false)
+    @await RenderSectionAsync("Css", required: false)
 
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
@@ -28,10 +29,9 @@
 
 <body>
     <partial name="PartialsLayout/_Header" />
-    <main role="main" class="pb-3">
+    <main role="main" class="pt-3">
         @RenderBody()
     </main>
-    <!-- Main Footer -->
     <partial name="PartialsLayout/_Footer" />
 
     <script src="~/assets/js/jquery-1.11.0.min.js"></script>

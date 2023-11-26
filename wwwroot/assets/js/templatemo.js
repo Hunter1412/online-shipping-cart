@@ -13,7 +13,6 @@ $(document).ready(function() {
     let all_panels = $('.templatemo-accordion > li > ul').hide();
 
     $('.templatemo-accordion > li > a').click(function() {
-        console.log('Hello world!');
         let target =  $(this).next();
         if(!target.hasClass('active')){
             all_panels.removeClass('active').slideUp();
