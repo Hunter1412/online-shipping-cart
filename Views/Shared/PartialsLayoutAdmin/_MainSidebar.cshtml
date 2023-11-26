@@ -96,19 +96,54 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a asp-area="Admin" asp-page="/Role/Index" class="nav-link">
+                            <a asp-area="OrderManage" asp-controller="Order" asp-action="Index" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Order List</p>
                             </a>
                         </li>
+
                         <li class="nav-item">
-                            <a asp-area="Admin" asp-page="/Role/User" class="nav-link">
+                            <a asp-area="VoucherManage" asp-controller="Voucher" asp-action="Index" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Delivery</p>
+                                <p>Voucher List</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a asp-area="OrderManage" asp-controller="Order" asp-action="Delivery" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Delivery Report</p>
                             </a>
                         </li>
                     </ul>
                 </li>
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-copy"></i>
+                        <p>
+                            Contacts
+                            <i class="fas fa-angle-left right"></i>
+                            <span class="badge badge-info right">6</span>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a asp-area="OrderManage" asp-controller="Order" asp-action="Index" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Feedback List</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a asp-area="VoucherManage" asp-controller="Voucher" asp-action="Index" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Contact List</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-chart-pie"></i>
