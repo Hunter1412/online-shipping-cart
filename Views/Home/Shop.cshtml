@@ -8,23 +8,20 @@
         <!-- 1.1.Start sidebar-->
         <div class="col-lg-3">
             <div class="shop-sidebar">
-                <h1 class="h2 pb-4">Categories</h1>
+                <h1 class="h1 pb-4">Categories</h1>
+
                 <ul class="list-unstyled templatemo-accordion">
                     <li class="pb-3">
                         <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
                             Stationery
                             <i class="fa fa-fw fa-chevron-circle-down mt-1"></i>
                         </a>
-                        <ul class="collapse show list-unstyled pl-3">
-                            <li><a class="text-decoration-none" href="#">NoteBooks</a></li>
-                            <li><a class="text-decoration-none" href="#">Planners</a></li>
-                            <li><a class="text-decoration-none" href="#">Pen</a></li>
-                            <li><a class="text-decoration-none" href="#">Pencils</a></li>
-                            <li><a class="text-decoration-none" href="#">Sharpeners</a></li>
-                            <li><a class="text-decoration-none" href="#">Eraser & Correction</a></li>
-                            <li><a class="text-decoration-none" href="#">Highlighters</a></li>
-                            <li><a class="text-decoration-none" href="#">Notepads</a></li>
-                            <li><a class="text-decoration-none" href="#">Sticky Notes</a></li>
+                        <ul class="list-group collapse show list-unstyled pl-3">
+                            <li class="list-group-item"><a class="text-decoration-none" href="#">NoteBooks</a></li>
+                            <li class="list-group-item"><a class="text-decoration-none" href="#">NoteBooks</a></li>
+                            <li class="list-group-item"><a class="text-decoration-none" href="#">NoteBooks</a></li>
+                            <li class="list-group-item"><a class="text-decoration-none" href="#">NoteBooks</a></li>
+                            <li class="list-group-item"><a class="text-decoration-none" href="#">NoteBooks</a></li>
                         </ul>
                     </li>
                     <li class="pb-3">
@@ -60,27 +57,13 @@
                         </ul>
                     </li>
                 </ul>
-                <div>
+                <div class="filter-price">
                     <h1 class="h2 pb-4">Prices</h1>
-                    <ul class="list-unstyled templatemo-accordion">
-                        <li class="pb-3">
-                            <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
-                                Stationery
-                                <i class="fa fa-fw fa-chevron-circle-down mt-1"></i>
-                            </a>
-                            <ul class="collapse show list-unstyled pl-3">
-                                <li><a class="text-decoration-none" href="#">NoteBooks</a></li>
-                                <li><a class="text-decoration-none" href="#">Planners</a></li>
-                                <li><a class="text-decoration-none" href="#">Pen</a></li>
-                                <li><a class="text-decoration-none" href="#">Pencils</a></li>
-                                <li><a class="text-decoration-none" href="#">Sharpeners</a></li>
-                                <li><a class="text-decoration-none" href="#">Eraser & Correction</a></li>
-                                <li><a class="text-decoration-none" href="#">Highlighters</a></li>
-                                <li><a class="text-decoration-none" href="#">Notepads</a></li>
-                                <li><a class="text-decoration-none" href="#">Sticky Notes</a></li>
-                            </ul>
-                        </li>
-                    </ul>
+                    <div class="form-group w-100">
+                        <input type="range" id="vol" name="vol" min="0" max="5000">
+                    </div>
+                    <div id="from"></div>
+                    <div id="to"></div>
                 </div>
             </div>
         </div><!-- End sidebar-->
@@ -344,3 +327,55 @@
     </div>
 </section>
 <!--End Brands-->
+
+@section Css {
+    <!-- Ion Slider -->
+    <link rel="stylesheet" href="~/plugins/ion-rangeslider/css/ion.rangeSlider.min.css">
+    <!-- bootstrap slider -->
+    <link rel="stylesheet" href="~/plugins/bootstrap-slider/css/bootstrap-slider.min.css">
+}
+
+@section Scripts {
+    <!-- Ion Slider -->
+    <script src="~/plugins/ion-rangeslider/js/ion.rangeSlider.min.js"></script>
+    <!-- Bootstrap slider -->
+    <script src="~/plugins/bootstrap-slider/bootstrap-slider.min.js"></script>
+    <script type="module">
+        $(function () {
+            /* ION SLIDER */
+            const from = sessionStorage.getItem('from_pretty') ?? 0;
+            const to = sessionStorage.getItem('to_pretty') ?? 0;
+
+            $(function(){
+                if(from) from = sessionStorage.getItem('from_pretty')
+                if(to) to = sessionStorage.getItem('to_pretty')
+            });
+
+            $('#vol').ionRangeSlider({
+                min: 0,
+                max: 5000,
+                from: from,
+                to: to,
+                type: 'double',
+                step: 1,
+                prefix: '$',
+                prettify: false,
+                hasGrid: true,
+                onChange: function (obj) {
+                    var t = ''
+                    for (var prop in obj) {
+                        t += prop + ': ' + obj[prop] + '\r\n'
+                    }
+                    sessionStorage.setItem('from_pretty', obj['from_pretty'])
+                    sessionStorage.setItem('to_pretty', obj['to_pretty'])
+                    $('#from').html(obj['from_pretty'])
+                    $('#to').html(obj['to_pretty'])
+                    //ajax call API
+                },
+                onLoad: function (obj) {
+                }
+
+            })
+        });
+    </script>
+}
