@@ -8,7 +8,7 @@
         <!-- 1.1.Start sidebar-->
         <div class="col-lg-3">
             <div class="shop-sidebar">
-                <h1 class="h1 pb-4">Categories</h1>
+                <h3 class="h3 pb-4">Categories</h3>
 
                 <ul class="list-unstyled templatemo-accordion">
                     <li class="pb-3">
@@ -343,14 +343,20 @@
     <script type="module">
         $(function () {
             /* ION SLIDER */
-            const from = sessionStorage.getItem('from_pretty') ?? 0;
-            const to = sessionStorage.getItem('to_pretty') ?? 0;
+            let from = 1000, to = 4000;
+            if (sessionStorage.getItem('from') != null || sessionStorage.getItem('to') != null) {
+                from = ConvertInt(sessionStorage.getItem('from'));
+                to = ConvertInt(sessionStorage.getItem('to'));
+                Display(from,to);
+            }
+            function ConvertInt(s){
+                return parseInt(s.replaceAll(" ", ""));
+            }
 
-            $(function(){
-                if(from) from = sessionStorage.getItem('from_pretty')
-                if(to) to = sessionStorage.getItem('to_pretty')
-            });
-
+            function Display(from,to){
+                $('#from').html(from)
+                $('#to').html(to)
+            }
             $('#vol').ionRangeSlider({
                 min: 0,
                 max: 5000,
@@ -366,15 +372,15 @@
                     for (var prop in obj) {
                         t += prop + ': ' + obj[prop] + '\r\n'
                     }
-                    sessionStorage.setItem('from_pretty', obj['from_pretty'])
-                    sessionStorage.setItem('to_pretty', obj['to_pretty'])
-                    $('#from').html(obj['from_pretty'])
-                    $('#to').html(obj['to_pretty'])
-                    //ajax call API
+                    sessionStorage.setItem('from', obj['from_pretty']);
+                    sessionStorage.setItem('to', obj['to_pretty']);
+                    from = ConvertInt(obj['from_pretty']);
+                    to = ConvertInt(obj['to_pretty']);
+                    Display(from, to);
+                    //ajax call API, display product list in gallery
                 },
                 onLoad: function (obj) {
                 }
-
             })
         });
     </script>
