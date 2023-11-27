@@ -16,44 +16,44 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = /Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart
 build_property._RazorSourceGeneratorDebug = 
 
-[/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/Areas/Category/Views/Category/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQ2F0ZWdvcnkvVmlld3MvQ2F0ZWdvcnkvSW5kZXguY3NodG1s
+[/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/Areas/CategoryManage/Views/Category/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQ2F0ZWdvcnlNYW5hZ2UvVmlld3MvQ2F0ZWdvcnkvSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/Areas/Category/Views/_ViewImports.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQ2F0ZWdvcnkvVmlld3MvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+[/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/Areas/CategoryManage/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQ2F0ZWdvcnlNYW5hZ2UvVmlld3MvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/Areas/Category/Views/_ViewStart.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQ2F0ZWdvcnkvVmlld3MvX1ZpZXdTdGFydC5jc2h0bWw=
+[/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/Areas/CategoryManage/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQ2F0ZWdvcnlNYW5hZ2UvVmlld3MvX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/Areas/Contact/Views/Contact/Delete.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQ29udGFjdC9WaWV3cy9Db250YWN0L0RlbGV0ZS5jc2h0bWw=
+[/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/Areas/ContactManage/Views/Contact/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQ29udGFjdE1hbmFnZS9WaWV3cy9Db250YWN0L0RlbGV0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/Areas/Contact/Views/Contact/Details.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQ29udGFjdC9WaWV3cy9Db250YWN0L0RldGFpbHMuY3NodG1s
+[/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/Areas/ContactManage/Views/Contact/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQ29udGFjdE1hbmFnZS9WaWV3cy9Db250YWN0L0RldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/Areas/Contact/Views/Contact/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQ29udGFjdC9WaWV3cy9Db250YWN0L0VkaXQuY3NodG1s
+[/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/Areas/ContactManage/Views/Contact/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQ29udGFjdE1hbmFnZS9WaWV3cy9Db250YWN0L0VkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/Areas/Contact/Views/Contact/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQ29udGFjdC9WaWV3cy9Db250YWN0L0luZGV4LmNzaHRtbA==
+[/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/Areas/ContactManage/Views/Contact/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQ29udGFjdE1hbmFnZS9WaWV3cy9Db250YWN0L0luZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/Areas/Contact/Views/Contact/SendContact.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQ29udGFjdC9WaWV3cy9Db250YWN0L1NlbmRDb250YWN0LmNzaHRtbA==
+[/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/Areas/ContactManage/Views/Contact/SendContact.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQ29udGFjdE1hbmFnZS9WaWV3cy9Db250YWN0L1NlbmRDb250YWN0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/Areas/Contact/Views/_ViewImports.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQ29udGFjdC9WaWV3cy9fVmlld0ltcG9ydHMuY3NodG1s
+[/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/Areas/ContactManage/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQ29udGFjdE1hbmFnZS9WaWV3cy9fVmlld0ltcG9ydHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/Areas/Contact/Views/_ViewStart.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQ29udGFjdC9WaWV3cy9fVmlld1N0YXJ0LmNzaHRtbA==
+[/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/Areas/ContactManage/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQ29udGFjdE1hbmFnZS9WaWV3cy9fVmlld1N0YXJ0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/Areas/Database/Views/DbManage/DeleteDb.cshtml]
@@ -232,16 +232,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXMvSWRlbnRpdHkvUGFnZXMvX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/Areas/Order/Views/Order/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXMvT3JkZXIvVmlld3MvT3JkZXIvSW5kZXguY3NodG1s
+[/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/Areas/OrderManage/Views/Order/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvT3JkZXJNYW5hZ2UvVmlld3MvT3JkZXIvSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/Areas/Order/Views/_ViewImports.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXMvT3JkZXIvVmlld3MvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+[/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/Areas/OrderManage/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvT3JkZXJNYW5hZ2UvVmlld3MvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/Areas/Order/Views/_ViewStart.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXMvT3JkZXIvVmlld3MvX1ZpZXdTdGFydC5jc2h0bWw=
+[/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/Areas/OrderManage/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvT3JkZXJNYW5hZ2UvVmlld3MvX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/Areas/VoucherManage/Views/Voucher/Create.cshtml]

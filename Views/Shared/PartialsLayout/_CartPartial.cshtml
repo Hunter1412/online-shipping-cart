@@ -12,35 +12,32 @@
                 <!-- CartItem Start -->
                 <div class="dropdown-item-text" style="max-width: 450px;">
                     <div class="d-flex justify-content-around">
-                        <span class="col-3">
-                            <img src="~/assets/img/feature_prod_03.jpg" alt="cartItem"
-                                style="max-width: 100%;height:100%;">
+                        <span class="col-4">
+                            <img src="~/assets/img/feature_prod_03.jpg" alt="cartItem" class="rounded"
+                                style="width: 100%;height:100%;">
                         </span>
-                        <span class="col-8 px-3">
-                            <a asp-action="ShopSingle" class="cart-name-product text-decoration-none"
-                                title="Product name The utility API is a Sass-based tool to generate utility classes">
+                        <div class="col-8">
+                            <span class="float-end text-end">
+                                <a type="button" class="btn-sm btn-close btn-outline-danger" aria-label="Close"
+                                    title="delete"></a>
+                            </span>
+                            <a asp-controller="Home" asp-action="ShopSingle" class="cart-name-product text-decoration-none"
+                                title="Product name">
                                 Product name The utility API is a Sass-based tool to generate utility classes.
                             </a>
-                            <div class="col-12">
-                                <ul class="list-inline">
-                                    <li class="list-inline-item">
-                                        <input type="hidden" name="product-quanity" id="product-quanity" value="1">
-                                    </li>
-                                    <li class="list-inline-item"><span class="btn btn-sm btn-success"
-                                            id="btn-minus">-</span></li>
-                                    <li class="list-inline-item"><span class="btn bg-secondary text-light"
-                                            id="var-value">1</span>
-                                    </li>
-                                    <li class="list-inline-item"><span class="btn btn-sm btn-success" id="btn-plus">+</span>
-                                    </li>
-                                </ul>
-                                <span class="text-sm text-muted d-inline">Unit price: $ 400.00</span>
-                            </div>
-                        </span>
-                        <span class="float-right text-danger">
-                            <button type="button" class="btn-sm btn-close btn-outline-danger" aria-label="Close"></button>
-                        </span>
-
+                            <ul class="list-inline">
+                                <li class="list-inline-item btn-group px-3 quantity-input">
+                                    <span class="btn btn-success btn-minus" data-id="@(i)" id="btn-minus">-</span>
+                                    <input type="hidden" name="product-quantity" id="product-quantity" value="1" data-max="1000">
+                                    <span class="btn bg-secondary text-light" name="var-value">1</span>
+                                    <span class="btn btn-success btn-plus" data-id="@(i)" id="btn-plus">+</span>
+                                </li>
+                                <li class="list-inline-item float-end text-muted">
+                                    <span class="text-success" title="unit price">$ 400.00</span>
+                                    <small class="text-danger" style="text-decoration: line-through;">$ 500.00</small>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <div class="dropdown-divider"></div>
@@ -49,11 +46,11 @@
         </div>
         <div class="dropdown-footer text-center">
             <div class="row m-3">
-                <strong class="col-sm-6">Total:</strong>
+                <strong class="col-sm-6">Subtotal:</strong>
                 <strong class="col-sm-6 border-bottom text-center">$2,697.80</strong>
             </div>
-            <div class="text-center">
-                <a href="#" class="btn btn-success text-light">Check out</a>
+            <div class="text-center mx-3">
+                <a asp-controller="Cart" asp-action="CheckOut" class="btn btn-success w-100 text-light">Check out</a>
             </div>
         </div>
     </div>

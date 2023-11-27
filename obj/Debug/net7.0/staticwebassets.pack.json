@@ -85,6 +85,22 @@
       "PackagePath": "staticwebassets/assets/img/brand_04.png"
     },
     {
+      "Id": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/category_01_notebook.webp",
+      "PackagePath": "staticwebassets/assets/img/category_01_notebook.webp"
+    },
+    {
+      "Id": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/category_02_CI-stapler_1.webp",
+      "PackagePath": "staticwebassets/assets/img/category_02_CI-stapler_1.webp"
+    },
+    {
+      "Id": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/category_03.webp",
+      "PackagePath": "staticwebassets/assets/img/category_03.webp"
+    },
+    {
+      "Id": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/category_04.webp",
+      "PackagePath": "staticwebassets/assets/img/category_04.webp"
+    },
+    {
       "Id": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/category_img_01.jpg",
       "PackagePath": "staticwebassets/assets/img/category_img_01.jpg"
     },

@@ -186,23 +186,21 @@
                                 </div>
                                 <div class="col-auto">
                                     <ul class="list-inline pb-3">
-                                        <li class="list-inline-item text-right">
+                                        <li class="list-inline-item text-right quantity-input">
                                             Quantity
-                                            <input type="hidden" name="product-quanity" id="product-quanity" value="1">
+                                            <span class="btn btn-success btn-minus" id="btn-minus">-</span>
+                                            <span class="btn-lg bg-secondary text-light" name="var-value">1</span>
+                                            <span class="btn btn-success btn-plus" id="btn-plus">+</span>
+                                            <input type="hidden" name="product-quantity" id="product-quanity" value="1"
+                                                data-max="1000">
                                         </li>
-                                        <li class="list-inline-item"><span class="btn btn-success"
-                                                id="btn-minus">-</span></li>
-                                        <li class="list-inline-item"><span class="badge bg-secondary"
-                                                id="var-value">1</span></li>
-                                        <li class="list-inline-item"><span class="btn btn-success"
-                                                id="btn-plus">+</span></li>
                                     </ul>
                                 </div>
                             </div>
                             <div class="row pb-3">
                                 <div class="col d-grid">
-                                    <button type="submit" class="btn btn-success btn-lg" name="submit" value="buy">Buy
-                                        It Now</button>
+                                    <a asp-controller="Cart" asp-action="CheckOut" type="button"
+                                        class="btn btn-success btn-lg">Buy It Now</a>
                                 </div>
                                 <div class="col d-grid">
                                     <button type="submit" class="btn btn-success btn-lg" name="submit"

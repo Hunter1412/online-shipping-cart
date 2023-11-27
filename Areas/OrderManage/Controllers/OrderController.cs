@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace OnlineShoppingCart.Areas.Order.Controllers
+namespace OnlineShoppingCart.Areas.OrderManage.Controllers
 {
     [Area("Order")]
     public class OrderController : Controller

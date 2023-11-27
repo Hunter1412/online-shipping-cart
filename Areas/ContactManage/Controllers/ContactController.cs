@@ -9,9 +9,9 @@ using Microsoft.EntityFrameworkCore;
 using OnlineShoppingCart.Data;
 using ContactModel = OnlineShoppingCart.Data.Entities.Contact;
 
-namespace OnlineShoppingCart.Areas.Contact.Controllers
+namespace OnlineShoppingCart.Areas.ContactManage.Controllers
 {
-    [Area("Contact")]
+    [Area("ContactManage")]
     public class ContactController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -117,7 +117,6 @@ namespace OnlineShoppingCart.Areas.Contact.Controllers
             return View(contact);
         }
 
-        // GET: Contact/ContactContrller/Delete/5
         [HttpGet("/admin/contact/delete/{id}")]
         public async Task<IActionResult> Delete(Guid? id)
         {
@@ -136,7 +135,6 @@ namespace OnlineShoppingCart.Areas.Contact.Controllers
             return View(contact);
         }
 
-        // POST: Contact/ContactContrller/Delete/5
         [HttpPost("/admin/contact/delete/{id}"), ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
