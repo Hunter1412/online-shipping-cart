@@ -26,7 +26,7 @@ namespace OnlineShoppingCart.Models.DTOs
         public CategoryDto? Parent { get; set; }
         public List<CategoryDto>? Children { get; set; }
 
-        public DateTime CreateAt { get; private set; }
+        public DateTime CreateAt { get; set; }
         public CategoryDto()
         {
             CreateAt = DateTime.Now;

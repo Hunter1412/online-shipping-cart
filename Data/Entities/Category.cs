@@ -26,7 +26,7 @@ namespace OnlineShoppingCart.Data.Entities
         public Category? Parent { get; set; }
         public List<Category>? Children { get; set; }
 
-        public DateTime CreateAt { get; private set; }
+        public DateTime CreateAt { get; set; }
         public Category()
         {
             CreateAt = DateTime.Now;

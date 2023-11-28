@@ -61,6 +61,8 @@ namespace OnlineShoppingCart.Areas.Identity.Pages.Account.Manage
             public string PhoneNumber { get; set; }
         }
 
+        public AppUser AppUser { get; set; }
+
         private async Task LoadAsync(AppUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
@@ -72,6 +74,7 @@ namespace OnlineShoppingCart.Areas.Identity.Pages.Account.Manage
             {
                 PhoneNumber = phoneNumber
             };
+            AppUser = user;
         }
 
         public async Task<IActionResult> OnGetAsync()

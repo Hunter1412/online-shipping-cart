@@ -5,23 +5,211 @@
     ViewData["ActivePage"] = ManageNavPages.Index;
 }
 
-<h3>@ViewData["Title"]</h3>
-<partial name="_StatusMessage" for="StatusMessage" />
-<div class="row">
-    <div class="col-md-6">
-        <form id="profile-form" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-            <div class="form-floating mb-3">
-                <input asp-for="Username" class="form-control" placeholder="Please choose your username." disabled />
-                <label asp-for="Username" class="form-label"></label>
+<!-- Main content -->
+<section class="content mt-3">
+    <div class="container-fluid">
+        <h3>@ViewData["Title"]</h3>
+        <partial name="_StatusMessage" for="StatusMessage" />
+        <div class="row">
+            <div class="col-md-3">
+
+                <!-- Profile Image -->
+                <div class="card card-primary card-outline">
+                    <div class="card-body box-profile">
+                        <div class="text-center">
+                            <img class="profile-user-img img-fluid img-circle rounded "
+                                src="~/dist/img/user1-128x128.jpg" alt="User profile picture">
+                        </div>
+
+                        <h3 class="profile-username text-center">@Model.AppUser?.FirstName @Model.AppUser?.LastName
+                        </h3>
+
+                        <ul class="list-group list-group-unbordered mb-3">
+                            <li class="list-group-item">
+                                <b>Email</b> <span class="float-end">@Model.AppUser?.Email</span>
+                            </li>
+                            <li class="list-group-item">
+                                <b>Phone</b> <span class="float-end">@Model.AppUser?.PhoneNumber</span>
+                            </li>
+                            <li class="list-group-item">
+                                <b>Gender</b>
+                                @{
+                                    if (Model.AppUser != null && Model.AppUser.Gender)
+                                    {
+                                        <span class="float-end"> Male</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="float-end">Femail</span>
+                                    }
+                                }
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
             </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Please enter your phone number."/>
-                <label asp-for="Input.PhoneNumber" class="form-label"></label>
-                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+            <!-- /.col -->
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-header p-2">
+                        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="pills-order-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-order" role="tab" aria-controls="pills-order"
+                                    aria-selected="true">Order's history</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-delivery-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-delivery" type="button" role="tab"
+                                    aria-controls="pills-delivery" aria-selected="false">Order processing</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-edit-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-edit" type="button" role="tab" aria-controls="pills-edit"
+                                    aria-selected="false">Setting</button>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-pane fade show active" id="pills-order" role="tabpanel"
+                                aria-labelledby="pills-order-tab">
+                                <div class="mb-3">
+                                    <div class="post clearfix p-3 card">
+                                        <div class="d-flex justify-content-between">
+                                            <strong>
+                                                Order ID: #1234567890
+                                            </strong>
+                                            <span class="float-right btn-tool">
+                                                <button type="button" class="btn-sm btn-close btn-outline-danger"
+                                                    aria-label="Close"></button>
+                                            </span>
+                                        </div>
+                                        <small class="user-block">
+                                            <small class="username"> Create by
+                                                <a href="#">Jonathan Burke Jr.</a>
+                                            </small>
+                                            <small class="description">on 7:30 PM today</small>
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="post clearfix p-3 card">
+                                        <div class="d-flex justify-content-between">
+                                            <strong>
+                                                Order ID: #1234567890
+                                            </strong>
+                                            <span class="float-right btn-tool">
+                                                <button type="button" class="btn-sm btn-close btn-outline-danger"
+                                                    aria-label="Close"></button>
+                                            </span>
+                                        </div>
+                                        <small class="user-block">
+                                            <small class="username"> Create by
+                                                <a href="#">Jonathan Burke Jr.</a>
+                                            </small>
+                                            <small class="description">on 7:30 PM today</small>
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="pills-delivery" role="tabpanel"
+                                aria-labelledby="pills-delivery-tab">
+                                <div class="mb-3">
+                                    <div class="post clearfix p-3 card">
+                                        <div class="d-flex justify-content-between">
+                                            <strong>
+                                                Order ID: #1234567890
+                                            </strong>
+                                            <span class="float-right btn-tool">
+                                                <button type="button" class="btn-sm btn-close btn-outline-danger"
+                                                    aria-label="Close"></button>
+                                            </span>
+                                        </div>
+                                        <small class="user-block">
+                                            <small class="username"> Create by
+                                                <a href="#">Jonathan Burke Jr.</a>
+                                            </small>
+                                            <small class="description">on 7:30 PM today</small>
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="pills-edit" role="tabpanel" aria-labelledby="pills-edit-tab">
+
+                                <form class="form-horizontal mx-auto" id="profile-form" method="post">
+                                    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                                    <div class="form-group row mb-3">
+                                        <label for="inputName" class="col-sm-2 col-form-label">Name</label>
+                                        <div class="col-sm-5">
+                                            <input type="email" class="form-control" id="inputName" placeholder="Name">
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <input type="email" class="form-control" id="inputName" placeholder="Name">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row mb-3">
+                                        <label asp-for="Input.PhoneNumber" class="col-sm-2 col-form-label"></label>
+                                        <div class="col-sm-10">
+                                            <input asp-for="Input.PhoneNumber" class="form-control"
+                                                placeholder="Please enter your phone number." />
+                                            <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row mb-3">
+                                        <label for="inputName2" class="col-sm-2 col-form-label">Subject</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" placeholder="Name">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="offset-sm-2 col-sm-10">
+                                            <button id="update-profile-button" type="submit"
+                                                class="btn btn-lg btn-primary">Save</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card -->
             </div>
-            <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
-        </form>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <form id="profile-form" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                <div class="form-floating mb-3">
+                    <input asp-for="Username" class="form-control" placeholder="Please choose your username."
+                        disabled />
+                    <label asp-for="Username" class="form-label"></label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.PhoneNumber" class="form-control"
+                        placeholder="Please enter your phone number." />
+                    <label asp-for="Input.PhoneNumber" class="form-label"></label>
+                    <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                </div>
+                <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
+            </form>
+        </div>
+
+
+
     </div>
 </div>
 
