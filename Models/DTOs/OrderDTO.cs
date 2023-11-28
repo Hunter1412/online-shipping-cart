@@ -8,7 +8,7 @@ using OnlineShoppingCart.Models.DTOs;
 
 namespace OnlineShoppingCart.Models
 {
-    public class OrderDTO
+    public class OrderDto
     {
         [Key]
         public string? Id { get; set; }
@@ -27,24 +27,24 @@ namespace OnlineShoppingCart.Models
 
         public string? ShippingId { get; set; }
         [ForeignKey("ShippingId")]
-        public ShippingDTO? Shipping { get; set; }
+        public ShippingDto? Shipping { get; set; }
 
         public string? VoucherId { get; set; }
         [ForeignKey("VoucherId")]
-        public VoucherDTO? Voucher { get; set; }
+        public VoucherDto? Voucher { get; set; }
 
         public string? UserId { get; set; }
         [ForeignKey("UserId")]
-        public AppUserDTO? AppUser { get; set; }
+        public AppUserDto? AppUser { get; set; }
 
         public DateTime? CreateAt { get; set; }
         public DateTime? UpdateAt { get; set; }
-        public OrderDTO()
+        public OrderDto()
         {
             CreateAt = DateTime.Now;
             UpdateAt = DateTime.Now;
         }
 
-        public List<OrderDetailDTO>? OrderDetails { get; set; }
+        public List<OrderDetailDto>? OrderDetails { get; set; }
     }
 }

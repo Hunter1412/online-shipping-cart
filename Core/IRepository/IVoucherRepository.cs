@@ -6,7 +6,7 @@ using OnlineShoppingCart.Data.Entities;
 
 namespace OnlineShoppingCart.Core.IRepository
 {
-    public interface IVoucherRepository:IGenericRepository<Voucher>
+    public interface IVoucherRepository : IGenericRepository<Voucher>
     {
 
     }

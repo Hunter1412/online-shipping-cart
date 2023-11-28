@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using OnlineShoppingCart.Core.IRepository;
@@ -13,11 +14,41 @@ namespace OnlineShoppingCart.Core.Repository
         protected ApplicationDbContext _context;
         protected DbSet<T> dbSet;
         protected readonly ILogger _logger;
-        public GenericRepository(ApplicationDbContext context,ILogger logger)
+        public GenericRepository(ApplicationDbContext context, ILogger logger)
         {
             _context = context;
             _logger = logger;
             dbSet = context.Set<T>();
+        }
+
+        public virtual async Task<List<T>> GetAll(string? includeProperties = null)
+        {
+            IQueryable<T> query = dbSet;
+            if (!string.IsNullOrEmpty(includeProperties))
+            {
+                foreach (var includeProp in includeProperties
+                    .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProp);
+                }
+            }
+            return await query.ToListAsync();
+        }
+
+        public virtual async Task<T?> Get(Expression<Func<T, bool>> filter, string? includeProperties = null)
+        {
+            IQueryable<T> query = dbSet;
+            query = query.Where(filter);
+            if (!string.IsNullOrEmpty(includeProperties))
+            {
+                foreach (var includeProp in includeProperties
+                    .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProp);
+                }
+            }
+            return await query.FirstOrDefaultAsync();
+
         }
 
         public virtual async Task<IEnumerable<T>> All()
@@ -25,7 +56,7 @@ namespace OnlineShoppingCart.Core.Repository
             return await dbSet.ToListAsync();
         }
 
-        public virtual async Task<T?> GetById(Guid id)
+        public virtual async Task<T?> GetById(string id)
         {
             return await dbSet.FindAsync(id);
         }
@@ -41,7 +72,7 @@ namespace OnlineShoppingCart.Core.Repository
             throw new NotImplementedException();
         }
 
-        public virtual async Task<bool> Delete(Guid id)
+        public virtual async Task<bool> Delete(string id)
         {
             throw new NotImplementedException();
         }

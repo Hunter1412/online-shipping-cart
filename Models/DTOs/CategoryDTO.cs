@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace OnlineShoppingCart.Models.DTOs
 {
-    public class CategoryDTO
+    public class CategoryDto
     {
         [Key]
         [Required]
@@ -23,16 +23,16 @@ namespace OnlineShoppingCart.Models.DTOs
 
         public string? ParentId { get; set; }
         [ForeignKey("ParentId")]
-        public CategoryDTO? Parent { get; set; }
-        public List<CategoryDTO>? Children { get; set; }
+        public CategoryDto? Parent { get; set; }
+        public List<CategoryDto>? Children { get; set; }
 
         public DateTime CreateAt { get; private set; }
-        public CategoryDTO()
+        public CategoryDto()
         {
             CreateAt = DateTime.Now;
         }
 
         [ValidateNever]
-        public List<ProductDTO>? Products { get; set; }
+        public List<ProductDto>? Products { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-@model IEnumerable<OnlineShoppingCart.Data.Entities.Voucher>
+@model IEnumerable<OnlineShoppingCart.Models.DTOs.VoucherDto>
 
 @{
     ViewData["Title"] = "Index";
@@ -15,8 +15,11 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active"><a asp-area="VoucherManage" asp-controller="Voucher"
-                                asp-action="Index">Vouchers</a></li>
+                        <li class="breadcrumb-item active">
+                            <a asp-area="VoucherManage" asp-controller="Voucher" asp-action="Index">
+                                Vouchers
+                            </a>
+                        </li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -47,9 +50,13 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table id="table_voucher" class="table table-bordered table-striped text-center" aria-label="list-voucher">
+                    <table id="table_voucher" class="table table-bordered table-striped text-center"
+                        aria-label="list-voucher">
                         <thead>
                             <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.CreateAt)
+                                </th>
                                 <th>
                                     @Html.DisplayNameFor(model => model.Name)
                                 </th>
@@ -69,6 +76,9 @@
                             @foreach (var item in Model)
                             {
                                 <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CreateAt)
+                                    </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Name)
                                     </td>

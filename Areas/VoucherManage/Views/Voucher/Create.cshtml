@@ -1,17 +1,17 @@
-@model OnlineShoppingCart.Data.Entities.Voucher
+@model OnlineShoppingCart.Models.DTOs.VoucherDto;
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Voucher";
 }
 
 
-<div class="content-wrapper">
+<section class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Order List</h1>
+                    <h1 class="m-0">Create New Voucher</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -34,36 +34,39 @@
                     <h3 class="h3 card-title">Add Voucher</h3>
                 </div>
                 <!-- /.card-header -->
-                <div class="card-body">
+                <div class="card-body row px-3">
                     <form asp-action="Create" class="col-md-6 mx-auto">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-group">
-                            <label asp-for="Id" class="control-label"></label>
+                            <label asp-for="Id" class="control-label"></label><span class="text-danger"> (*)</span>
                             <input asp-for="Id" class="form-control" placeholder="Id" />
                             <span asp-validation-for="Id" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="Name" class="control-label"></label>
+                            <label asp-for="Name" class="control-label"></label><span class="text-danger"> (*)</span>
                             <input asp-for="Name" class="form-control" placeholder="Enter to the name of voucher" />
                             <span asp-validation-for="Name" class="text-danger"></span>
                         </div>
-                        <div class="form-group">
-                            <label asp-for="Code" class="control-label"></label>
-                            <input asp-for="Code" class="form-control" placeholder="Enter to the code of voucher" />
-                            <span asp-validation-for="Code" class="text-danger"></span>
+                        <div class="row">
+                            <div class="form-group col-6">
+                                <label asp-for="Code" class="control-label"></label><span class="text-danger"> (*)</span>
+                                <input asp-for="Code" class="form-control" placeholder="Enter to the code of voucher" />
+                                <span asp-validation-for="Code" class="text-danger"></span>
+                            </div>
+                            <div class="form-group col-6">
+                                <label asp-for="Discount" class="control-label"></label><span class="text-danger"> (*)</span>
+                                <input asp-for="Discount" class="form-control" placeholder="Enter to discount money for this voucher" />
+                                <span asp-validation-for="Discount" class="text-danger"></span>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label asp-for="Discount" class="control-label"></label>
-                            <input asp-for="Discount" class="form-control" placeholder="Enter to discount money for this voucher" />
-                            <span asp-validation-for="Discount" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="MinimumBill" class="control-label"></label>
+                            <label asp-for="MinimumBill" class="control-label"></label><span class="text-danger">
+                                (*)</span>
                             <input asp-for="MinimumBill" class="form-control" placeholder="Enter to minimum bill" />
                             <span asp-validation-for="MinimumBill" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="ExpDate" class="control-label"></label>
+                            <label asp-for="ExpDate" class="control-label"></label><span class="text-danger"> (*)</span>
                             <input asp-for="ExpDate" class="form-control" />
                             <span asp-validation-for="ExpDate" class="text-danger"></span>
                         </div>
@@ -74,8 +77,18 @@
                             <input type="submit" value="Create" class="btn btn-primary" />
                         </div>
                     </form>
+                    <aside class="col-md-6 p-3">
+                        <dl class="card p-3">
+                            <dt>ID</dt>
+                            <dd>Include character alphabet and number</dd>
+                        </dl>
+                    </aside>
+
                 </div>
                 <!-- /.card-body -->
+                <div class="card-footer">
+                    <a asp-area="VoucherManage" asp-controller="Voucher" asp-action="Index">Back to Vouchers list</a>
+                </div>
             </div>
             <!-- /.card -->
 
@@ -84,4 +97,4 @@
     </div>
     <!-- /.content -->
 
-</div>
+</section>

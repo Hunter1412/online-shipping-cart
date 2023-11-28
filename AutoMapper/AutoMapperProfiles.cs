@@ -12,20 +12,20 @@ namespace OnlineShoppingCart.AutoMapper
     {
         public AutoMapperProfiles()
         {
-            CreateMap<CategoryDTO, Category>();
-            CreateMap<Category, CategoryDTO>();
+            CreateMap<CategoryDto, Category>();
+            CreateMap<Category, CategoryDto>();
 
-            CreateMap<ProductDTO, Product>();
-            CreateMap<ProductDTO, Product>();
+            CreateMap<ProductDto, Product>();
+            CreateMap<ProductDto, Product>();
 
-            CreateMap<VoucherDTO, Voucher>();
-            CreateMap<Voucher, VoucherDTO>();
+            CreateMap<VoucherDto, Voucher>();
+            CreateMap<Voucher, VoucherDto>();
 
-            CreateMap<OrderDetailDTO, OrderDetail>();
-            CreateMap<OrderDetail, OrderDetailDTO>();
+            CreateMap<OrderDetailDto, OrderDetail>();
+            CreateMap<OrderDetail, OrderDetailDto>();
 
-            CreateMap<AppUserDTO, AppUser>();
-            CreateMap<AppUser, AppUserDTO>();
+            CreateMap<AppUserDto, AppUser>();
+            CreateMap<AppUser, AppUserDto>();
         }
     }
 }

@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace OnlineShoppingCart.Models.DTOs
 {
-    public class AppUserDTO
+    public class AppUserDto
     {
-        
+
     }
 }
