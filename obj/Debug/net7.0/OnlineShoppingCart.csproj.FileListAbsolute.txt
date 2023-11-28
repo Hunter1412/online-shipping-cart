@@ -278,3 +278,5 @@
 /Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/obj/Debug/net7.0/OnlineShoppingCart.csproj.CopyComplete
 /Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/bin/Debug/net7.0/Microsoft.AspNetCore.Identity.UI.dll
 /Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/obj/Debug/net7.0/OnlineShoppingCart.MvcApplicationPartsAssemblyInfo.cs
+/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/bin/Debug/net7.0/AutoMapper.dll
+/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/bin/Debug/net7.0/AutoMapper.Extensions.Microsoft.DependencyInjection.dll

@@ -10,6 +10,11 @@ namespace OnlineShoppingCart.Core.UnitOfWork
     public interface IUnitOfWork
     {
         IUserRepository Users { get; }
+
+        ICategoryRepository Categories { get; }
+        IProductRepository Products { get; }
+
+        IVoucherRepository Vouchers { get; }
         Task CompleteAsync();
     }
 }

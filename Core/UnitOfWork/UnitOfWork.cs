@@ -13,12 +13,20 @@ namespace OnlineShoppingCart.Core.UnitOfWork
         private readonly ApplicationDbContext _context;
         private readonly ILogger _logger;
         public IUserRepository Users { get; private set; }
+        public ICategoryRepository Categories { get; private set; }
+        public IProductRepository Products { get; private set; }
+
+        public IVoucherRepository Vouchers { get; private set; }
+
 
         public UnitOfWork(ApplicationDbContext context, ILoggerFactory loggerFactory)
         {
             _context = context;
             _logger = loggerFactory.CreateLogger("logs");
             Users = new UserRepository(context, _logger);
+            Categories = new CategoryRepository(context, _logger);
+            Products = new ProductRepository(context, _logger);
+            Vouchers = new VoucherRepository(context, _logger);
         }
 
         public async Task CompleteAsync()
