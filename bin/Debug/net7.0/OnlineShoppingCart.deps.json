@@ -13,6 +13,9 @@
           "MailKit": "4.3.0",
           "Microsoft.AspNetCore.Authentication": "2.2.0",
           "Microsoft.AspNetCore.Authentication.Cookies": "2.2.0",
+          "Microsoft.AspNetCore.Authentication.Facebook": "7.0.5",
+          "Microsoft.AspNetCore.Authentication.Google": "7.0.10",
+          "Microsoft.AspNetCore.Authentication.Twitter": "7.0.5",
           "Microsoft.AspNetCore.Authentication.OAuth": "2.2.0",
           "Microsoft.AspNetCore.Http.Abstractions": "2.2.0",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "7.0.0",
@@ -170,10 +173,34 @@
           "Microsoft.AspNetCore.Http.Extensions": "2.2.0"
         }
       },
+      "Microsoft.AspNetCore.Authentication.Facebook/7.0.5": {
+        "runtime": {
+          "lib/net7.0/Microsoft.AspNetCore.Authentication.Facebook.dll": {
+            "assemblyVersion": "7.0.5.0",
+            "fileVersion": "7.0.523.17410"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.Authentication.Google/7.0.10": {
+        "runtime": {
+          "lib/net7.0/Microsoft.AspNetCore.Authentication.Google.dll": {
+            "assemblyVersion": "7.0.10.0",
+            "fileVersion": "7.0.1023.36439"
+          }
+        }
+      },
       "Microsoft.AspNetCore.Authentication.OAuth/2.2.0": {
         "dependencies": {
           "Microsoft.AspNetCore.Authentication": "2.2.0",
           "Newtonsoft.Json": "13.0.3"
+        }
+      },
+      "Microsoft.AspNetCore.Authentication.Twitter/7.0.5": {
+        "runtime": {
+          "lib/net7.0/Microsoft.AspNetCore.Authentication.Twitter.dll": {
+            "assemblyVersion": "7.0.5.0",
+            "fileVersion": "7.0.523.17410"
+          }
         }
       },
       "Microsoft.AspNetCore.Cryptography.Internal/7.0.0": {},
@@ -2704,12 +2731,33 @@
       "path": "microsoft.aspnetcore.authentication.core/2.2.0",
       "hashPath": "microsoft.aspnetcore.authentication.core.2.2.0.nupkg.sha512"
     },
+    "Microsoft.AspNetCore.Authentication.Facebook/7.0.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-OnSgITl3N8v8A447zrWqyoeqoYLxcY3ixVTKf1a5h+QpmZUujH/gvJRETHaUIVlk3b64MlzbkdAG/JsHpVjlpw==",
+      "path": "microsoft.aspnetcore.authentication.facebook/7.0.5",
+      "hashPath": "microsoft.aspnetcore.authentication.facebook.7.0.5.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Authentication.Google/7.0.10": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-HwB4AjAzp+wn5fglKUr0FB6uIDTXrBX3m0UiLSpVzZZJQOAYOwJfC6eVcSlGXc+NysQQ4fhR2+L0BDx0zI1NzQ==",
+      "path": "microsoft.aspnetcore.authentication.google/7.0.10",
+      "hashPath": "microsoft.aspnetcore.authentication.google.7.0.10.nupkg.sha512"
+    },
     "Microsoft.AspNetCore.Authentication.OAuth/2.2.0": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-i33SSdJd0g3ENRnHczgzrOlru3ciPsyYHMgAh90sbURS8wuBx0Y4xXfRQcYfu1W0/uiHQO832KNb/ICINWqLzA==",
       "path": "microsoft.aspnetcore.authentication.oauth/2.2.0",
       "hashPath": "microsoft.aspnetcore.authentication.oauth.2.2.0.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Authentication.Twitter/7.0.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-s0R/awVWIhEc8J8wuN40Zn2/Bxb5Cmh46US+RdhOoY2lXPVV6ZJflJVTgnwZc13+92AKOW8J+blWKvlA6I/1bA==",
+      "path": "microsoft.aspnetcore.authentication.twitter/7.0.5",
+      "hashPath": "microsoft.aspnetcore.authentication.twitter.7.0.5.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Cryptography.Internal/7.0.0": {
       "type": "package",

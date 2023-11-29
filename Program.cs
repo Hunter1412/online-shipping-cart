@@ -66,6 +66,24 @@ builder.Services.Configure<IdentityOptions>(options =>
 
 });
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/login";
+    options.LogoutPath = "/logout";
+    options.AccessDeniedPath = "/khong-duoc-truy-cap.html";
+});
+
+
+//login from google
+builder.Services.AddAuthentication()
+    .AddGoogle(googleOptions =>
+    {
+        var googleAuthNSection = builder.Configuration.GetSection("Authentication:Google");
+        googleOptions.ClientId = googleAuthNSection["ClientId"];
+        googleOptions.ClientSecret = googleAuthNSection["ClientSecret"];
+        googleOptions.CallbackPath = "/login-from-google";
+
+    });
 
 
 // builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
@@ -87,6 +105,11 @@ app.UseStaticFiles(); //read file from wwwroot
 app.UseSession(); //sd Session
 
 app.UseRouting();
+
+app.UseCookiePolicy(new CookiePolicyOptions
+{
+    Secure = CookieSecurePolicy.Always
+});
 
 app.UseAuthentication();   // xac thuc thông tin đăng nhập
 app.UseAuthorization();   // xac dinh thông tin về quyền của User

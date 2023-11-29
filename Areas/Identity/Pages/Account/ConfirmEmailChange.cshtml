@@ -1,8 +1,10 @@
-﻿@page
+﻿@page "/confirm-email-change/"
 @model ConfirmEmailChangeModel
 @{
     ViewData["Title"] = "Confirm email change";
 }
 
-<h1>@ViewData["Title"]</h1>
-<partial name="_StatusMessage" model="Model.StatusMessage" />
+<section class="container py-5">
+    <h1>@ViewData["Title"]</h1>
+    <partial name="_StatusMessage" model="Model.StatusMessage" />
+</section>

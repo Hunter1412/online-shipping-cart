@@ -16,6 +16,7 @@ using OnlineShoppingCart.Data.Entities;
 
 namespace OnlineShoppingCart.Areas.Identity.Pages.Account.Manage
 {
+    
     public class EmailModel : PageModel
     {
         private readonly UserManager<AppUser> _userManager;

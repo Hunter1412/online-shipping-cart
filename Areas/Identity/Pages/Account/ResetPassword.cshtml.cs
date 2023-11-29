@@ -15,6 +15,7 @@ using OnlineShoppingCart.Data.Entities;
 
 namespace OnlineShoppingCart.Areas.Identity.Pages.Account
 {
+    [AllowAnonymous]
     public class ResetPasswordModel : PageModel
     {
         private readonly UserManager<AppUser> _userManager;

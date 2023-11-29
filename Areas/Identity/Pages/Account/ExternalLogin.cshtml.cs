@@ -86,7 +86,7 @@ namespace OnlineShoppingCart.Areas.Identity.Pages.Account
             [EmailAddress]
             public string Email { get; set; }
         }
-        
+
         public IActionResult OnGet() => RedirectToPage("./Login");
 
         public IActionResult OnPost(string provider, string returnUrl = null)
@@ -152,6 +152,71 @@ namespace OnlineShoppingCart.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
+                //input email
+                var registeredUser = await _userManager.FindByEmailAsync(Input.Email);
+                var externalEmail = string.Empty;
+                AppUser externalEmailUser = null;
+
+                //Claim - dac tinh cua doi tuong
+                if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
+                {
+                    externalEmail = info.Principal.FindFirstValue(ClaimTypes.Email);
+                }
+                if (externalEmail != null)
+                {
+                    externalEmailUser = await _userManager.FindByEmailAsync(externalEmail);
+                }
+
+                if ((registeredUser != null) && (externalEmailUser != null))
+                {
+                    if (registeredUser.Id == externalEmailUser.Id)
+                    {
+                        var resultLink = await _userManager.AddLoginAsync(registeredUser, info);
+                        if (resultLink.Succeeded)
+                        {
+                            await _signInManager.SignInAsync(registeredUser, isPersistent: false);
+                            return LocalRedirect(returnUrl);
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Can not link this account, please use another account!");
+                        return Page();
+                    }
+                }
+
+                if ((externalEmailUser != null) && (registeredUser == null))
+                {
+                    ModelState.AddModelError(string.Empty, "Can not new account, with email isn't like email from service provider!");
+                    return Page();
+                }
+
+                //Not yet account --> create new account
+                if ((externalEmailUser == null) && (externalEmail == Input.Email))
+                {
+                    var newUser = new AppUser()
+                    {
+                        UserName = externalEmail,
+                        Email = externalEmail
+                    };
+                    var resultNewUser = await _userManager.CreateAsync(newUser);
+                    if (resultNewUser.Succeeded)
+                    {
+                        await _userManager.AddLoginAsync(newUser, info);
+                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
+                        await _userManager.ConfirmEmailAsync(newUser, code);
+                        //login now
+                        await _signInManager.SignInAsync(newUser, isPersistent: false);
+                        return LocalRedirect(returnUrl);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Can not new account!");
+                        return Page();
+                    }
+                }
+
+                //other
                 var user = CreateUser();
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);

@@ -1,6 +1,10 @@
 :root {
   --color-success: #59ab6e;
+  --bg-primary: #1b6ec2;
+  --bd-primary: #1861ac;
   --bg-login: #ccc;
+
+  --text-white: #fff;
 }
 
 * {
@@ -8,6 +12,18 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+
+.nav-pills .nav-link {
+  color: var(--color-success);
+}
+.nav-pills .nav-link.active,
+.nav-pills .show>.nav-link {
+  color: #fff;
+  background-color: var(--color-success);
+  border-color: var(--color-success);
+}
+
 
 .navigation a {
   position: relative;
