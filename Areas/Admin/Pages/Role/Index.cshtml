@@ -1,0 +1,126 @@
+@page
+@model OnlineShoppingCart.Areas.Admin.Pages.Role.Index
+@{
+    ViewData["Title"] = "Role List";
+}
+
+<section class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">@ViewData["Title"]</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">
+                            <a asp-area="Admin" asp-page="/Role/Index">
+                                @ViewData["Title"]
+                            </a>
+                        </li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+
+    <div class="content">
+        <div class="container-fluid">
+            <partial name="_StatusMessage" model="@Model.StatusMessage" />
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-content-center">
+                        <strong class="h3 card-title">@ViewData["Title"]</strong>
+                        <div class="flex-item">
+                            <form method="post" class="my-3 d-inline">
+                                <button class="btn btn-success" asp-page="/Role/Add" asp-page-handler="StartNewRole">Add
+                                    new role</button>
+                            </form>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="card-body">
+                    <table class="table table-bordered table-striped text-center" aria-label="list-role">
+                        <thead class="thead-inverse">
+                            <tr>
+                                <th>Role Id</th>
+                                <th>Name</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var role in Model.Roles)
+                            {
+                                <tr>
+                                    <td>@role.Id</td>
+                                    <td>@role.Name</td>
+                                    <td>
+                                        <form method="post" class="my-3 d-inline">
+                                            <input type="hidden" name="Input.Id" value="@role.Id">
+                                            <button class="btn btn-success" asp-page="./Add"
+                                                asp-page-handler="StartUpdate">Edit role</button>
+                                        </form>
+                                        <form method="post" class="my-3 d-inline">
+                                            <input type="hidden" name="Input.Id" value="@role.Id">
+                                            <button class="btn btn-danger" asp-page="./Delete"
+                                                asp-page-handler="StartUpdate">Delete
+                                                role</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Css {
+    <!-- DataTables -->
+    <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+}
+
+@section Scripts {
+    <script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/plugins/jszip/jszip.min.js"></script>
+    <script src="~/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="~/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="~/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <!-- Page specific script -->
+    <script>
+        $(function () {
+            $("#example1").DataTable({
+                "responsive": true, "lengthChange": false, "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
+
+
+}

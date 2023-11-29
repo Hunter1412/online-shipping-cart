@@ -1,0 +1,76 @@
+@page
+@model OnlineShoppingCart.Areas.Admin.Pages.Role.AddModel
+@{
+    ViewData["Title"] = Model.IsUpdate ? "Update" : "Create";
+    var btnText = Model.IsUpdate ? "Update" : "Create";
+}
+
+<section class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">@ViewData["Title"]</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item">
+                            <a asp-area="Admin" asp-page="/Role/Index">
+                                Role List
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            <a asp-area="Admin" asp-page="/Role/Add">
+                                @ViewData["Title"]
+                            </a>
+                        </li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+
+    <div class="content">
+        <div class="container-fluid">
+            <div class="card">
+
+                <div class="card-header">
+                    <strong class="h3 card-title">@ViewData["Title"]</strong>
+                </div>
+
+                <div class="card-body">
+                    <partial name="_StatusMessage" model="@Model.StatusMessage" />
+                    <div class="col-12 col-md-6">
+                        <form method="post">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <input type="hidden" asp-for="Input.Id" />
+                            <input type="hidden" asp-for="IsUpdate" />
+                            <div class="form-group">
+                                <label asp-for="Input.Name"></label>
+                                <input asp-for="Input.Name" class="form-control" placeholder="">
+                            </div>
+
+                            <div class="my-3 btn-group">
+                                <button type="submit" asp-page-handler="AddOrUpdate"
+                                    class="btn btn-primary">@btnText</button>
+                                <a asp-page="./Index" class="btn btn-secondary">Back to List</a>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

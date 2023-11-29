@@ -6,24 +6,31 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using OnlineShoppingCart.Data;
 using OnlineShoppingCart.Data.Entities;
 
 namespace OnlineShoppingCart.Areas.Identity.Pages.Account.Manage
 {
+    [Authorize]
     public class IndexModel : PageModel
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
 
+        private readonly ApplicationDbContext _context;
+
         public IndexModel(
             UserManager<AppUser> userManager,
-            SignInManager<AppUser> signInManager)
+            SignInManager<AppUser> signInManager,
+            ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _context = context;
         }
 
         /// <summary>
@@ -59,6 +66,17 @@ namespace OnlineShoppingCart.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+            [Display(Name = "First name")]
+            public string FirstName { get; set; }
+
+            [Display(Name = "Last name")]
+            public string LastName { get; set; }
+
+            [Display(Name = "Male")]
+            public bool Gender { get; set; }
+
+            [DataType(DataType.Date)]
+            public DateTime? BirthDay { get; set; }
         }
 
         public AppUser AppUser { get; set; }
@@ -72,7 +90,11 @@ namespace OnlineShoppingCart.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Gender = user.Gender,
+                BirthDay = (DateTime)user.Birthday
             };
             AppUser = user;
         }
@@ -113,6 +135,23 @@ namespace OnlineShoppingCart.Areas.Identity.Pages.Account.Manage
                     return RedirectToPage();
                 }
             }
+
+            if (Input.FirstName != null)
+            {
+                user.FirstName = Input.FirstName;
+            }
+            if (Input.LastName != null)
+            {
+                user.LastName = Input.LastName;
+            }
+            if (Input.BirthDay != null)
+            {
+                user.Birthday = Input.BirthDay;
+            }
+
+            user.Gender = Input.Gender;
+
+            await _context.SaveChangesAsync();
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";

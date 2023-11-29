@@ -1,4 +1,4 @@
-﻿@page "/profile/"
+﻿@page "/user/profile/"
 @model IndexModel
 @{
     ViewData["Title"] = "Profile";
@@ -13,8 +13,8 @@
         <div class="card card-primary card-outline">
             <div class="card-body box-profile row">
                 <div class="col-12 col-md-4 text-center">
-                    <img class="profile-user-img img-fluid img-circle rounded w-100 h-100" src="~/dist/img/user1-128x128.jpg"
-                        alt="User profile picture">
+                    <img class="profile-user-img img-fluid img-circle rounded w-100 h-100"
+                        src="~/dist/img/user1-128x128.jpg" alt="User profile picture">
                 </div>
 
                 <div class="col-12 col-md-8">
@@ -36,6 +36,12 @@
                                 <span class="float-end">@gender</span>
                             }
                         </li>
+                        <li class="list-group-item">
+                            <b>Data of birth</b>
+                            <span class="float-end">
+                                @String.Format("{0:MM/dd/yyyy}", Model.AppUser?.Birthday)
+                            </span>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -47,7 +53,7 @@
     <!-- /.col -->
     <article class="mb-3">
         <div class="card">
-            <div class="card-header p-2">
+            <div class="card-header">
                 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="pills-order-tab" data-bs-toggle="pill"
@@ -123,20 +129,36 @@
                             <div class="form-group row mb-3">
                                 <label for="inputName" class="col-lg-2 col-form-label">Name</label>
                                 <div class="col-lg-5 mb-lg-0 mb-3">
-                                    <input type="email" class="form-control" id="inputName" placeholder="First Name">
+                                    <input class="form-control" asp-for="Input.FirstName" placeholder="First Name">
+                                    <span asp-validation-for="Input.FirstName" class="text-danger"></span>
                                 </div>
                                 <div class="col-lg-5">
-                                    <input type="email" class="form-control" id="inputName" placeholder="Last Name">
+                                    <input class="form-control" asp-for="Input.LastName" placeholder="Last Name">
+                                    <span asp-validation-for="Input.LastName" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="form-group row mb-3">
                                 <label asp-for="Input.PhoneNumber" class="col-lg-2 col-form-label"></label>
                                 <div class="col-lg-10">
                                     <input asp-for="Input.PhoneNumber" class="form-control"
-                                        placeholder="Please enter your phone number." />
+                                        placeholder="Phone number." />
                                     <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
                                 </div>
                             </div>
+                            <div class="form-group row mb-3">
+                                <label asp-for="Input.BirthDay" class="col-lg-2 col-form-label"></label>
+                                <div class="col-lg-10">
+                                    <input asp-for="Input.BirthDay" class="form-control" />
+                                    <span asp-validation-for="Input.BirthDay" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-3">
+                                <label asp-for="Input.Gender" class="col-lg-2 col-form-label"></label>
+                                <div class="col-lg-10">
+                                    <input asp-for="Input.Gender" class="form-check-input" />
+                                </div>
+                            </div>
+
                             <div class="form-group row mb-3">
                                 <label for="inputName2" class="col-lg-2 col-form-label">Avatar</label>
                                 <div class="col-lg-10">
@@ -145,7 +167,7 @@
                             </div>
                             <div class="form-group row">
                                 <div class="offset-sm-2 col-sm-10">
-                                    <button id="update-profile-button" type="submit" class="btn btn-lg btn-primary">Save
+                                    <button id="update-profile-button" type="submit" class="btn btn-lg btn-info">Save
                                         change</button>
                                 </div>
                             </div>
@@ -155,34 +177,10 @@
             </div>
         </div>
         <!-- /.card -->
-        </div>
-        <!-- /.col -->
-        </div>
-        <!-- /.content -->
+    </article>
+</section>
 
 
-        @* <div class="container">
-        <div class="row">
-        <div class="col-md-6 mb-3">
-        <form id="profile-form" method="post">
-        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-        <div class="form-floating mb-3">
-        <input asp-for="Username" class="form-control" placeholder="Please choose your username."
-        disabled />
-        <label asp-for="Username" class="form-label"></label>
-        </div>
-        <div class="form-floating mb-3">
-        <input asp-for="Input.PhoneNumber" class="form-control"
-        placeholder="Please enter your phone number." />
-        <label asp-for="Input.PhoneNumber" class="form-label"></label>
-        <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
-        </div>
-        <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
-        </form>
-        </div>
-        </div>
-        </div> *@
-
-        @section Scripts {
-            <partial name="_ValidationScriptsPartial" />
-        }
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

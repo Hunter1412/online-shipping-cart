@@ -1,0 +1,16 @@
+@model OnlineShoppingCart.Views.Shared.Component.MessagePage.Message
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = @Model.Title;
+}
+<div class="card m-4">
+    <div class="card-header bg-danger text-light">
+        <h4>@Model.Title</h3>
+    </div>
+    <div class="card-body">
+        @Html.Raw(Model.HtmlContent)
+    </div>
+    <div class="card-footer">
+        Redirest to page - <a href="@Model.UrlRedirect">@Model.UrlRedirect</a>
+    </div>
+</div>

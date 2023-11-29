@@ -1,11 +1,11 @@
-﻿@page "/email/"
+﻿@page "/user/email/"
 @model EmailModel
 @{
     ViewData["Title"] = "Manage Email";
     ViewData["ActivePage"] = ManageNavPages.Email;
 }
 
-<section class="mx-auto">
+<section class="py-5">
     <h3>@ViewData["Title"]</h3>
     <partial name="_StatusMessage" for="StatusMessage" />
     <div class="row">

@@ -167,13 +167,23 @@ namespace OnlineShoppingCart.Areas.Identity.Pages.Account
                     externalEmailUser = await _userManager.FindByEmailAsync(externalEmail);
                 }
 
+                // Xử lý khi có thông tin về email từ info, đồng thời có user với email đó
+                // trường hợp này sẽ thực hiện liên kết tài khoản ngoài + xác thực email luôn
                 if ((registeredUser != null) && (externalEmailUser != null))
                 {
-                    if (registeredUser.Id == externalEmailUser.Id)
+                    if (registeredUser.Email == externalEmailUser.Email)
                     {
+                        // xác nhận email luôn nếu chưa xác nhận
+                        if (!registeredUser.EmailConfirmed)
+                        {
+                            var codeActive = await _userManager.GenerateEmailConfirmationTokenAsync(registeredUser);
+                            await _userManager.ConfirmEmailAsync(registeredUser, codeActive);
+                        }
+                        // Thực hiện liên kết info và user
                         var resultLink = await _userManager.AddLoginAsync(registeredUser, info);
                         if (resultLink.Succeeded)
                         {
+                            //login
                             await _signInManager.SignInAsync(registeredUser, isPersistent: false);
                             return LocalRedirect(returnUrl);
                         }
@@ -191,32 +201,33 @@ namespace OnlineShoppingCart.Areas.Identity.Pages.Account
                     return Page();
                 }
 
-                //Not yet account --> create new account
-                if ((externalEmailUser == null) && (externalEmail == Input.Email))
-                {
-                    var newUser = new AppUser()
-                    {
-                        UserName = externalEmail,
-                        Email = externalEmail
-                    };
-                    var resultNewUser = await _userManager.CreateAsync(newUser);
-                    if (resultNewUser.Succeeded)
-                    {
-                        await _userManager.AddLoginAsync(newUser, info);
-                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
-                        await _userManager.ConfirmEmailAsync(newUser, code);
-                        //login now
-                        await _signInManager.SignInAsync(newUser, isPersistent: false);
-                        return LocalRedirect(returnUrl);
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, "Can not new account!");
-                        return Page();
-                    }
-                }
+                // //Not yet account --> create new account
+                // if ((externalEmailUser == null) && (externalEmail == Input.Email))
+                // {
+                //     var newUser = new AppUser
+                //     {
+                //         UserName = externalEmail,
+                //         Email = externalEmail
+                //     };
+                //     var resultNewUser = await _userManager.CreateAsync(newUser);
+                //     if (resultNewUser.Succeeded)
+                //     {
+                //         // Liên kết tài khoản ngoài với tài khoản vừa tạo
+                //         await _userManager.AddLoginAsync(newUser, info);
+                //         var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
+                //         await _userManager.ConfirmEmailAsync(newUser, code);
+                //         //login now
+                //         await _signInManager.SignInAsync(newUser, isPersistent: false);
+                //         return LocalRedirect(returnUrl);
+                //     }
+                //     else
+                //     {
+                //         ModelState.AddModelError(string.Empty, "Can not new account!");
+                //         return Page();
+                //     }
+                // }
 
-                //other
+                //other Tài khoản chưa có, tạo tài khoản mới
                 var user = CreateUser();
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
@@ -225,11 +236,14 @@ namespace OnlineShoppingCart.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
+                    // Liên kết tài khoản ngoài với tài khoản vừa tạo
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
 
+                        // Trường hợp này Email tạo User khác với Email từ info (hoặc info không có email)
+                        // sẽ gửi email xác để người dùng xác thực rồi mới có thể đăng nhập
                         var userId = await _userManager.GetUserIdAsync(user);
                         var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                         code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
@@ -248,6 +262,7 @@ namespace OnlineShoppingCart.Areas.Identity.Pages.Account
                             return RedirectToPage("./RegisterConfirmation", new { Email = Input.Email });
                         }
 
+                        // Đăng nhập ngay do không yêu cầu xác nhận email
                         await _signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);
                         return LocalRedirect(returnUrl);
                     }

@@ -1,0 +1,74 @@
+@page
+@model OnlineShoppingCart.Areas.Admin.Pages.Role.AddUserRole
+@{
+    ViewData["Title"] = "Update Role to user";
+}
+
+
+
+<section class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">@ViewData["Title"]</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item">
+                            <a asp-area="Admin" asp-page="/Role/Index">
+                                User List
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            <a asp-area="Admin" asp-page="/Role/AddUserRole">
+                                @ViewData["Title"]
+                            </a>
+                        </li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+
+    <div class="content">
+        <div class="container-fluid">
+            <div class="card">
+
+                <div class="card-header">
+                    <strong class="h3 card-title">@ViewData["Title"]</strong>
+                </div>
+
+                <div class="card-body">
+
+                    <h4>Assign role to @Model.Input.Name</h4>
+                    <form method="post">
+                        <partial name="_StatusMessage" model="@Model.StatusMessage" />
+                        <input type="hidden" asp-for="@Model.Input.Id" />
+                        <input type="hidden" asp-for="@Model.IsConfirm" />
+                        <div class="form-group mb-3">
+                            <label for="">Role</label>
+                            <select id="choose-role" class="form-control" asp-for="@Model.Input.RoleName"
+                                asp-items="@Model.AllRoles" multiple></select>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                            <a asp-page="./User" class="link-info">Back to User List</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

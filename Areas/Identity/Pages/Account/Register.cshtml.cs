@@ -106,10 +106,6 @@ namespace OnlineShoppingCart.Areas.Identity.Pages.Account
         {
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-            // foreach (var item in ExternalLogins)
-            // {
-            //     _logger.LogInformation(item.Name);
-            // }
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -131,12 +127,15 @@ namespace OnlineShoppingCart.Areas.Identity.Pages.Account
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+
+                    // Identity/Account/ConfirmEmail?userId=xcv&code=xcc&returnUrl=ccc
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
                         pageHandler: null,
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
+                    //send email
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
@@ -146,6 +145,7 @@ namespace OnlineShoppingCart.Areas.Identity.Pages.Account
                     }
                     else
                     {
+                        //login, isPersistent - khong luu cookie
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         return LocalRedirect(returnUrl);
                     }
