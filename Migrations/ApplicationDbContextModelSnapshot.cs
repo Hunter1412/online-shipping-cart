@@ -393,6 +393,31 @@ namespace OnlineShoppingCart.Migrations
                     b.ToTable("Images");
                 });
 
+            modelBuilder.Entity("OnlineShoppingCart.Data.Entities.Inventory", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("DateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProductId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Inventory");
+                });
+
             modelBuilder.Entity("OnlineShoppingCart.Data.Entities.Order", b =>
                 {
                     b.Property<string>("Id")
@@ -408,7 +433,6 @@ namespace OnlineShoppingCart.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("OrderStatus")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("OrderTotal")
@@ -482,13 +506,6 @@ namespace OnlineShoppingCart.Migrations
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("InputQuantity")
-                        .IsRequired()
-                        .HasColumnType("int");
-
-                    b.Property<int?>("InventoryQuantity")
-                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -704,6 +721,17 @@ namespace OnlineShoppingCart.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("OnlineShoppingCart.Data.Entities.Inventory", b =>
+                {
+                    b.HasOne("OnlineShoppingCart.Data.Entities.Product", "Product")
+                        .WithMany("Inventories")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("OnlineShoppingCart.Data.Entities.Order", b =>
                 {
                     b.HasOne("OnlineShoppingCart.Data.Shipping", "Shipping")
@@ -786,6 +814,8 @@ namespace OnlineShoppingCart.Migrations
                     b.Navigation("Feedbacks");
 
                     b.Navigation("Images");
+
+                    b.Navigation("Inventories");
 
                     b.Navigation("OrderDetail");
                 });

@@ -5,6 +5,7 @@ using OnlineShoppingCart.Data.Entities;
 using OnlineShoppingCart.Core.UnitOfWork;
 using OnlineShoppingCart.Utils.MailUtils;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using OnlineShoppingCart.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +16,7 @@ builder.Services.AddOptions();
 var mailSetting = builder.Configuration.GetSection("MailSettings");
 builder.Services.Configure<MailSettings>(mailSetting);
 builder.Services.AddTransient<IEmailSender, SendMailService>();      // Đăng ký dịch vụ Mail
-
+builder.Services.AddScoped<ImageService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 
@@ -29,7 +30,7 @@ builder.Services.AddSession(cfg =>
 });
 
 //connect database
-var connectionString = builder.Configuration.GetConnectionString("AppConnectionString") ?? throw new InvalidOperationException("Connection string 'AppConnectionString' not found.");
+var connectionString = builder.Configuration.GetConnectionString("AppConnectionString2") ?? throw new InvalidOperationException("Connection string 'AppConnectionString' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 
 // Thêm vào dịch vụ Identity với cấu hình mặc định cho AppUser (model user) vào IdentityRole (model Role)

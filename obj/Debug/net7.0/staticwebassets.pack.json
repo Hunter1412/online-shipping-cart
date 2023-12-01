@@ -45,6 +45,18 @@
       "PackagePath": "staticwebassets/assets/css/templatemo.min.css"
     },
     {
+      "Id": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/1c84dd27-f15e-43d7-8c68-25565a01a134_th.jpeg",
+      "PackagePath": "staticwebassets/assets/img/1c84dd27-f15e-43d7-8c68-25565a01a134_th.jpeg"
+    },
+    {
+      "Id": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/356374e4-3891-4769-a7ae-07565bdfb9f8_images.jpeg",
+      "PackagePath": "staticwebassets/assets/img/356374e4-3891-4769-a7ae-07565bdfb9f8_images.jpeg"
+    },
+    {
+      "Id": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/55b9e181-4201-4cf2-994f-b7d837b7b8e7_th.jpeg",
+      "PackagePath": "staticwebassets/assets/img/55b9e181-4201-4cf2-994f-b7d837b7b8e7_th.jpeg"
+    },
+    {
       "Id": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/about-hero.svg",
       "PackagePath": "staticwebassets/assets/img/about-hero.svg"
     },
@@ -115,6 +127,14 @@
     {
       "Id": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/default-avatar-image.png",
       "PackagePath": "staticwebassets/assets/img/default-avatar-image.png"
+    },
+    {
+      "Id": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/e3155752-fe37-4dfd-aaa3-5ff14b6e105d_images.jpeg",
+      "PackagePath": "staticwebassets/assets/img/e3155752-fe37-4dfd-aaa3-5ff14b6e105d_images.jpeg"
+    },
+    {
+      "Id": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/e884861f-efe4-42aa-a6f0-b915d20578a3_th.jpeg",
+      "PackagePath": "staticwebassets/assets/img/e884861f-efe4-42aa-a6f0-b915d20578a3_th.jpeg"
     },
     {
       "Id": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/favicon.ico",
