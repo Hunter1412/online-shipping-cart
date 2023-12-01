@@ -1,0 +1,107 @@
+﻿@model OnlineShoppingCart.Models.DTOs.CategoryDto
+
+@{
+    ViewData["Title"] = "Create";
+}
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">@ViewData["Title"]</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">@ViewData["Title"]</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <!-- Main content -->
+    <div class="content">
+        <div class="container-fluid">
+
+            <div class="card">
+                <div class="card-header">
+                    <strong class="h3 card-title">@ViewData["Title"]</strong>
+                </div>
+
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <div class="col-md-4">
+                        <form asp-action="Create" asp-area="CategoryManage" asp-controller="Category" enctype="multipart/form-data" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="Id" class="control-label"></label>
+                                <input asp-for="Id" class="form-control" />
+                                <span asp-validation-for="Id" class="text-danger"></span>
+                                <span id="idCateErr" class="text-danger"></span>
+                            </div>
+                            <input type="hidden" asp-for="Slug" />
+                            <div class="form-group">
+                                <label asp-for="Name" class="control-label"></label>
+                                <input asp-for="Name" class="form-control" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Description" class="control-label"></label>
+                                <input asp-for="Description" class="form-control" />
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="ParentId" class="control-label"></label>
+                                <select asp-for="ParentId" class="form-control" asp-items="ViewBag.ParentId"></select>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="ImageFile" class="control-label"></label>
+                                <input asp-for="ImageFile" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" id="cateCreate" value="Create" class="btn btn-primary" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+</div>
+
+@section Scripts {
+    <script>
+        $("#Id").on("change", function () {
+            const id = $(this).val();
+            $.ajax({
+                url: "/admin/category/categoryexists",
+                type: "get",
+                data: {
+                    id: id
+                },
+                success: function (data) {
+                    console.log("check>>>>", data)
+                    if (data) {
+                        document.getElementById("idCateErr").innerHTML = "Id already exists";
+                        $("#cateCreate").attr("disabled", true);
+
+                    } else {
+                        document.getElementById("idCateErr").innerHTML = "";
+                        $("#cateCreate").attr("disabled", false);
+                    }
+                }
+            })
+        })
+    </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+}

@@ -5,6 +5,7 @@ using OnlineShoppingCart.Data.Entities;
 using OnlineShoppingCart.Core.UnitOfWork;
 using OnlineShoppingCart.Utils.MailUtils;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using OnlineShoppingCart.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +16,7 @@ builder.Services.AddOptions();
 var mailSetting = builder.Configuration.GetSection("MailSettings");
 builder.Services.Configure<MailSettings>(mailSetting);
 builder.Services.AddTransient<IEmailSender, SendMailService>();      // Đăng ký dịch vụ Mail
-
+builder.Services.AddScoped<ImageService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 
