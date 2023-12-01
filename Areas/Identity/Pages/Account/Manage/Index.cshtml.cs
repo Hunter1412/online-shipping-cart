@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using OnlineShoppingCart.Data;
 using OnlineShoppingCart.Data.Entities;
+using OnlineShoppingCart.Utils;
 
 namespace OnlineShoppingCart.Areas.Identity.Pages.Account.Manage
 {
@@ -21,14 +22,18 @@ namespace OnlineShoppingCart.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
 
+        private readonly ImageService _imageService;
+
 
 
         public IndexModel(
             UserManager<AppUser> userManager,
-            SignInManager<AppUser> signInManager)
+            SignInManager<AppUser> signInManager,
+            ImageService imageService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _imageService = imageService;
         }
 
         /// <summary>
@@ -72,22 +77,28 @@ namespace OnlineShoppingCart.Areas.Identity.Pages.Account.Manage
             [DataType(DataType.Date)]
             public DateTime? BirthDay { get; set; }
             [Display(Name = "Upload avatar")]
-            public IFormFile ImageFile { get; set; }
+            public IFormFile ImageFile { get; set; } = null!;
 
-            public string? Avatar { get; set; }
+            public string Avatar { get; set; } = null!;
         }
 
         public AppUser AppUser { get; set; }
+        public string Roles { get; set; } = null!;
+
+
 
         private async Task LoadAsync(AppUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
+            var listRoles = await _userManager.GetRolesAsync(user);
+            Roles = string.Join(", ", listRoles);
+
             Username = userName;
             AppUser = user;
             AppUser.Birthday = user.Birthday != null ? (DateTime)user.Birthday : DateTime.Now;
-            AppUser.Avatar = user.Avatar ?? "default-avatar-image.png";
+            AppUser.Avatar = _imageService.IsExist(user.Avatar) ? user.Avatar : "default-avatar-image.png";
 
             Input = new InputModel
             {
@@ -96,7 +107,7 @@ namespace OnlineShoppingCart.Areas.Identity.Pages.Account.Manage
                 LastName = user.LastName,
                 Gender = user.Gender,
                 BirthDay = user.Birthday != null ? (DateTime)user.Birthday : DateTime.Now,
-                Avatar = user.Avatar ?? "default-avatar-image.png"
+                Avatar = user.Avatar
             };
         }
 
@@ -148,6 +159,14 @@ namespace OnlineShoppingCart.Areas.Identity.Pages.Account.Manage
             if (Input.BirthDay != null)
             {
                 user.Birthday = Input.BirthDay;
+            }
+            if (Input.ImageFile != null && Input.ImageFile.FileName != null)
+            {
+                if (user.Avatar != null)
+                {
+                    _imageService.DeleteImage(user.Avatar);
+                }
+                user.Avatar = _imageService.UpLoadImage(Input.ImageFile);
             }
 
             user.Gender = Input.Gender;

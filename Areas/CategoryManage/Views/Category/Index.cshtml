@@ -78,12 +78,12 @@
         <div class="modal-content">
             <div class="card-header bg-danger" id="modalTitle"></div>
             <div class="card-body">
-                <p>Ban co chac chan mun xoa ko</p>
+                <p>Are you sure delete this category?</p>
                 <input type="hidden" id="cateDelete" />
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                <button type="button" class="btn btn-primary delete">Xác nhận</button>
+                <button type="reset" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary delete">Delete Confirm</button>
             </div>
         </div>
     </div>
@@ -105,7 +105,7 @@
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id" class="btn-sm btn-warning"><i class="fas fa-edit" title="edit"></i></a>
                 <a asp-action="Details" asp-route-id="@item.Id" class="btn-sm btn-info"><i class="nav-icon fas fa-file"></i></a>
-                <a class="btn-sm btn-danger deleteModel" name="delete@item.Id" id="@item.Id"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                <a class="btn-sm btn-danger deleteModel" id="@item.Id"><i class="fa fa-trash" aria-hidden="true"></i></a>
 
             </td>
         </tr>

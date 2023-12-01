@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "fdV4oiDJsOx30tkwOUejoRoDjB1h/pty39l8KYyTimM=",
+  "Hash": "z3stNVoEpb9Yh3UgQbe+eNhWYudxTAc2O7u97bJZtyI=",
   "Source": "OnlineShoppingCart",
   "BasePath": "_content/OnlineShoppingCart",
   "Mode": "Default",
@@ -1241,12 +1241,12 @@
       "OriginalItemSpec": "wwwroot/assets/css/templatemo.min.css"
     },
     {
-      "Identity": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/1c84dd27-f15e-43d7-8c68-25565a01a134_th.jpeg",
+      "Identity": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/23235989-1c5c-48a3-8be5-97f14b44385c_Screenshot 2023-09-27 at 9.21.27 PM.png",
       "SourceId": "OnlineShoppingCart",
       "SourceType": "Discovered",
       "ContentRoot": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/",
       "BasePath": "_content/OnlineShoppingCart",
-      "RelativePath": "assets/img/1c84dd27-f15e-43d7-8c68-25565a01a134_th.jpeg",
+      "RelativePath": "assets/img/23235989-1c5c-48a3-8be5-97f14b44385c_Screenshot 2023-09-27 at 9.21.27 PM.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -1255,15 +1255,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/assets/img/1c84dd27-f15e-43d7-8c68-25565a01a134_th.jpeg"
+      "OriginalItemSpec": "wwwroot/assets/img/23235989-1c5c-48a3-8be5-97f14b44385c_Screenshot 2023-09-27 at 9.21.27 PM.png"
     },
     {
-      "Identity": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/356374e4-3891-4769-a7ae-07565bdfb9f8_images.jpeg",
+      "Identity": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/54e10c65-8f06-4a59-b651-081537b8d9f8_Screenshot 2023-09-27 at 9.21.27 PM.png",
       "SourceId": "OnlineShoppingCart",
       "SourceType": "Discovered",
       "ContentRoot": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/",
       "BasePath": "_content/OnlineShoppingCart",
-      "RelativePath": "assets/img/356374e4-3891-4769-a7ae-07565bdfb9f8_images.jpeg",
+      "RelativePath": "assets/img/54e10c65-8f06-4a59-b651-081537b8d9f8_Screenshot 2023-09-27 at 9.21.27 PM.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -1272,24 +1272,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/assets/img/356374e4-3891-4769-a7ae-07565bdfb9f8_images.jpeg"
-    },
-    {
-      "Identity": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/55b9e181-4201-4cf2-994f-b7d837b7b8e7_th.jpeg",
-      "SourceId": "OnlineShoppingCart",
-      "SourceType": "Discovered",
-      "ContentRoot": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/",
-      "BasePath": "_content/OnlineShoppingCart",
-      "RelativePath": "assets/img/55b9e181-4201-4cf2-994f-b7d837b7b8e7_th.jpeg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/assets/img/55b9e181-4201-4cf2-994f-b7d837b7b8e7_th.jpeg"
+      "OriginalItemSpec": "wwwroot/assets/img/54e10c65-8f06-4a59-b651-081537b8d9f8_Screenshot 2023-09-27 at 9.21.27 PM.png"
     },
     {
       "Identity": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/about-hero.svg",
@@ -1579,6 +1562,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/assets/img/category_img_03.jpg"
+    },
+    {
+      "Identity": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/cdeb2217-6685-4d36-9042-13106fee0c7d_403821454_651253113849271_8623137513645664404_n.jpg",
+      "SourceId": "OnlineShoppingCart",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/",
+      "BasePath": "_content/OnlineShoppingCart",
+      "RelativePath": "assets/img/cdeb2217-6685-4d36-9042-13106fee0c7d_403821454_651253113849271_8623137513645664404_n.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/assets/img/cdeb2217-6685-4d36-9042-13106fee0c7d_403821454_651253113849271_8623137513645664404_n.jpg"
     },
     {
       "Identity": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/default-avatar-image.png",

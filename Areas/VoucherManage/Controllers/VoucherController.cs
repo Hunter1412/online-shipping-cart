@@ -34,7 +34,7 @@ namespace App.Areas.VoucherManage.Controllers
         [HttpGet("/admin/voucher")]
         public async Task<IActionResult> Index()
         {
-            var items = await _unitOfWork.Vouchers.All();
+            var items = await _unitOfWork.Vouchers.GetAll();
             var voucherList = _mapper.Map<IEnumerable<VoucherDto>>(items);
             return View(voucherList);
         }
@@ -43,7 +43,7 @@ namespace App.Areas.VoucherManage.Controllers
         [HttpGet("/admin/voucher/details/{id}")]
         public async Task<IActionResult> Details(string id)
         {
-            var item = await _unitOfWork.Vouchers.GetById(id);
+            var item = await _unitOfWork.Vouchers.Get(x => x.Id == id);
             return View(_mapper.Map<VoucherDto>(item));
         }
 
@@ -78,7 +78,7 @@ namespace App.Areas.VoucherManage.Controllers
             {
                 return NotFound();
             }
-            var voucher = await _unitOfWork.Vouchers.GetById(id);
+            var voucher = await _unitOfWork.Vouchers.Get(x => x.Id == id);
             if (voucher == null)
             {
                 return NotFound();
@@ -129,7 +129,7 @@ namespace App.Areas.VoucherManage.Controllers
             {
                 return NotFound();
             }
-            var voucher = await _unitOfWork.Vouchers.GetById(id);
+            var voucher = await _unitOfWork.Vouchers.Get(x => x.Id == id);
             if (voucher == null)
             {
                 return NotFound();
@@ -146,7 +146,12 @@ namespace App.Areas.VoucherManage.Controllers
             {
                 return Problem("Entity set 'ApplicationDbContext.Vouchers'  is null.");
             }
-            await _unitOfWork.Vouchers.Delete(id);
+            var voucher = await _unitOfWork.Vouchers.Get(x => x.Id == id);
+            if (voucher == null)
+            {
+                return NotFound();
+            }
+            _unitOfWork.Vouchers.Delete(voucher);
             await _unitOfWork.CompleteAsync();
             return RedirectToAction(nameof(Index));
         }

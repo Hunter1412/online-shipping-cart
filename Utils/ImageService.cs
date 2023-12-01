@@ -14,13 +14,11 @@ namespace OnlineShoppingCart.Utils
             var fileName = string.Empty;
             if (file != null)
             {
-                string uploadFoler = Path.Combine(_env.WebRootPath, "assets/img");
-                fileName = Guid.NewGuid().ToString() + "_" +file.FileName;
-                string filePath = Path.Combine(uploadFoler, fileName);
-                using (var Stream = new FileStream(filePath, FileMode.Create))
-                {
-                    file.CopyTo(Stream);
-                }
+                string uploadFolder = Path.Combine(_env.WebRootPath, "assets/img");
+                fileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+                string filePath = Path.Combine(uploadFolder, fileName);
+                using var Stream = new FileStream(filePath, FileMode.Create);
+                file.CopyTo(Stream);
             }
             return fileName;
         }
@@ -35,6 +33,19 @@ namespace OnlineShoppingCart.Utils
                     System.IO.File.Delete(imageFile);
                 }
             }
+        }
+
+        public bool IsExist(string fileName)
+        {
+            if (!string.IsNullOrEmpty(fileName))
+            {
+                string imageFile = Path.Combine(_env.WebRootPath, "assets/img", fileName);
+                if (System.IO.File.Exists(imageFile))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

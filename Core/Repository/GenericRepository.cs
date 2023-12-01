@@ -21,45 +21,52 @@ namespace OnlineShoppingCart.Core.Repository
             dbSet = context.Set<T>();
         }
 
-        public virtual async Task<List<T>> GetAll(string? includeProperties = null)
+        public virtual async Task<List<T>?> GetAll(string? includeProperties = null)
         {
-            IQueryable<T> query = dbSet;
-            if (!string.IsNullOrEmpty(includeProperties))
+            try
             {
-                foreach (var includeProp in includeProperties
-                    .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                IQueryable<T> query = dbSet;
+                if (!string.IsNullOrEmpty(includeProperties))
                 {
-                    query = query.Include(includeProp);
+                    foreach (var includeProp in includeProperties
+                        .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                    {
+                        query = query.Include(includeProp);
+                    }
                 }
+                return await query.ToListAsync();
             }
-            return await query.ToListAsync();
+            catch (System.Exception ex)
+            {
+                _logger.LogError(ex, "{Repo} GetAll method error", typeof(GenericRepository<T>));
+                return null;
+            }
         }
 
         public virtual async Task<T?> Get(Expression<Func<T, bool>> filter, string? includeProperties = null)
         {
-            IQueryable<T> query = dbSet;
-            query = query.Where(filter);
-            if (!string.IsNullOrEmpty(includeProperties))
+            try
             {
-                foreach (var includeProp in includeProperties
-                    .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                IQueryable<T> query = dbSet;
+                query = query.Where(filter);
+                if (!string.IsNullOrEmpty(includeProperties))
                 {
-                    query = query.Include(includeProp);
+                    foreach (var includeProp in includeProperties
+                        .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                    {
+                        query = query.Include(includeProp);
+                    }
                 }
+                return await query.FirstOrDefaultAsync();
             }
-            return await query.FirstOrDefaultAsync();
+            catch (System.Exception ex)
+            {
+                _logger.LogError(ex, "{Repo} Get method error", typeof(GenericRepository<T>));
+                return null;
+            }
 
         }
 
-        public virtual async Task<IEnumerable<T>> All()
-        {
-            return await dbSet.ToListAsync();
-        }
-
-        public virtual async Task<T?> GetById(string id)
-        {
-            return await dbSet.FindAsync(id);
-        }
 
         public virtual async Task<bool> Add(T entity)
         {
@@ -72,9 +79,18 @@ namespace OnlineShoppingCart.Core.Repository
             throw new NotImplementedException();
         }
 
-        public virtual async Task<bool> Delete(string id)
+        public bool Delete(T entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                dbSet.Remove(entity);
+                return true;
+            }
+            catch (System.Exception ex)
+            {
+                _logger.LogError(ex, "{Repo} Delete method error", typeof(GenericRepository<T>));
+                return false;
+            }
         }
     }
 }

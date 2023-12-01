@@ -24,7 +24,6 @@
   border-color: var(--color-success);
 }
 
-
 .navigation a {
   position: relative;
   font-size: 1.1em;
@@ -129,6 +128,16 @@
   transform-origin: left;
   transform: scaleX(1);
 }
+
+.avatar {
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #dfdfdf;
+}
+
+/* checkout */
 
 input[type=radio] {
   accent-color: var(--color-success);

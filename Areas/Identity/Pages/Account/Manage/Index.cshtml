@@ -1,5 +1,6 @@
 ﻿@page "/user/profile/"
 @model IndexModel
+
 @{
     ViewData["Title"] = "Profile";
     ViewData["ActivePage"] = ManageNavPages.Index;
@@ -13,8 +14,12 @@
         <div class="card card-primary card-outline">
             <div class="card-body box-profile row">
                 <div class="col-12 col-md-4 text-center">
-                    <img class="profile-user-img img-fluid img-circle rounded w-100 h-100"
-                        src="~/assets/img/@Model.AppUser?.Avatar" alt="@Model.AppUser?.Avatar">
+                    <div class="text-center">
+                        <img class="avatar"
+                            src="~/assets/img/@Model.AppUser?.Avatar" alt="@Model.AppUser?.Avatar"
+                            >
+                        <p class="h5 mt-3">@Model.Roles</p>
+                    </div>
                 </div>
 
                 <div class="col-12 col-md-8">
@@ -166,6 +171,7 @@
                                 <label asp-for="Input.ImageFile" class="col-lg-3 col-form-label"></label>
                                 <div class="col-lg-9">
                                     <input type="file" class="form-control" asp-for="Input.ImageFile">
+                                    <span asp-validation-for="Input.ImageFile" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="form-group row">

@@ -3,11 +3,14 @@
 
 @inject SignInManager<AppUser> SignInManager
 @inject UserManager<AppUser> UserManager
-
+@inject OnlineShoppingCart.Utils.ImageService ImageService;
 
 @{
     var userLogin = await UserManager.GetUserAsync(User);
-    var avatar = (userLogin != null && userLogin.Avatar != null) ? userLogin.Avatar : null;
+    var avatar = (userLogin != null && userLogin.Avatar != null && ImageService.IsExist(userLogin.Avatar)) ?
+    userLogin.Avatar
+    :
+    null;
 }
 
 
@@ -17,8 +20,8 @@
         title="Hello @UserManager.GetUserName(User)">
         @if ((SignInManager.IsSignedIn(User)) && (avatar != null))
         {
-            <img src="~/assets/img/@avatar" alt="@UserManager.GetUserName(User)" class="rounded-circle" height="50"
-                width="50" loading="lazy" />
+            <img src="~/assets/img/@avatar" alt="@UserManager.GetUserName(User)"
+                class="rounded-circle" height="30px" width="30px" loading="lazy" />
         }
         else
         {

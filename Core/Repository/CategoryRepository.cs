@@ -16,49 +16,76 @@ namespace OnlineShoppingCart.Core.Repository
         public CategoryRepository(ApplicationDbContext context, ILogger logger) : base(context, logger)
         {
         }
-        public override async Task<IEnumerable<Category>> All()
-        {
-            try
-            {
-                return await dbSet.ToListAsync();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "{Repo} All method error", typeof(VoucherRepository));
-                return new List<Category>();
-            }
-        }
-        public override async Task<Category?> GetById(string id)
-        {
-            try
-            {
-                return await dbSet.FindAsync(id);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "{Repo} GetById method error", typeof(VoucherRepository));
-                return new Category();
-            }
-        }
 
-
-        public override async Task<bool> Delete(string id)
+        public override async Task<bool> Upsert(Category entity)
         {
             try
             {
-                var exist = await dbSet.Where(x => x.Id == id).FirstOrDefaultAsync();
-                if (exist != null)
+                var existingUser = await dbSet.Where(x => x.Id == entity.Id).FirstOrDefaultAsync();
+                if (existingUser == null)
                 {
-                    dbSet.Remove(exist);
-                    return true;
+                    return await Add(entity);
                 }
-                return false;
+                existingUser.Name = entity.Name;
+                existingUser.Slug = entity.Slug;
+                existingUser.Description = entity.Description;
+                existingUser.Image = entity.Image;
+                existingUser.ParentId = entity.ParentId;
+                existingUser.CreateAt = entity.CreateAt;
+
+                return true;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "{Repo} Delete method error", typeof(VoucherRepository));
+                _logger.LogError(ex, "{Repo} Upsert method error", typeof(VoucherRepository));
                 return false;
             }
         }
+
+
+        public async Task<List<Category>> GetItemsSelectCategories(string id)
+        {
+
+            var query = (from c in _context.Categories select c)
+                    .Include(c => c.Parent)
+                    .Include(c => c.Children);
+
+            var items = (await query.ToListAsync())
+                            .Where(c => c.Parent == null)
+                            .ToList();
+
+
+            List<Category> resultItems = new() {
+                new Category() {
+                    Id = "-1",
+                    Name = "Not parent category"
+                }
+            };
+            Action<List<Category>, int> _ChangeTitleCategory = null!;
+
+            void ChangeTitleCategory(List<Category> itemsDto, int level)
+            {
+                string prefix = string.Concat(Enumerable.Repeat("—", level));
+                foreach (var item in itemsDto)
+                {
+                    resultItems.Add(new Category()
+                    {
+                        Id = item.Id,
+                        Name = prefix + " " + item.Name + "_" + item.Id
+                    });
+                    if ((item.Id != id) && (item.Children != null) && (item.Children.Count > 0))
+                    {
+                        _ChangeTitleCategory(item.Children.ToList(), level + 1);
+                    }
+                }
+
+            }
+
+            _ChangeTitleCategory = ChangeTitleCategory;
+            ChangeTitleCategory(items, 0);
+
+            return resultItems;
+        }
+
     }
 }
