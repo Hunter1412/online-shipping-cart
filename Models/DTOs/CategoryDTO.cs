@@ -15,13 +15,12 @@ namespace OnlineShoppingCart.Models.DTOs
         public string? Id { get; set; }
         [Required]
         public string? Name { get; set; }
-        [Required]
+        //[Required]
         public string? Slug { get; set; }
         [DataType(DataType.Text)]
         public string? Description { get; set; }
         public string? Image { get; set; }
-        public IFormFile ImageFile { get; set; }
-
+        public IFormFile? ImageFile { get; set; }
         public string? ParentId { get; set; }
         [ForeignKey("ParentId")]
         public CategoryDto? Parent { get; set; }
