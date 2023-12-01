@@ -1,5 +1,5 @@
 @page
-@model OnlineShoppingCart.Areas.Admin.Pages.Role.AddUserRole
+@model OnlineShoppingCart.Areas.Admin.Pages.User.AddRole
 @{
     ViewData["Title"] = "Update Role to user";
 }
@@ -43,22 +43,24 @@
 
                 <div class="card-body">
 
-                    <h4>Assign role to @Model.Input.Name</h4>
+                    <h4>Assign role to @Model.Input?.Name</h4>
                     <form method="post">
                         <partial name="_StatusMessage" model="@Model.StatusMessage" />
-                        <input type="hidden" asp-for="@Model.Input.Id" />
+                        <input type="hidden" asp-for="@Model!.Input!.Id" />
                         <input type="hidden" asp-for="@Model.IsConfirm" />
                         <div class="form-group mb-3">
                             <label for="">Role</label>
-                            <select id="choose-role" class="form-control" asp-for="@Model.Input.RoleName"
+                            <select id="selectrole" class="form-control" asp-for="@Model!.Input!.RoleName"
                                 asp-items="@Model.AllRoles" multiple></select>
                         </div>
 
                         <div class="form-group mb-3">
                             <button type="submit" class="btn btn-primary">Save changes</button>
-                            <a asp-page="./User" class="link-info">Back to User List</a>
                         </div>
                     </form>
+                </div>
+                <div class="card-footer">
+                    <a asp-page="./Index" class="link-info">Back to User List</a>
                 </div>
             </div>
         </div>
@@ -68,7 +70,16 @@
 
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    <link rel="stylesheet" href="~/lib/multiple-select/multiple-select.min.css" />
+    <script src="~/lib/multiple-select/multiple-select.min.js"></script>
+    <script>
+        $('#selectrole').multipleSelect({
+            selectAll: false,
+            keepOpen: false,
+            isOpen: false
+        });
+    </script>
+
+
+    <partial name="_ValidationScriptsPartial" />
 }

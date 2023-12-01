@@ -9,14 +9,11 @@ namespace OnlineShoppingCart.Models.DTOs
 {
     public class OrderDetailDto
     {
-        [Key]
         [Required]
-        public string? Id { get; set; }
-
         public string? OrderId { get; set; }
         [ForeignKey("OrderId")]
         public OrderDto? Order { get; set; }
-
+        [Required]
         public string? ProductId { get; set; }
         [ForeignKey("ProductId")]
         public ProductDto? Product { get; set; }

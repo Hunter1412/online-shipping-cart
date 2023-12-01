@@ -17,8 +17,7 @@ namespace OnlineShoppingCart.Data.Entities
         public string? Answer { get; set; }
 
         public string? UserId { get; set; }
-        [ForeignKey("CategoryId")]
-        [ValidateNever]
+        [ForeignKey("UserId")]
         public AppUser? AppUser { get; set; }
 
         public DateTime? CreateAt { get; set; }

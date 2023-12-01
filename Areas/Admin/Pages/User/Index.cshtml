@@ -1,7 +1,7 @@
-@page
-@model OnlineShoppingCart.Areas.Admin.Pages.Role.User
+@page "/admin/user"
+@model OnlineShoppingCart.Areas.Admin.Pages.User.Index
 @{
-    ViewData["Title"] = "User";
+    ViewData["Title"] = "User List";
 }
 
 <section class="content-wrapper">
@@ -36,7 +36,8 @@
 
                 <div class="card-body">
                     <partial name="_StatusMessage" model="@Model.StatusMessage" />
-                    <table class="table table-bordered table-striped text-center" aria-label="list-user">
+
+                    <table id="user_list" class="table table-bordered table-striped text-center" aria-label="list-user">
                         <thead class="thead-inverse">
                             <tr>
                                 <th>Username</th>
@@ -49,23 +50,30 @@
                             {
                                 <tr>
                                     <td>@item.UserName</td>
-                                    <td>@item.ListRoles</td>
+                                    <td>
+                                        @item.ListRoles
+                                    </td>
                                     <td>
                                         <form class="d-inline" method="post">
-                                            <button type="submit" name="Input.Id" value="@item.Id"
-                                                class="btn btn-success btn-sm" asp-page="./AddUserRole">Edit role</button>
+                                            <button type="submit" name="Input.Id" value="@item.Id" class="btn btn-info"
+                                                asp-page="./AddRole">Add role</button>
                                         </form>
+                                        <a class="btn btn-sm btn-danger" asp-page="./SetPassword"
+                                            asp-route-id="@item.Id">Set password</a>
                                     </td>
                                 </tr>
                             }
-
                         </tbody>
                     </table>
+
+
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+
 
 
 @section Css {
@@ -91,20 +99,10 @@
     <!-- Page specific script -->
     <script>
         $(function () {
-            $("#example1").DataTable({
+            $("#user_list").DataTable({
                 "responsive": true, "lengthChange": false, "autoWidth": false,
                 "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
-            });
+            }).buttons().container().appendTo('#user_list_wrapper .col-md-6:eq(0)');
         });
     </script>
 

@@ -30,12 +30,7 @@ namespace OnlineShoppingCart.Models.DTOs
 
         public double? Promotion { get; set; }
 
-        [Required]
-        public int? InputQuantity { get; set; }
-
-        public int? InventoryQuantity { get; set; }
-
-        public DateTime? CreateAt { get; private set; }
+        public DateTime? CreateAt { get; set; }
         public ProductDto()
         {
             CreateAt = DateTime.Now;
@@ -43,16 +38,14 @@ namespace OnlineShoppingCart.Models.DTOs
 
         public string? CategoryId { get; set; }
         [ForeignKey("CategoryId")]
-        [ValidateNever]
         public CategoryDto? Category { get; set; }
 
 
-        [ValidateNever]
         public List<ImageDto>? Images { get; set; }
-        [ValidateNever]
-        public List<OrderDetailDto>? OrderDetail { get; set; }
-
-        [ValidateNever]
         public List<FeedbackDto>? Feedbacks { get; set; }
+        public List<OrderDetailDto>? OrderDetail { get; set; }
+        public List<OrderDto>? Orders { get; set; }
+
+        public List<InventoryDto>? Inventories { get; set; }
     }
 }

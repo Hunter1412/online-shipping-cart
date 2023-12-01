@@ -52,10 +52,11 @@
                                 <input asp-for="Input.Name" class="form-control" placeholder="">
                             </div>
 
-                            <div class="my-3 btn-group">
+                            <div class="my-3 row">
                                 <button type="submit" asp-page-handler="AddOrUpdate"
-                                    class="btn btn-primary">@btnText</button>
-                                <a asp-page="./Index" class="btn btn-secondary">Back to List</a>
+                                    class="btn btn-primary">@btnText</button> |
+
+                                <a asp-page="./Index" class="btn btn-secondary mx-3">Back to List</a>
                             </div>
 
                         </form>

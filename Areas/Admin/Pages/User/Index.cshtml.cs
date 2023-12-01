@@ -10,19 +10,21 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using OnlineShoppingCart.Data.Entities;
 
-namespace OnlineShoppingCart.Areas.Admin.Pages.Role
+namespace OnlineShoppingCart.Areas.Admin.Pages.User
 {
-    // [Authorize("MyPolicy1")]
-    public class User : PageModel
+    [Authorize(Roles = "admin")]
+    public class Index : PageModel
     {
-        protected readonly ILogger<AddModel> _logger;
+        const int USER_PER_PAGE = 10;
+        protected readonly ILogger<Index> _logger;
+
         protected readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<AppUser> _userManager;
 
-        public User(
+        public Index(
             UserManager<AppUser> userManager,
             RoleManager<IdentityRole> roleManager,
-            ILogger<AddModel> logger
+            ILogger<Index> logger
         )
         {
             _userManager = userManager;
@@ -31,7 +33,9 @@ namespace OnlineShoppingCart.Areas.Admin.Pages.Role
         }
 
         [TempData]
-        public string StatusMessage { get; set; }
+        public string StatusMessage { get; set; } = null!;
+        [BindProperty(SupportsGet = true)]
+        public int PageNumber { set; get; }
 
         public class UserAndRole : AppUser
         {
@@ -39,15 +43,24 @@ namespace OnlineShoppingCart.Areas.Admin.Pages.Role
         }
 
         public List<UserAndRole>? Users { get; set; }
+        public int TotalPages { set; get; }
+
 
         public IActionResult OnPost() => NotFound();
 
         public async Task<IActionResult> OnGet()
         {
             //lay danh sach user
-            Users = await _userManager.Users
+            Users = await _userManager.Users.OrderBy(u => u.UserName)
                 .Select(u => new UserAndRole { Id = u.Id, UserName = u.UserName })
                 .ToListAsync();
+
+            // int totalUsers = Users.Count;
+            // TotalPages = (int)Math.Ceiling((double)totalUsers / USER_PER_PAGE);
+
+            // Users = Users.Skip(USER_PER_PAGE * (PageNumber - 1)).Take(USER_PER_PAGE).ToList();
+
+
             foreach (var user in Users)
             {
                 //lay role cua tung user

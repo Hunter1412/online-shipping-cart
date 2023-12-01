@@ -32,5 +32,16 @@ public class ApplicationDbContext : IdentityDbContext<AppUser>
                 entityType.SetTableName(tbName.Substring(6));
             }
         }
+        //many - many
+        builder.Entity<Product>()
+        .HasMany(e => e.Orders)
+        .WithMany(e => e.Products)
+        .UsingEntity<OrderDetail>(
+            l => l.HasOne<Order>(e => e.Order).WithMany(e => e.OrderDetails).HasForeignKey(e => e.OrderId),
+            r => r.HasOne<Product>(e => e.Product).WithMany(e => e.OrderDetail).HasForeignKey(e => e.ProductId));
+        //one - one
+        builder.Entity<Shipping>()
+        .HasOne(e => e.Order)
+        .WithOne(e => e.Shipping);
     }
 }

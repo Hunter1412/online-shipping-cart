@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using OnlineShoppingCart.Data.Entities;
 
 namespace OnlineShoppingCart.Data
 {
@@ -19,13 +20,17 @@ namespace OnlineShoppingCart.Data
         public string? Address { get; set; }
         public string? Note { get; set; }
         public string? DeliveryType { get; set; }
+        public double ShippingFee { get; set; }
 
-        public DateTime CreateAt { get; private set; }
+        public DateTime CreateAt { get; set; }
+        public DateTime EndAt { get; set; }
+
 
         public Shipping()
         {
             CreateAt = DateTime.Now;
         }
+        public Order? Order { get; set; }
 
     }
 }

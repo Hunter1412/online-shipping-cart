@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "fLtAIMMrEyXSHdulnHWuFzXUchXWZv0iVuu0fzXYPTY=",
+  "Hash": "sANsHHaOmO+y+pAmaV+4m+TioeMs6cs2TKvzzfALheI=",
   "Source": "OnlineShoppingCart",
   "BasePath": "_content/OnlineShoppingCart",
   "Mode": "Default",
@@ -1528,6 +1528,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/assets/img/category_img_03.jpg"
+    },
+    {
+      "Identity": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/default-avatar-image.png",
+      "SourceId": "OnlineShoppingCart",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/",
+      "BasePath": "_content/OnlineShoppingCart",
+      "RelativePath": "assets/img/default-avatar-image.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/assets/img/default-avatar-image.png"
     },
     {
       "Identity": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/favicon.ico",

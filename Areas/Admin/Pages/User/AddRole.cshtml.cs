@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -7,11 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using OnlineShoppingCart.Data.Entities;
 
-namespace OnlineShoppingCart.Areas.Admin.Pages.Role
+namespace OnlineShoppingCart.Areas.Admin.Pages.User
 {
-    public class AddUserRole : PageModel
+    [Authorize(Roles = "admin")]
+    public class AddRole : PageModel
     {
-        protected readonly ILogger<AddUserRole> _logger;
+        protected readonly ILogger<AddRole> _logger;
         protected readonly RoleManager<IdentityRole> _roleManager;
         protected readonly UserManager<AppUser> _userManager;
 
@@ -19,7 +21,7 @@ namespace OnlineShoppingCart.Areas.Admin.Pages.Role
         [TempData]
         public string? StatusMessage { get; set; }
 
-        public AddUserRole(ILogger<AddUserRole> logger, RoleManager<IdentityRole> roleManager, UserManager<AppUser> userManager)
+        public AddRole(ILogger<AddRole> logger, RoleManager<IdentityRole> roleManager, UserManager<AppUser> userManager)
         {
             _logger = logger;
             _roleManager = roleManager;
@@ -51,10 +53,12 @@ namespace OnlineShoppingCart.Areas.Admin.Pages.Role
 
         public IActionResult OnGet() => NotFound("Not found");
 
-
-
         public async Task<IActionResult> OnPostAsync()
         {
+            if (Input == null || Input.Id == null)
+            {
+                return NotFound("Not found user");
+            }
             var user = await _userManager.FindByIdAsync(Input.Id);
             if (user == null)
             {
@@ -62,48 +66,54 @@ namespace OnlineShoppingCart.Areas.Admin.Pages.Role
             }
             Input.Name = user.UserName;
 
-            var userRs = await _userManager.GetRolesAsync(user);
+            var userRs = (await _userManager.GetRolesAsync(user)).ToArray<string>();
 
-            var allRs = await _roleManager.Roles.ToListAsync();
-            var allRolesName = allRs.Select(x => x.Name).ToList();
+            var allRolesName = await _roleManager.Roles.Select(x => x.Name).ToListAsync();
 
             AllRoles = new SelectList(allRolesName);
-            // AllRoles = new SelectList(allRs, "Id", "Name");
 
             if (!IsConfirm)
             {
                 IsConfirm = true;
-                Input.RoleName = userRs.ToArray();
+                Input.RoleName = userRs;
                 StatusMessage = "";
                 ModelState.Clear();
             }
             else
             {
-                StatusMessage = "Add role to user";
                 if (Input.RoleName == null)
                 {
-                    Input.RoleName = new string[] { };
+                    Input.RoleName = Array.Empty<string>();
                 }
-
                 //add new role
-                foreach (var item in Input.RoleName)
+                var deleteRoles = userRs.Where(r => !Input.RoleName.Contains(r));
+                var addRoles = Input.RoleName.Where(r => !userRs.Contains(r));
+
+                var resultDelete = await _userManager.RemoveFromRolesAsync(user, deleteRoles);
+
+                if (!resultDelete.Succeeded)
                 {
-                    if (!userRs.Contains(item))
+                    resultDelete.Errors.ToList().ForEach(error =>
                     {
-                        await _userManager.AddToRoleAsync(user, item);
-                    }
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    });
+                    return Page();
                 }
 
-                //delete old role
-                foreach (var item in userRs)
+                var resultAdd = await _userManager.AddToRolesAsync(user, addRoles);
+
+                if (!resultAdd.Succeeded)
                 {
-                    if (!Input.RoleName.Contains(item))
+                    resultDelete.Errors.ToList().ForEach(error =>
                     {
-                        await _userManager.RemoveFromRoleAsync(user, item);
-                    }
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    });
+                    return Page();
                 }
 
-                return RedirectToPage("/Role/User");
+                StatusMessage = $"Add role to user {user.UserName}";
+
+                return RedirectToPage("./Index");
             }
 
             return Page();

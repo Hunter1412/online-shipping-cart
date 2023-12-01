@@ -7,21 +7,17 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using OnlineShoppingCart.Data;
 
 namespace OnlineShoppingCart.Areas.Admin.Pages.Role
 {
-    public class AddModel : PageModel
+    public class AddModel : RolePageModel
     {
         protected readonly ILogger<AddModel> _logger;
-        protected readonly RoleManager<IdentityRole> _roleManager;
 
-        [TempData]
-        public string StatusMessage { get; set; }
-
-        public AddModel(ILogger<AddModel> logger, RoleManager<IdentityRole> roleManager = null)
+        public AddModel(ILogger<AddModel> logger, RoleManager<IdentityRole> roleManager, ApplicationDbContext context) : base(roleManager, context)
         {
             _logger = logger;
-            _roleManager = roleManager;
         }
 
         public class InputModel
@@ -36,19 +32,17 @@ namespace OnlineShoppingCart.Areas.Admin.Pages.Role
         }
 
         [BindProperty]
-        public InputModel Input { get; set; }
+        public InputModel? Input { get; set; }
 
         [BindProperty]
         public bool IsUpdate { get; set; }
 
-
-        //
         public IActionResult OnGet() => NotFound();
         public IActionResult OnPost() => NotFound();
 
         public IActionResult OnPostStartNewRole()
         {
-            StatusMessage = null!;
+            // StatusMessage = "Input role information to update new role";
             IsUpdate = false;
             ModelState.Clear(); //xoa model cu
             return Page();
@@ -56,7 +50,7 @@ namespace OnlineShoppingCart.Areas.Admin.Pages.Role
 
         public async Task<IActionResult> OnPostStartUpdate()
         {
-            // StatusMessage = "Input role information to update new role";
+            StatusMessage = null!;
             IsUpdate = true;
             if (Input.Id == null)
             {
@@ -64,10 +58,11 @@ namespace OnlineShoppingCart.Areas.Admin.Pages.Role
                 return Page();
             }
 
-            var rr = await _roleManager.FindByIdAsync(Input.Id);
-            if (rr != null)
+            var result = await _roleManager.FindByIdAsync(Input.Id);
+            if (result != null)
             {
-                Input.Name = rr.Name;
+                Input.Name = result.Name;
+                ViewData["Title"] = "Update role: " + Input.Name;
                 ModelState.Clear(); //xoa model cu
             }
             else
@@ -77,7 +72,7 @@ namespace OnlineShoppingCart.Areas.Admin.Pages.Role
             return Page();
         }
 
-
+        //update or add --> isUpdate
         public async Task<IActionResult> OnPostAddOrUpdate()
         {
             if (!ModelState.IsValid)
@@ -88,25 +83,26 @@ namespace OnlineShoppingCart.Areas.Admin.Pages.Role
 
             if (IsUpdate)
             {
-                if (Input.Id == null)
+                if (Input?.Id == null)
                 {
                     StatusMessage = "Error Role not found";
                     return Page();
                 }
-                var rr = await _roleManager.FindByIdAsync(Input.Id);
-                if (rr != null)
+                var result = await _roleManager.FindByIdAsync(Input.Id);
+                if (result != null)
                 {
-                    rr.Name = Input.Name;
-                    var result = await _roleManager.UpdateAsync(rr);
-                    if (result.Succeeded)
+                    result.Name = Input.Name;
+                    //update role
+                    var resultUpdateRo = await _roleManager.UpdateAsync(result);
+                    if (resultUpdateRo.Succeeded)
                     {
                         StatusMessage = $"Update Role {Input.Name} successfully";
                         return RedirectToPage("./Index");
                     }
                     else
                     {
-                        StatusMessage = "Error";
-                        foreach (var item in result.Errors)
+                        StatusMessage = "Error : ";
+                        foreach (var item in resultUpdateRo.Errors)
                         {
                             StatusMessage += item.Description;
                         }
@@ -114,25 +110,24 @@ namespace OnlineShoppingCart.Areas.Admin.Pages.Role
                 }
                 else
                 {
-                    StatusMessage = $"Error update role {Input.Id} not found";
+                    StatusMessage = $"Error: Can't find this role {Input.Id} updated";
                 }
             }
             else
             {
-                var rr = new IdentityRole(Input.Name!);
-                var result = await _roleManager.CreateAsync(rr);
+                var newRole = new IdentityRole(Input?.Name!);
+                var result = await _roleManager.CreateAsync(newRole);
                 if (result.Succeeded)
                 {
-                    StatusMessage = $"Create new role {Input.Name} successfully";
+                    StatusMessage = $"Create new role {Input?.Name} successfully";
                     return RedirectToPage("./Index");
                 }
                 else
                 {
-                    StatusMessage = "Error";
-                    foreach (var item in result.Errors)
+                    result.Errors.ToList().ForEach(error =>
                     {
-                        StatusMessage += item.Description;
-                    }
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    });
                 }
             }
             return Page();

@@ -7,23 +7,26 @@ using System.Threading.Tasks;
 
 namespace OnlineShoppingCart.Models.DTOs
 {
-    public class ImageDto
+    public class InventoryDto
     {
         [Key]
-        public Guid Id { get; set; }
-        public string? ImageName { get; set; }
-        public IFormFile? ImageFile { get; set; }
-
-        public string? ImagePath { get; set; }
-
+        public string Id { get; set; }
+        [Required]
+        public DateTime DateAt { get; set; }
+        [Required]
         public string? ProductId { get; set; }
         [ForeignKey("ProductId")]
         public ProductDto? Product { get; set; }
 
+        public int? Quantity { get; set; }
 
-        public ImageDto()
+        public string? Note { get; set; }
+
+
+        public InventoryDto()
         {
-            Id = Guid.NewGuid();
+            Id = Guid.NewGuid().ToString();
+            DateAt = DateTime.Now;
         }
     }
 }

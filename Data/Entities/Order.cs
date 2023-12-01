@@ -16,7 +16,7 @@ namespace OnlineShoppingCart.Data.Entities
         [DataType(DataType.Date)]
         public DateTime OrderDate { get; set; }
 
-        public int OrderStatus { get; set; }
+        public string? OrderStatus { get; set; }
 
         public double OrderTotal { get; set; }
 
@@ -45,6 +45,7 @@ namespace OnlineShoppingCart.Data.Entities
             UpdateAt = DateTime.Now;
         }
 
+        public List<Product>? Products { get; set; }
         public List<OrderDetail>? OrderDetails { get; set; }
 
 

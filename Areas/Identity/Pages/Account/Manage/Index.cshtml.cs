@@ -21,16 +21,14 @@ namespace OnlineShoppingCart.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
 
-        private readonly ApplicationDbContext _context;
+
 
         public IndexModel(
             UserManager<AppUser> userManager,
-            SignInManager<AppUser> signInManager,
-            ApplicationDbContext context)
+            SignInManager<AppUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _context = context;
         }
 
         /// <summary>
@@ -51,7 +49,7 @@ namespace OnlineShoppingCart.Areas.Identity.Pages.Account.Manage
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         [BindProperty]
-        public InputModel Input { get; set; }
+        public InputModel Input { get; set; } = null!;
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -59,24 +57,24 @@ namespace OnlineShoppingCart.Areas.Identity.Pages.Account.Manage
         /// </summary>
         public class InputModel
         {
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
             [Display(Name = "First name")]
-            public string FirstName { get; set; }
+            public string FirstName { get; set; } = null!;
 
             [Display(Name = "Last name")]
-            public string LastName { get; set; }
+            public string LastName { get; set; } = null!;
 
             [Display(Name = "Male")]
             public bool Gender { get; set; }
 
             [DataType(DataType.Date)]
             public DateTime? BirthDay { get; set; }
+            [Display(Name = "Upload avatar")]
+            public IFormFile ImageFile { get; set; }
+
+            public string? Avatar { get; set; }
         }
 
         public AppUser AppUser { get; set; }
@@ -87,6 +85,9 @@ namespace OnlineShoppingCart.Areas.Identity.Pages.Account.Manage
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
             Username = userName;
+            AppUser = user;
+            AppUser.Birthday = user.Birthday != null ? (DateTime)user.Birthday : DateTime.Now;
+            AppUser.Avatar = user.Avatar ?? "default-avatar-image.png";
 
             Input = new InputModel
             {
@@ -94,9 +95,9 @@ namespace OnlineShoppingCart.Areas.Identity.Pages.Account.Manage
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Gender = user.Gender,
-                BirthDay = (DateTime)user.Birthday
+                BirthDay = user.Birthday != null ? (DateTime)user.Birthday : DateTime.Now,
+                Avatar = user.Avatar ?? "default-avatar-image.png"
             };
-            AppUser = user;
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -151,11 +152,12 @@ namespace OnlineShoppingCart.Areas.Identity.Pages.Account.Manage
 
             user.Gender = Input.Gender;
 
-            await _context.SaveChangesAsync();
+            await _userManager.UpdateAsync(user);
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();
         }
+
     }
 }

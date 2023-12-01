@@ -10,27 +10,25 @@ namespace OnlineShoppingCart.Models.DTOs
     {
         [Key]
         public string? Id { get; set; }
-        [Required]
         public string? Name { get; set; }
-        [Required]
         public string? Email { get; set; }
-        [Required]
         public string? Phone { get; set; }
-        [Required]
         public string? City { get; set; }
-        [Required]
         public string? Province { get; set; }
-        [Required]
         public string? Wards { get; set; }
-        [Required]
         public string? Address { get; set; }
         public string? Note { get; set; }
         public string? DeliveryType { get; set; }
+        public double ShippingFee { get; set; }
 
-        public DateTime CreateAt { get; private set; }
+        public DateTime CreateAt { get; set; }
+        public DateTime EndAt { get; set; }
+
+
         public ShippingDto()
         {
             CreateAt = DateTime.Now;
         }
+        public OrderDto? Order { get; set; }
     }
 }

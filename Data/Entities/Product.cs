@@ -31,12 +31,7 @@ namespace OnlineShoppingCart.Data.Entities
 
         public double? Promotion { get; set; }
 
-        [Required]
-        public int? InputQuantity { get; set; }
-
-        public int? InventoryQuantity { get; set; }
-
-        public DateTime? CreateAt { get; private set; }
+        public DateTime? CreateAt { get; set; }
         public Product()
         {
             CreateAt = DateTime.Now;
@@ -44,20 +39,15 @@ namespace OnlineShoppingCart.Data.Entities
 
         public string? CategoryId { get; set; }
         [ForeignKey("CategoryId")]
-        [ValidateNever]
         public Category? Category { get; set; }
 
 
-        [ValidateNever]
         public List<Image>? Images { get; set; }
-        [ValidateNever]
-        public List<OrderDetail>? OrderDetail { get; set; }
-
-        [ValidateNever]
         public List<Feedback>? Feedbacks { get; set; }
+        public List<OrderDetail>? OrderDetail { get; set; }
+        public List<Order>? Orders { get; set; }
 
-
-
+        public List<Inventory>? Inventories { get; set; }
 
     }
 

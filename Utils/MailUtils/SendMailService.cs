@@ -8,9 +8,7 @@ namespace OnlineShoppingCart.Utils.MailUtils
     public class SendMailService : IEmailSender
     {
         private readonly MailSettings mailSettings;
-
         private readonly ILogger<SendMailService> logger;
-
 
         // mailSetting được Inject qua dịch vụ hệ thống
         // Có inject Logger để xuất log
@@ -35,7 +33,6 @@ namespace OnlineShoppingCart.Utils.MailUtils
 
             // dùng SmtpClient của MailKit
             using var smtp = new MailKit.Net.Smtp.SmtpClient();
-
             try
             {
                 smtp.Connect(mailSettings.Host, mailSettings.Port, SecureSocketOptions.StartTls);
@@ -55,9 +52,7 @@ namespace OnlineShoppingCart.Utils.MailUtils
                 logger.LogInformation("Error send email, save - " + emailSaveFile);
                 logger.LogError(ex.Message);
             }
-
             smtp.Disconnect(true);
-
             logger.LogInformation("Send mail to " + email);
         }
     }

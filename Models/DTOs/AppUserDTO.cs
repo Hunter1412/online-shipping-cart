@@ -29,23 +29,19 @@ namespace OnlineShoppingCart.Models.DTOs
         [PersonalData]
         public bool Gender { get; set; }
 
-        public DateTime? LastAt { get; set; }
+        public DateTime? CreateAt { get; private set; }
+        public AppUserDto()
+        {
+            CreateAt = DateTime.Now;
+        }
 
         [ValidateNever]
         public List<OrderDto>? Orders { get; set; }
-
         [ValidateNever]
         public List<FeedbackDto>? Feedbacks { get; set; }
-
         [ValidateNever]
         public List<ContactDto>? Contacts { get; set; }
-
         [ValidateNever]
         public List<CartDto>? Carts { get; set; }
-
-        public AppUserDto()
-        {
-            LastAt = DateTime.Now;
-        }
     }
 }

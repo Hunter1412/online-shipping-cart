@@ -13,21 +13,18 @@ using OnlineShoppingCart.Data;
 namespace OnlineShoppingCart.Areas.Admin.Pages.Role
 {
     // [Authorize(Roles = "admin")]
-    [Authorize]
-    public class Index : RolePageModel
+    public class RolePageModel : PageModel
     {
-        public Index(RoleManager<IdentityRole> roleManager, ApplicationDbContext context) : base(roleManager, context)
+        protected readonly RoleManager<IdentityRole> _roleManager;
+        protected readonly ApplicationDbContext _context;
+
+        [TempData]
+        public string? StatusMessage { get; set; }
+
+        public RolePageModel(RoleManager<IdentityRole> roleManager, ApplicationDbContext context)
         {
+            _roleManager = roleManager;
+            _context = context;
         }
-
-        public List<IdentityRole>? Roles { get; set; } = default;
-
-        public async Task<IActionResult> OnGetAsync()
-        {
-            Roles = await _roleManager.Roles.OrderBy(r => r.Name).ToListAsync();
-            return Page();
-        }
-
-        public void OnPost() => RedirectToPage();
     }
 }

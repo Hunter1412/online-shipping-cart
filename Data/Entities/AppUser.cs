@@ -28,21 +28,21 @@ namespace OnlineShoppingCart.Data.Entities
         [PersonalData]
         public bool Gender { get; set; }
 
-        public DateTime? LastAt { get; set; }
+        public DateTime? CreateAt { get; private set; }
+        public AppUser()
+        {
+            CreateAt = DateTime.Now;
+        }
+
 
         [ValidateNever]
         public List<Order>? Orders { get; set; }
-
         [ValidateNever]
         public List<Feedback>? Feedbacks { get; set; }
-
         [ValidateNever]
         public List<Contact>? Contacts { get; set; }
-
         [ValidateNever]
         public List<Cart>? Carts { get; set; }
-
-
 
 
     }

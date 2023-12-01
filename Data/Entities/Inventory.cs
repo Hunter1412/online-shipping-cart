@@ -7,19 +7,26 @@ using System.Threading.Tasks;
 
 namespace OnlineShoppingCart.Data.Entities
 {
-    public class OrderDetail
+    public class Inventory
     {
+        [Key]
+        public string Id { get; set; }
         [Required]
-        public string? OrderId { get; set; }
-        [ForeignKey("OrderId")]
-        public Order? Order { get; set; }
+        public DateTime DateAt { get; set; }
         [Required]
         public string? ProductId { get; set; }
         [ForeignKey("ProductId")]
         public Product? Product { get; set; }
 
-        public int Quantity { get; set; }
-        public double Price { get; set; }
+        public int? Quantity { get; set; }
 
+        public string? Note { get; set; }
+
+
+        public Inventory()
+        {
+            Id = Guid.NewGuid().ToString();
+            DateAt = DateTime.Now;
+        }
     }
 }

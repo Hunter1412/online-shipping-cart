@@ -7,21 +7,17 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using OnlineShoppingCart.Data;
 
 namespace OnlineShoppingCart.Areas.Admin.Pages.Role
 {
-    public class Delete : PageModel
+    public class Delete : RolePageModel
     {
-        private readonly ILogger<AddModel> _logger;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        protected readonly ILogger<Delete> _logger;
 
-        [TempData]
-        public string? StatusMessage { get; set; }
-
-        public Delete(ILogger<AddModel> logger, RoleManager<IdentityRole> roleManager = null)
+        public Delete(ILogger<Delete> logger, RoleManager<IdentityRole> roleManager, ApplicationDbContext context) : base(roleManager, context)
         {
             _logger = logger;
-            _roleManager = roleManager;
         }
 
         public class InputModel
@@ -38,7 +34,7 @@ namespace OnlineShoppingCart.Areas.Admin.Pages.Role
         }
 
         [BindProperty]
-        public InputModel Input { get; set; }
+        public InputModel? Input { get; set; }
 
 
         [BindProperty]

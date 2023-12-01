@@ -9,7 +9,6 @@ namespace OnlineShoppingCart.Models.DTOs
 {
     public class FeedbackDto
     {
-        [Key]
         public Guid Id { get; set; }
         public string? Content { get; set; }
         public int Rating { get; set; }

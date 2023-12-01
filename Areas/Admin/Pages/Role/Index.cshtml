@@ -1,4 +1,4 @@
-@page
+@page "/admin/roles"
 @model OnlineShoppingCart.Areas.Admin.Pages.Role.Index
 @{
     ViewData["Title"] = "Role List";
@@ -48,29 +48,38 @@
                     <table class="table table-bordered table-striped text-center" aria-label="list-role">
                         <thead class="thead-inverse">
                             <tr>
-                                <th>Role Id</th>
                                 <th>Name</th>
-                                <th></th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var role in Model.Roles)
+                            @if (Model.Roles != null)
+                            {
+                                @foreach (var role in Model.Roles)
+                                {
+                                    <tr>
+                                        <td>@role.Name</td>
+                                        <td>
+                                            <form method="post" class="my-3 d-inline">
+                                                <input type="hidden" name="Input.Id" value="@role.Id">
+                                                <button class="btn btn-success" asp-page="./Add"
+                                                    asp-page-handler="StartUpdate">Edit role</button>
+                                            </form>
+                                            <form method="post" class="my-3 d-inline">
+                                                <input type="hidden" name="Input.Id" value="@role.Id">
+                                                <button class="btn btn-danger" asp-page="./Delete"
+                                                    asp-page-handler="StartUpdate">Delete
+                                                    role</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
                             {
                                 <tr>
-                                    <td>@role.Id</td>
-                                    <td>@role.Name</td>
-                                    <td>
-                                        <form method="post" class="my-3 d-inline">
-                                            <input type="hidden" name="Input.Id" value="@role.Id">
-                                            <button class="btn btn-success" asp-page="./Add"
-                                                asp-page-handler="StartUpdate">Edit role</button>
-                                        </form>
-                                        <form method="post" class="my-3 d-inline">
-                                            <input type="hidden" name="Input.Id" value="@role.Id">
-                                            <button class="btn btn-danger" asp-page="./Delete"
-                                                asp-page-handler="StartUpdate">Delete
-                                                role</button>
-                                        </form>
+                                    <td colspan="2">
+                                        <p>No roles found.</p>
                                     </td>
                                 </tr>
                             }

@@ -41,11 +41,11 @@
 
                 <div class="card-body">
                     <div class="col-12 col-md-6">
-                        <p>Are you sure to delete this record <strong>@Model.Input.Name</strong>?</p>
+                        <p>Are you sure to delete this role name <strong>@Model.Input.Name</strong>?</p>
                         <form method="post">
                             <input type="hidden" asp-for="Input.Id" />
                             <input type="hidden" asp-for="IsConfirm" />
-                            <button type="submit" class="btn btn-danger">Yes, Delete it!</button> |
+                            <button type="submit" class="btn btn-lg btn-danger">Yes, Delete it!</button> |
                             <a asp-page="./Index" class="btn btn-secondary">Back to List</a>
                         </form>
                     </div>
