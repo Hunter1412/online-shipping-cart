@@ -12,8 +12,8 @@ using OnlineShoppingCart.Data;
 namespace OnlineShoppingCart.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231201035832_v1")]
-    partial class v1
+    [Migration("20231202053243_v0")]
+    partial class v0
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

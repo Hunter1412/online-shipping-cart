@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace OnlineShoppingCart.Migrations
 {
     /// <inheritdoc />
-    public partial class v1 : Migration
+    public partial class v0 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

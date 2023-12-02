@@ -17,6 +17,8 @@ namespace OnlineShoppingCart.Core.UnitOfWork
         public IProductRepository Products { get; private set; }
 
         public IVoucherRepository Vouchers { get; private set; }
+        public IImageRepository Images { get; private set; }
+        public IInventoryRepository Inventory { get; private set; }
 
 
         public UnitOfWork(ApplicationDbContext context, ILoggerFactory loggerFactory)
@@ -27,6 +29,8 @@ namespace OnlineShoppingCart.Core.UnitOfWork
             Categories = new CategoryRepository(context, _logger);
             Products = new ProductRepository(context, _logger);
             Vouchers = new VoucherRepository(context, _logger);
+            Images = new ImageRepository(context, _logger);
+            Inventory = new InventoryRepository(context, _logger);
         }
 
         public async Task CompleteAsync()

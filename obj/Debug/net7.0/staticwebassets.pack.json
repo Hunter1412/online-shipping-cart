@@ -45,12 +45,16 @@
       "PackagePath": "staticwebassets/assets/css/templatemo.min.css"
     },
     {
-      "Id": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/23235989-1c5c-48a3-8be5-97f14b44385c_Screenshot 2023-09-27 at 9.21.27 PM.png",
-      "PackagePath": "staticwebassets/assets/img/23235989-1c5c-48a3-8be5-97f14b44385c_Screenshot 2023-09-27 at 9.21.27 PM.png"
+      "Id": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/10ca8341-33ea-43c8-8d82-cccb424d8200_OF01_01_01_ban-chan-tu-bgd68070-01a.jpg",
+      "PackagePath": "staticwebassets/assets/img/10ca8341-33ea-43c8-8d82-cccb424d8200_OF01_01_01_ban-chan-tu-bgd68070-01a.jpg"
     },
     {
-      "Id": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/54e10c65-8f06-4a59-b651-081537b8d9f8_Screenshot 2023-09-27 at 9.21.27 PM.png",
-      "PackagePath": "staticwebassets/assets/img/54e10c65-8f06-4a59-b651-081537b8d9f8_Screenshot 2023-09-27 at 9.21.27 PM.png"
+      "Id": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/12b57178-00fb-49d2-a6bd-d817f3f0246c_OF01_01_01_ban-chan-tu-bgd68070-01a.jpg",
+      "PackagePath": "staticwebassets/assets/img/12b57178-00fb-49d2-a6bd-d817f3f0246c_OF01_01_01_ban-chan-tu-bgd68070-01a.jpg"
+    },
+    {
+      "Id": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/814fd28e-2c9b-4b06-993e-2aac73416380_OF01_01_02_ban-chan-tu-bgd68070-01a.jpg",
+      "PackagePath": "staticwebassets/assets/img/814fd28e-2c9b-4b06-993e-2aac73416380_OF01_01_02_ban-chan-tu-bgd68070-01a.jpg"
     },
     {
       "Id": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/about-hero.svg",
@@ -135,6 +139,10 @@
     {
       "Id": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/e884861f-efe4-42aa-a6f0-b915d20578a3_th.jpeg",
       "PackagePath": "staticwebassets/assets/img/e884861f-efe4-42aa-a6f0-b915d20578a3_th.jpeg"
+    },
+    {
+      "Id": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/e96439c2-d55f-49bf-8f9e-d3aa66ec15c4_OF01_01_02_ban-chan-tu-bgd68070-01a.jpg",
+      "PackagePath": "staticwebassets/assets/img/e96439c2-d55f-49bf-8f9e-d3aa66ec15c4_OF01_01_02_ban-chan-tu-bgd68070-01a.jpg"
     },
     {
       "Id": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/favicon.ico",

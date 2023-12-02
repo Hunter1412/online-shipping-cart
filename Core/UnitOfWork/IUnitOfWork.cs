@@ -15,6 +15,8 @@ namespace OnlineShoppingCart.Core.UnitOfWork
         IProductRepository Products { get; }
 
         IVoucherRepository Vouchers { get; }
+        IImageRepository Images { get; }
+        IInventoryRepository Inventory { get; }
         Task CompleteAsync();
     }
 }

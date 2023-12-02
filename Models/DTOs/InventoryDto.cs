@@ -9,8 +9,9 @@ namespace OnlineShoppingCart.Models.DTOs
 {
     public class InventoryDto
     {
-        [Key]
-        public string Id { get; set; }
+        [Key, Required]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public string? Id { get; set; }
         [Required]
         public DateTime DateAt { get; set; }
         [Required]
@@ -25,7 +26,6 @@ namespace OnlineShoppingCart.Models.DTOs
 
         public InventoryDto()
         {
-            Id = Guid.NewGuid().ToString();
             DateAt = DateTime.Now;
         }
     }

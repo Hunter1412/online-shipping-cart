@@ -9,13 +9,13 @@ namespace OnlineShoppingCart.Utils
         {
             _env = env;
         }
-        public string UpLoadImage(IFormFile file)
+        public string UpLoadImage(IFormFile file, string? name = null)
         {
             var fileName = string.Empty;
             if (file != null)
             {
                 string uploadFolder = Path.Combine(_env.WebRootPath, "assets/img");
-                fileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+                fileName = name + Guid.NewGuid().ToString() + "_" + file.FileName;
                 string filePath = Path.Combine(uploadFolder, fileName);
                 using var Stream = new FileStream(filePath, FileMode.Create);
                 file.CopyTo(Stream);

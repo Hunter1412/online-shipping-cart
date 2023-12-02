@@ -166,7 +166,7 @@ namespace OnlineShoppingCart.Areas.Identity.Pages.Account.Manage
                 {
                     _imageService.DeleteImage(user.Avatar);
                 }
-                user.Avatar = _imageService.UpLoadImage(Input.ImageFile);
+                user.Avatar = _imageService.UpLoadImage(Input.ImageFile, "avatar_");
             }
 
             user.Gender = Input.Gender;

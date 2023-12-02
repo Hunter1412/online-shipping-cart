@@ -20,10 +20,5 @@ namespace OnlineShoppingCart.Models.DTOs
         [ForeignKey("ProductId")]
         public ProductDto? Product { get; set; }
 
-
-        public ImageDto()
-        {
-            Id = Guid.NewGuid();
-        }
     }
 }

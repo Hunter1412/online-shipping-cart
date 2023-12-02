@@ -120,9 +120,10 @@ namespace OnlineShoppingCart.Areas.CategoryManage.Controllers
                     if (categoryDto.ParentId == "-1")
                         categoryDto.ParentId = null;
 
-                    string filename = _imageService.UpLoadImage(categoryDto.ImageFile!);
+                    string filename = _imageService.UpLoadImage(categoryDto.ImageFile!, "category_");
                     categoryDto.Image = filename;
-                    categoryDto.Slug = Slug.GenerateSlug(categoryDto.Name!);
+                    string _name = categoryDto.Name! + "-" + categoryDto.Id;
+                    categoryDto.Slug = Slug.GenerateSlug(_name);
                     await _unitOfWork.Categories.Add(_mapper.Map<Category>(categoryDto));
                     await _unitOfWork.CompleteAsync();
 
