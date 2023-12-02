@@ -10,7 +10,7 @@ namespace OnlineShoppingCart.Data.Entities
 {
     public class Order
     {
-        [Key]
+        [Key, Required]
         public string? Id { get; set; }
 
         [DataType(DataType.Date)]

@@ -7,6 +7,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using OnlineShoppingCart.Core.UnitOfWork;
 using OnlineShoppingCart.Data.Entities;
 using OnlineShoppingCart.Models.DTOs;
@@ -43,7 +44,11 @@ namespace OnlineShoppingCart.Areas.ProductManage.Controllers
         [HttpGet("/admin/product/details/{id}")]
         public async Task<IActionResult> Details(string id)
         {
-            var product = await _unitOfWork.Products.Get(p => p.Id == id);
+            var product = await _unitOfWork.Products.Get(p => p.Id == id, "Inventories,Images");
+            if (product == null)
+            {
+                return View(new ProductDto());
+            }
             return View(_mapper.Map<ProductDto>(product));
         }
 
@@ -56,14 +61,14 @@ namespace OnlineShoppingCart.Areas.ProductManage.Controllers
         }
 
         [HttpPost("/admin/product/create")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ProductDto productDto)
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError(">>>>>>error create");
                 return View(productDto);
             }
-            var qty = productDto.Quantity;
+            var qty = productDto.Quantity ?? 0;
             productDto.Quantity = 0;
             //add information product
             var product = _mapper.Map<Product>(productDto);
@@ -79,6 +84,7 @@ namespace OnlineShoppingCart.Areas.ProductManage.Controllers
                     fileName = _imageService.UpLoadImage(item, "product_");
                     var image = new ImageEntity
                     {
+                        Id = Guid.NewGuid().ToString(),
                         ProductId = productDto.Id,
                         ImageName = fileName,
                         ImagePath = fileName
@@ -104,6 +110,177 @@ namespace OnlineShoppingCart.Areas.ProductManage.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpGet("/admin/product/edit/{id}")]
+        public async Task<IActionResult> Edit(string id)
+        {
+            ViewData["CategoryId"] = new SelectList(await _unitOfWork.Categories.GetAll("Parent,Children"), "Id", "Name");
+            var product = await _unitOfWork.Products.Get(p => p.Id == id);
+            if (product == null)
+            {
+                _logger.LogError($"The product with the {id} doesn't exist");
+                return NotFound();
+            }
+            return View(_mapper.Map<ProductDto>(product));
+        }
+
+        [HttpPost("/admin/product/edit/{id}")]
+        public async Task<IActionResult> Edit(string id, ProductDto productDto)
+        {
+            if (id != productDto.Id)
+            {
+                return RedirectToAction(nameof(Edit));
+            }
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction(nameof(Edit));
+            }
+            try
+            {
+                //Images
+                Product? productExist = await _unitOfWork.Products.Get(x => x.Id == id, "Images");
+                List<ImageEntity> imageList = (productExist != null && productExist.Images != null) ? productExist.Images!.ToList() : null!;
+                if (productDto.ImageFiles != null && productDto.ImageFiles.Count > 0)
+                {
+                    if (imageList.Count > 0)
+                    {
+                        //delete file old, delete on  the db
+                        foreach (ImageEntity img in imageList)
+                        {
+                            _imageService.DeleteImage(img.ImageName!);
+                            _unitOfWork.Images.Delete(img);
+                        }
+                    }
+                    //add new
+                    foreach (var item in productDto.ImageFiles)
+                    {
+                        string fileName = string.Empty;
+                        //upload file
+                        fileName = _imageService.UpLoadImage(item, "product_");
+                        var image = new ImageEntity
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            ProductId = productDto.Id,
+                            ImageName = fileName,
+                            ImagePath = fileName
+                        };
+                        //save db
+                        await _unitOfWork.Images.Add(image);
+                    }
+                }
+
+                //product info
+                productDto.Slug = Slug.GenerateSlug(productDto.Name!);
+                var product = _mapper.Map<Product>(productDto);
+                await _unitOfWork.Products.Upsert(product);
+                await _unitOfWork.CompleteAsync();
+                return RedirectToAction(nameof(Index));
+
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                _logger.LogError(ex, "Error edit method");
+                return RedirectToAction(nameof(Edit));
+            }
+        }
+
+
+
+        [HttpGet("/admin/product/input-quantity")]
+        public async Task<IActionResult> InputQuantity()
+        {
+            var productList = await _unitOfWork.Products.GetAll("Inventories");
+            var productDtoList = productList == null ? new List<ProductDto>()
+                : productList.Select(p => _mapper.Map<ProductDto>(p)).OrderByDescending(p => p.CreateAt).ToList();
+
+            List<ProductDto> resultItems = new() {
+                new ProductDto() {
+                    Id = "-1",
+                    Name = "Not product"
+                }
+            };
+            foreach (var item in productDtoList)
+            {
+                resultItems.Add(new ProductDto
+                {
+                    Id = item.Id,
+                    Name = item.Id + " - " + item.Name + " - Inventories: " + item.Inventories!.Select(x => x.Quantity).Sum() + " pcs"
+                });
+            }
+
+            ViewData["ProductList"] = new SelectList(resultItems, "Id", "Name");
+
+            return View();
+        }
+
+        [HttpPost("/admin/product/input-quantity")]
+        public async Task<IActionResult> InputQuantityProduct([Bind("ProductId, Note, Quantity, DateAt")] InventoryDto inventoryDto)
+        {
+            if (ModelState.IsValid)
+            {
+                inventoryDto.Id = Guid.NewGuid().ToString();
+                inventoryDto.DateAt = DateTime.Now;
+                try
+                {
+                    await _unitOfWork.Inventory.Add(_mapper.Map<Inventory>(inventoryDto));
+                    await _unitOfWork.CompleteAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (System.Exception ex)
+                {
+                    _logger.LogError(ex, "Error input quantity", typeof(ProductController));
+                }
+            }
+
+            return RedirectToAction(nameof(InputQuantity));
+        }
+
+        [HttpGet("/admin/product/delete/{id}")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            if (id == null || _unitOfWork.Products == null)
+            {
+                return NotFound();
+            }
+            var product = await _unitOfWork.Products.Get(x => x.Id == id, "Images");
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return View(_mapper.Map<ProductDto>(product));
+        }
+
+        [Route("/admin/product/delete/{id}")]
+        [HttpPost]
+        // [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(string id)
+        {
+            var product = await _unitOfWork.Products.Get(p => p.Id == id, "Inventories,Images");
+            if (product == null)
+            {
+                return NotFound();
+            }
+            //delete image
+            if (product.Images != null && product.Images.Count > 0)
+            {
+                foreach (var item in product.Images.ToList())
+                {
+                    _imageService.DeleteImage(item.ImageName!);
+                    _unitOfWork.Images.Delete(item);
+                }
+            }
+            //delete inventory
+            if (product.Inventories != null && product.Inventories.Count > 0)
+            {
+                foreach (var qty in product.Inventories.ToList())
+                {
+                    _unitOfWork.Inventory.Delete(qty);
+                }
+            }
+            //delete product
+            _unitOfWork.Products.Delete(product);
+            await _unitOfWork.CompleteAsync();
+            return RedirectToAction(nameof(Index));
+        }
 
     }
 }

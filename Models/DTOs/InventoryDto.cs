@@ -9,18 +9,20 @@ namespace OnlineShoppingCart.Models.DTOs
 {
     public class InventoryDto
     {
-        [Key, Required]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
         public string? Id { get; set; }
+        public DateTime? DateAt { get; set; }
         [Required]
-        public DateTime DateAt { get; set; }
-        [Required]
+        [Display(Name = "Product Id")]
         public string? ProductId { get; set; }
         [ForeignKey("ProductId")]
         public ProductDto? Product { get; set; }
 
+        [Required]
+        [Display(Name = "Input Quantity")]
         public int? Quantity { get; set; }
 
+        [Required]
         public string? Note { get; set; }
 
 

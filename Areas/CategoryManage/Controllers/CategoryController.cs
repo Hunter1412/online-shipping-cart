@@ -110,7 +110,7 @@ namespace OnlineShoppingCart.Areas.CategoryManage.Controllers
 
         // POST: Category/Create
         [HttpPost("/admin/category/create")]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CategoryDto categoryDto)
         {
             if (ModelState.IsValid)
@@ -153,7 +153,7 @@ namespace OnlineShoppingCart.Areas.CategoryManage.Controllers
             var category = await _unitOfWork.Categories.Get(x => x.Id == id, "Parent");
             if (category == null)
             {
-                _logger.LogInformation($"The category with the {id} doesn't exist");
+                _logger.LogError($"The category with the {id} doesn't exist");
                 return NotFound();
             }
             ViewData["ParentId"] = new SelectList(await GetItemsSelectCategories(id), "Id", "Name", category.ParentId);

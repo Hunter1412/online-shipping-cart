@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,9 +9,9 @@ namespace OnlineShoppingCart.Models.DTOs
 {
     public class CartDto
     {
-        public Guid Id { get; set; }
+        [Key]
+        public string? Id { get; set; }
         public int Quantity { get; set; }
-
 
         public string? UserId { get; set; }
         [ForeignKey("UserId")]

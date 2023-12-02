@@ -12,7 +12,7 @@ using OnlineShoppingCart.Data;
 namespace OnlineShoppingCart.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231202053243_v0")]
+    [Migration("20231202135358_v0")]
     partial class v0
     {
         /// <inheritdoc />
@@ -245,9 +245,8 @@ namespace OnlineShoppingCart.Migrations
 
             modelBuilder.Entity("OnlineShoppingCart.Data.Entities.Cart", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime?>("CreateAt")
                         .HasColumnType("datetime2");
@@ -307,9 +306,8 @@ namespace OnlineShoppingCart.Migrations
 
             modelBuilder.Entity("OnlineShoppingCart.Data.Entities.Contact", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Answer")
                         .HasColumnType("nvarchar(max)");
@@ -338,9 +336,8 @@ namespace OnlineShoppingCart.Migrations
 
             modelBuilder.Entity("OnlineShoppingCart.Data.Entities.Feedback", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
@@ -351,8 +348,8 @@ namespace OnlineShoppingCart.Migrations
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("ParentId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("ParentId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProductId")
                         .HasColumnType("nvarchar(450)");
@@ -376,9 +373,8 @@ namespace OnlineShoppingCart.Migrations
 
             modelBuilder.Entity("OnlineShoppingCart.Data.Entities.Image", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ImageName")
                         .HasColumnType("nvarchar(max)");

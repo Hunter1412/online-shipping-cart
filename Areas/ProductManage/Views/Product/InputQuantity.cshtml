@@ -1,0 +1,107 @@
+﻿@using OnlineShoppingCart.Models.DTOs;
+@model InventoryDto;
+
+
+@{
+    ViewData["Title"] = "Product Quantity";
+}
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">@ViewData["Title"]</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">@ViewData["Title"]</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <!-- Main content -->
+    <div class="content">
+        <div class="container-fluid">
+
+            <div class="card">
+                <div class="card-header">
+                    <strong class="h3 card-title">@ViewData["Title"]</strong>
+                </div>
+
+                <!-- /.card-header -->
+                <div class="card-body row">
+                    <div class="col-12 col-md-4 mx-auto">
+                        <form asp-area="ProductManage" asp-controller="Product" asp-action="InputQuantityProduct"
+                            method="post">
+                            <div class="form-group mb-3">
+                                <label asp-for="ProductId" class="control-label"></label><span
+                                    class="text-danger mr-3">(*)</span>
+                                <select asp-for="ProductId" class="form-control custom-select"
+                                    asp-items="ViewBag.ProductList"></select>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label asp-for="Note" class="control-label"></label><span
+                                    class="text-danger mr-3">(*)</span>
+                                <input asp-for="Note" class="form-control" placeholder="Note" />
+                                <span asp-validation-for="Note" class="text-danger"></span>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label asp-for="Quantity" class="control-label"></label><span
+                                    class="text-danger mr-3">(*)</span>
+                                <input asp-for="Quantity" class="form-control" placeholder="Quantity" />
+                                <span asp-validation-for="Quantity" class="text-danger"></span>
+                            </div>
+                            <input type="hidden" asp-for="DateAt">
+                            <input type="hidden" asp-for="Id">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-info w-50">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                    <a asp-area="ProductManage" asp-controller="Product" asp-action="Index">Back to list</a> |
+                </div>
+            </div>
+            <!-- /.card -->
+
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+</div>
+
+@section Scripts {
+    <script>
+        @* $(document).ready(function (e) {
+        $("#ProductId").on("change", function () {
+        const id = $(this).val();
+        $.ajax({
+        url: "/admin/product/list",
+        type: "get",
+        data: {
+        id: id
+        },
+        success: function (data) {
+        console.log("check>>>>", data)
+        if (data) {
+        document.getElementById("idCateErr").innerHTML = "Id already exists";
+        }
+        }
+        })
+        }) *@
+
+
+                        });
+
+    </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+}

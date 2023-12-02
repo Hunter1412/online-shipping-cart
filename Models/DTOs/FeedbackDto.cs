@@ -9,7 +9,8 @@ namespace OnlineShoppingCart.Models.DTOs
 {
     public class FeedbackDto
     {
-        public Guid Id { get; set; }
+        [Key]
+        public string? Id { get; set; }
         public string? Content { get; set; }
         public int Rating { get; set; }
 
@@ -23,7 +24,7 @@ namespace OnlineShoppingCart.Models.DTOs
         [ForeignKey("ProductId")]
         public ProductDto? Product { get; set; }
 
-        public Guid? ParentId { get; set; }
+        public string? ParentId { get; set; }
         [ForeignKey("ParentId")]
         public FeedbackDto? Parent { get; set; }
 

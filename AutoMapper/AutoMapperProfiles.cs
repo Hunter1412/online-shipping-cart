@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using OnlineShoppingCart.Data.Entities;
-using OnlineShoppingCart.Models;
 using OnlineShoppingCart.Models.DTOs;
 
 namespace OnlineShoppingCart.AutoMapper
@@ -18,6 +13,12 @@ namespace OnlineShoppingCart.AutoMapper
 
             CreateMap<ProductDto, Product>();
             CreateMap<Product, ProductDto>();
+
+            CreateMap<ImageDto, Image>();
+            CreateMap<Image, ImageDto>();
+
+            CreateMap<CartDto, Cart>();
+            CreateMap<Cart, CartDto>();
 
             CreateMap<InventoryDto, Inventory>();
             CreateMap<Inventory, InventoryDto>();
@@ -33,6 +34,21 @@ namespace OnlineShoppingCart.AutoMapper
 
             CreateMap<AppUserDto, AppUser>();
             CreateMap<AppUser, AppUserDto>();
+
+
+            CreateMap<FeedbackDto, Feedback>();
+            CreateMap<Feedback, FeedbackDto>();
+
+            CreateMap<ContactDto, Contact>();
+            CreateMap<Contact, ContactDto>();
+
+            CreateMap<ShippingDto, Shipping>();
+            CreateMap<Shipping, ShippingDto>();
+
+            CreateMap<VoucherDto, Voucher>();
+            CreateMap<Voucher, VoucherDto>();
+
+
         }
     }
 }

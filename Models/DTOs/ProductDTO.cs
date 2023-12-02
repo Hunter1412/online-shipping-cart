@@ -18,9 +18,13 @@ namespace OnlineShoppingCart.Models.DTOs
         public string? Name { get; set; }
         public string? Slug { get; set; }
 
+        [Required]
         [DataType(DataType.Text)]
         public string? Description { get; set; }
+        [Required]
         public string? Size { get; set; }
+
+        [Required]
         public string? Color { get; set; }
 
         [Required]
@@ -33,13 +37,16 @@ namespace OnlineShoppingCart.Models.DTOs
         {
             CreateAt = DateTime.Now;
         }
-
+        [Display(Name = "Category")]
         public string? CategoryId { get; set; }
         [ForeignKey("CategoryId")]
         public CategoryDto? Category { get; set; }
 
         public List<ImageDto>? Images { get; set; }
 
+        // [Required]
+        [Display(Name = "Click here to upload product image")]
+        [NotMapped]
         public List<IFormFile>? ImageFiles { get; set; }
 
         public List<FeedbackDto>? Feedbacks { get; set; }
@@ -49,6 +56,7 @@ namespace OnlineShoppingCart.Models.DTOs
         [ValidateNever]
         public List<InventoryDto>? Inventories { get; set; }
 
+        [NotMapped]
         public int? Quantity { get; set; }
     }
 }

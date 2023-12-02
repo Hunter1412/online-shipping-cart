@@ -10,8 +10,8 @@ namespace OnlineShoppingCart.Data.Entities
 {
     public class Contact
     {
-        [Key]
-        public Guid Id { get; set; }
+        [Key, Required]
+        public string? Id { get; set; }
         public string? Subject { get; set; }
         public string? Content { get; set; }
         public string? Answer { get; set; }

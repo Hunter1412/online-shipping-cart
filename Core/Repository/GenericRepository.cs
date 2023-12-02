@@ -79,7 +79,7 @@ namespace OnlineShoppingCart.Core.Repository
             throw new NotImplementedException();
         }
 
-        public bool Delete(T entity)
+        public virtual bool Delete(T entity)
         {
             try
             {

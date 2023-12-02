@@ -21,17 +21,17 @@ namespace OnlineShoppingCart.Core.Repository
         {
             try
             {
-                var existingUser = await dbSet.Where(x => x.Id == entity.Id).FirstOrDefaultAsync();
-                if (existingUser == null)
+                var existingCate = await dbSet.Where(x => x.Id == entity.Id).FirstOrDefaultAsync();
+                if (existingCate == null)
                 {
                     return await Add(entity);
                 }
-                existingUser.Name = entity.Name;
-                existingUser.Slug = entity.Slug;
-                existingUser.Description = entity.Description;
-                existingUser.Image = entity.Image;
-                existingUser.ParentId = entity.ParentId;
-                existingUser.CreateAt = entity.CreateAt;
+                existingCate.Name = entity.Name;
+                existingCate.Slug = entity.Slug;
+                existingCate.Description = entity.Description;
+                existingCate.Image = entity.Image;
+                existingCate.ParentId = entity.ParentId;
+                existingCate.CreateAt = entity.CreateAt;
 
                 return true;
             }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,7 +9,8 @@ namespace OnlineShoppingCart.Data.Entities
 {
     public class Cart
     {
-        public Guid Id { get; set; }
+        [Key, Required]
+        public string? Id { get; set; }
         public int Quantity { get; set; }
 
 

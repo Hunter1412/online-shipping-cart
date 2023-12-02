@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using OnlineShoppingCart.Models.DTOs;
 
-namespace OnlineShoppingCart.Models
+namespace OnlineShoppingCart.Models.DTOs
 {
     public class OrderDto
     {

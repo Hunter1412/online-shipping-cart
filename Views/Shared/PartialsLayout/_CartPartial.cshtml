@@ -1,9 +1,11 @@
 <div class="nav-item dropdown">
     <!-- Messages Dropdown Menu -->
-    <a class="nav-icon position-relative text-decoration-none" data-toggle="dropdown" href="#">
+    <a class="nav-icon position-relative text-decoration-none text-dark" data-toggle="dropdown" href="#">
         <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-        <span class="badge badge-danger navbar-badge">3</span>
         @await Html.PartialAsync("PartialsLayout/_CartCountItem")
+        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">
+            99
+        </span>
     </a>
     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-lg-end">
         <div class="cart">

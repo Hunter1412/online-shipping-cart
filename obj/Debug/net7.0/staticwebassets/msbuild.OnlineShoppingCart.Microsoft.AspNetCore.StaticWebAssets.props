@@ -160,54 +160,6 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\css\templatemo.min.css))</OriginalItemSpec>
     </StaticWebAsset>
-    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\10ca8341-33ea-43c8-8d82-cccb424d8200_OF01_01_01_ban-chan-tu-bgd68070-01a.jpg))">
-      <SourceType>Package</SourceType>
-      <SourceId>OnlineShoppingCart</SourceId>
-      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
-      <BasePath>_content/OnlineShoppingCart</BasePath>
-      <RelativePath>assets/img/10ca8341-33ea-43c8-8d82-cccb424d8200_OF01_01_01_ban-chan-tu-bgd68070-01a.jpg</RelativePath>
-      <AssetKind>All</AssetKind>
-      <AssetMode>All</AssetMode>
-      <AssetRole>Primary</AssetRole>
-      <RelatedAsset></RelatedAsset>
-      <AssetTraitName></AssetTraitName>
-      <AssetTraitValue></AssetTraitValue>
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\10ca8341-33ea-43c8-8d82-cccb424d8200_OF01_01_01_ban-chan-tu-bgd68070-01a.jpg))</OriginalItemSpec>
-    </StaticWebAsset>
-    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\12b57178-00fb-49d2-a6bd-d817f3f0246c_OF01_01_01_ban-chan-tu-bgd68070-01a.jpg))">
-      <SourceType>Package</SourceType>
-      <SourceId>OnlineShoppingCart</SourceId>
-      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
-      <BasePath>_content/OnlineShoppingCart</BasePath>
-      <RelativePath>assets/img/12b57178-00fb-49d2-a6bd-d817f3f0246c_OF01_01_01_ban-chan-tu-bgd68070-01a.jpg</RelativePath>
-      <AssetKind>All</AssetKind>
-      <AssetMode>All</AssetMode>
-      <AssetRole>Primary</AssetRole>
-      <RelatedAsset></RelatedAsset>
-      <AssetTraitName></AssetTraitName>
-      <AssetTraitValue></AssetTraitValue>
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\12b57178-00fb-49d2-a6bd-d817f3f0246c_OF01_01_01_ban-chan-tu-bgd68070-01a.jpg))</OriginalItemSpec>
-    </StaticWebAsset>
-    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\814fd28e-2c9b-4b06-993e-2aac73416380_OF01_01_02_ban-chan-tu-bgd68070-01a.jpg))">
-      <SourceType>Package</SourceType>
-      <SourceId>OnlineShoppingCart</SourceId>
-      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
-      <BasePath>_content/OnlineShoppingCart</BasePath>
-      <RelativePath>assets/img/814fd28e-2c9b-4b06-993e-2aac73416380_OF01_01_02_ban-chan-tu-bgd68070-01a.jpg</RelativePath>
-      <AssetKind>All</AssetKind>
-      <AssetMode>All</AssetMode>
-      <AssetRole>Primary</AssetRole>
-      <RelatedAsset></RelatedAsset>
-      <AssetTraitName></AssetTraitName>
-      <AssetTraitValue></AssetTraitValue>
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\814fd28e-2c9b-4b06-993e-2aac73416380_OF01_01_02_ban-chan-tu-bgd68070-01a.jpg))</OriginalItemSpec>
-    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\about-hero.svg))">
       <SourceType>Package</SourceType>
       <SourceId>OnlineShoppingCart</SourceId>
@@ -255,6 +207,22 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\apple-icon.png))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\avatar_e2a2a572-24c6-4835-916e-81c68ee96959_403821454_651253113849271_8623137513645664404_n.jpg))">
+      <SourceType>Package</SourceType>
+      <SourceId>OnlineShoppingCart</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/OnlineShoppingCart</BasePath>
+      <RelativePath>assets/img/avatar_e2a2a572-24c6-4835-916e-81c68ee96959_403821454_651253113849271_8623137513645664404_n.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\avatar_e2a2a572-24c6-4835-916e-81c68ee96959_403821454_651253113849271_8623137513645664404_n.jpg))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\banner_img_01.jpg))">
       <SourceType>Package</SourceType>
@@ -400,6 +368,22 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\category_02_CI-stapler_1.webp))</OriginalItemSpec>
     </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\category_02_pen-stands-757103.webp))">
+      <SourceType>Package</SourceType>
+      <SourceId>OnlineShoppingCart</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/OnlineShoppingCart</BasePath>
+      <RelativePath>assets/img/category_02_pen-stands-757103.webp</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\category_02_pen-stands-757103.webp))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\category_03.webp))">
       <SourceType>Package</SourceType>
       <SourceId>OnlineShoppingCart</SourceId>
@@ -431,6 +415,22 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\category_04.webp))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\category_4f9bee42-2ea0-4e2a-83f8-dabc550744dd_OF01_04_05_ban-gap-go-cao-su-spd68192-01a.jpg))">
+      <SourceType>Package</SourceType>
+      <SourceId>OnlineShoppingCart</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/OnlineShoppingCart</BasePath>
+      <RelativePath>assets/img/category_4f9bee42-2ea0-4e2a-83f8-dabc550744dd_OF01_04_05_ban-gap-go-cao-su-spd68192-01a.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\category_4f9bee42-2ea0-4e2a-83f8-dabc550744dd_OF01_04_05_ban-gap-go-cao-su-spd68192-01a.jpg))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\category_img_01.jpg))">
       <SourceType>Package</SourceType>
@@ -480,22 +480,6 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\category_img_03.jpg))</OriginalItemSpec>
     </StaticWebAsset>
-    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\cdeb2217-6685-4d36-9042-13106fee0c7d_403821454_651253113849271_8623137513645664404_n.jpg))">
-      <SourceType>Package</SourceType>
-      <SourceId>OnlineShoppingCart</SourceId>
-      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
-      <BasePath>_content/OnlineShoppingCart</BasePath>
-      <RelativePath>assets/img/cdeb2217-6685-4d36-9042-13106fee0c7d_403821454_651253113849271_8623137513645664404_n.jpg</RelativePath>
-      <AssetKind>All</AssetKind>
-      <AssetMode>All</AssetMode>
-      <AssetRole>Primary</AssetRole>
-      <RelatedAsset></RelatedAsset>
-      <AssetTraitName></AssetTraitName>
-      <AssetTraitValue></AssetTraitValue>
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\cdeb2217-6685-4d36-9042-13106fee0c7d_403821454_651253113849271_8623137513645664404_n.jpg))</OriginalItemSpec>
-    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\default-avatar-image.png))">
       <SourceType>Package</SourceType>
       <SourceId>OnlineShoppingCart</SourceId>
@@ -543,22 +527,6 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\e884861f-efe4-42aa-a6f0-b915d20578a3_th.jpeg))</OriginalItemSpec>
-    </StaticWebAsset>
-    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\e96439c2-d55f-49bf-8f9e-d3aa66ec15c4_OF01_01_02_ban-chan-tu-bgd68070-01a.jpg))">
-      <SourceType>Package</SourceType>
-      <SourceId>OnlineShoppingCart</SourceId>
-      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
-      <BasePath>_content/OnlineShoppingCart</BasePath>
-      <RelativePath>assets/img/e96439c2-d55f-49bf-8f9e-d3aa66ec15c4_OF01_01_02_ban-chan-tu-bgd68070-01a.jpg</RelativePath>
-      <AssetKind>All</AssetKind>
-      <AssetMode>All</AssetMode>
-      <AssetRole>Primary</AssetRole>
-      <RelatedAsset></RelatedAsset>
-      <AssetTraitName></AssetTraitName>
-      <AssetTraitValue></AssetTraitValue>
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\e96439c2-d55f-49bf-8f9e-d3aa66ec15c4_OF01_01_02_ban-chan-tu-bgd68070-01a.jpg))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\favicon.ico))">
       <SourceType>Package</SourceType>
@@ -623,6 +591,118 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\feature_prod_03.jpg))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\product55d79af1-1c3c-4517-b92b-9e95904da128_OF01_01_02_ban-chan-tu-bgd68070-01a.jpg))">
+      <SourceType>Package</SourceType>
+      <SourceId>OnlineShoppingCart</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/OnlineShoppingCart</BasePath>
+      <RelativePath>assets/img/product55d79af1-1c3c-4517-b92b-9e95904da128_OF01_01_02_ban-chan-tu-bgd68070-01a.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\product55d79af1-1c3c-4517-b92b-9e95904da128_OF01_01_02_ban-chan-tu-bgd68070-01a.jpg))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\product9ddefef4-0c70-4cbe-ad69-a4cf75bc1580_OF01_01_03_ban-chan-tu-bgd68070-01a.jpg))">
+      <SourceType>Package</SourceType>
+      <SourceId>OnlineShoppingCart</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/OnlineShoppingCart</BasePath>
+      <RelativePath>assets/img/product9ddefef4-0c70-4cbe-ad69-a4cf75bc1580_OF01_01_03_ban-chan-tu-bgd68070-01a.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\product9ddefef4-0c70-4cbe-ad69-a4cf75bc1580_OF01_01_03_ban-chan-tu-bgd68070-01a.jpg))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\product_29ad6987-d980-4bbc-8b51-64aabbdd8546_OF01_01_01_ban-chan-tu-bgd68070-01a.jpg))">
+      <SourceType>Package</SourceType>
+      <SourceId>OnlineShoppingCart</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/OnlineShoppingCart</BasePath>
+      <RelativePath>assets/img/product_29ad6987-d980-4bbc-8b51-64aabbdd8546_OF01_01_01_ban-chan-tu-bgd68070-01a.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\product_29ad6987-d980-4bbc-8b51-64aabbdd8546_OF01_01_01_ban-chan-tu-bgd68070-01a.jpg))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\product_44f3ba19-8a5e-49a8-bc22-2f4ca5efa4fa_OF01_01_01_ban-chan-tu-bgd68070-01a.jpg))">
+      <SourceType>Package</SourceType>
+      <SourceId>OnlineShoppingCart</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/OnlineShoppingCart</BasePath>
+      <RelativePath>assets/img/product_44f3ba19-8a5e-49a8-bc22-2f4ca5efa4fa_OF01_01_01_ban-chan-tu-bgd68070-01a.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\product_44f3ba19-8a5e-49a8-bc22-2f4ca5efa4fa_OF01_01_01_ban-chan-tu-bgd68070-01a.jpg))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\product_5a7a338f-6995-4219-a242-9dfe9cf24502_OF01_01_02_ban-chan-tu-bgd68070-01a.jpg))">
+      <SourceType>Package</SourceType>
+      <SourceId>OnlineShoppingCart</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/OnlineShoppingCart</BasePath>
+      <RelativePath>assets/img/product_5a7a338f-6995-4219-a242-9dfe9cf24502_OF01_01_02_ban-chan-tu-bgd68070-01a.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\product_5a7a338f-6995-4219-a242-9dfe9cf24502_OF01_01_02_ban-chan-tu-bgd68070-01a.jpg))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\product_6a41d731-86e1-4ca7-bb6e-f7f7dcb1ad37_OF01_01_02_ban-chan-tu-bgd68070-01a.jpg))">
+      <SourceType>Package</SourceType>
+      <SourceId>OnlineShoppingCart</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/OnlineShoppingCart</BasePath>
+      <RelativePath>assets/img/product_6a41d731-86e1-4ca7-bb6e-f7f7dcb1ad37_OF01_01_02_ban-chan-tu-bgd68070-01a.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\product_6a41d731-86e1-4ca7-bb6e-f7f7dcb1ad37_OF01_01_02_ban-chan-tu-bgd68070-01a.jpg))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\product_71a31ad5-9e70-4dbe-910c-5cabf9e66e7b_OF01_01_01_ban-chan-tu-bgd68070-01a.jpg))">
+      <SourceType>Package</SourceType>
+      <SourceId>OnlineShoppingCart</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/OnlineShoppingCart</BasePath>
+      <RelativePath>assets/img/product_71a31ad5-9e70-4dbe-910c-5cabf9e66e7b_OF01_01_01_ban-chan-tu-bgd68070-01a.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\product_71a31ad5-9e70-4dbe-910c-5cabf9e66e7b_OF01_01_01_ban-chan-tu-bgd68070-01a.jpg))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\product_single_01.jpg))">
       <SourceType>Package</SourceType>
@@ -783,6 +863,22 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\product_single_10.jpg))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\product_velvet-finish-notebook-a5.webp))">
+      <SourceType>Package</SourceType>
+      <SourceId>OnlineShoppingCart</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/OnlineShoppingCart</BasePath>
+      <RelativePath>assets/img/product_velvet-finish-notebook-a5.webp</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\product_velvet-finish-notebook-a5.webp))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\assets\img\shop_01.jpg))">
       <SourceType>Package</SourceType>

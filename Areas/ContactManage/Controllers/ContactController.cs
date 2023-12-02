@@ -44,7 +44,7 @@ namespace OnlineShoppingCart.Areas.ContactManage.Controllers
         }
 
         [HttpGet("/admin/contact/detail/{id}")]
-        public async Task<IActionResult> Details(Guid? id)
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null || _context.Contacts == null)
             {
@@ -110,7 +110,7 @@ namespace OnlineShoppingCart.Areas.ContactManage.Controllers
                     }
                 }
                 contact.UserId = user!.Id;
-                contact.Id = Guid.NewGuid();
+                contact.Id = Guid.NewGuid().ToString();
                 _context.Add(contact);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index), "Home");
@@ -119,7 +119,7 @@ namespace OnlineShoppingCart.Areas.ContactManage.Controllers
         }
 
         [HttpGet("/admin/contact/edit/{id}")]
-        public async Task<IActionResult> Edit(Guid? id)
+        public async Task<IActionResult> Edit(string id)
         {
             if (id == null || _context.Contacts == null)
             {
@@ -136,7 +136,7 @@ namespace OnlineShoppingCart.Areas.ContactManage.Controllers
 
         [HttpPost("/admin/contact/edit/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Subject,Content,Answer,UserId,CreateAt,UpdateAt")] ContactModel contact)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,Subject,Content,Answer,UserId,CreateAt,UpdateAt")] ContactModel contact)
         {
             if (id != contact.Id)
             {
@@ -179,7 +179,7 @@ namespace OnlineShoppingCart.Areas.ContactManage.Controllers
         }
 
         [HttpGet("/admin/contact/delete/{id}")]
-        public async Task<IActionResult> Delete(Guid? id)
+        public async Task<IActionResult> Delete(string id)
         {
             if (id == null || _context.Contacts == null)
             {
@@ -214,7 +214,7 @@ namespace OnlineShoppingCart.Areas.ContactManage.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ContactExists(Guid id)
+        private bool ContactExists(string id)
         {
             return (_context.Contacts?.Any(e => e.Id == id)).GetValueOrDefault();
         }

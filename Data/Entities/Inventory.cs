@@ -9,8 +9,8 @@ namespace OnlineShoppingCart.Data.Entities
 {
     public class Inventory
     {
-        [Key]
-        public string Id { get; set; }
+        [Key,Required]
+        public string? Id { get; set; }
         [Required]
         public DateTime DateAt { get; set; }
         [Required]
@@ -25,7 +25,6 @@ namespace OnlineShoppingCart.Data.Entities
 
         public Inventory()
         {
-            Id = Guid.NewGuid().ToString();
             DateAt = DateTime.Now;
         }
     }

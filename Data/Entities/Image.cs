@@ -9,8 +9,8 @@ namespace OnlineShoppingCart.Data.Entities
 {
     public class Image
     {
-        [Key]
-        public Guid Id { get; set; }
+        [Key, Required]
+        public string? Id { get; set; }
         public string? ImageName { get; set; }
         public string? ImagePath { get; set; }
 

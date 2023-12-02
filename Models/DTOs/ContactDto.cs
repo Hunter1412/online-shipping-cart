@@ -11,7 +11,7 @@ namespace OnlineShoppingCart.Models.DTOs
     public class ContactDto
     {
         [Key]
-        public Guid Id { get; set; }
+        public string? Id { get; set; }
         public string? Subject { get; set; }
         public string? Content { get; set; }
         public string? Answer { get; set; }

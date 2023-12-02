@@ -10,10 +10,8 @@ namespace OnlineShoppingCart.Models.DTOs
     public class ImageDto
     {
         [Key]
-        public Guid Id { get; set; }
+        public string? Id { get; set; }
         public string? ImageName { get; set; }
-        public IFormFile? ImageFile { get; set; }
-
         public string? ImagePath { get; set; }
 
         public string? ProductId { get; set; }

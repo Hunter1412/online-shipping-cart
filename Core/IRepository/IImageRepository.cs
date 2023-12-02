@@ -11,6 +11,5 @@ namespace OnlineShoppingCart.Core.IRepository
 {
     public interface IImageRepository : IGenericRepository<ImageEntity>
     {
-
     }
 }

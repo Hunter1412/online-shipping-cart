@@ -9,8 +9,7 @@ namespace OnlineShoppingCart.Data.Entities
 {
     public class Voucher
     {
-        [Key]
-        [Required]
+        [Key,Required]
         public string? Id { get; set; }
 
         [Required]

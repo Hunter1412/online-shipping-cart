@@ -168,7 +168,7 @@ namespace OnlineShoppingCart.Migrations
                 name: "Contacts",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Subject = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Answer = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -312,7 +312,7 @@ namespace OnlineShoppingCart.Migrations
                 name: "Carts",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ProductId = table.Column<string>(type: "nvarchar(450)", nullable: true),
@@ -338,13 +338,13 @@ namespace OnlineShoppingCart.Migrations
                 name: "Feedbacks",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Rating = table.Column<int>(type: "int", nullable: false),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ProductId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ParentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ParentId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreateAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -371,7 +371,7 @@ namespace OnlineShoppingCart.Migrations
                 name: "Images",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ImageName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ProductId = table.Column<string>(type: "nvarchar(450)", nullable: true)
