@@ -17,6 +17,7 @@
 .nav-pills .nav-link {
   color: var(--color-success);
 }
+
 .nav-pills .nav-link.active,
 .nav-pills .show>.nav-link {
   color: #fff;
@@ -51,6 +52,15 @@
   transform-origin: left;
   transform: scaleX(1);
 }
+
+.avatar {
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #dfdfdf;
+}
+
 
 .cart-name-product {
   display: -webkit-box;
@@ -129,14 +139,6 @@
   transform: scaleX(1);
 }
 
-.avatar {
-    height: 150px;
-    width: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-    background: #dfdfdf;
-}
-
 /* checkout */
 
 input[type=radio] {
@@ -171,4 +173,9 @@ input[type='radio']:checked:after {
   visibility: visible;
   border: 2px solid var(--color-success);
   background-color: #59ab6e;
+}
+
+.table {
+  width: 100%;
+  table-layout: fixed;
 }

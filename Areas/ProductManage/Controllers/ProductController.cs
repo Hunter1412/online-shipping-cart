@@ -10,8 +10,9 @@ namespace OnlineShoppingCart.Areas.ProductManage.Controllers
     public class ProductController : Controller
     {
         [HttpGet("/admin/product")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            
             return View();
         }
     }

@@ -20,15 +20,13 @@ namespace OnlineShoppingCart.Areas.CategoryManage.Controllers
     public class CategoryController : Controller
     {
         private readonly ILogger<CategoryController> _logger;
-        private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ImageService _imageService;
 
 
-        public CategoryController(ApplicationDbContext context, IMapper mapper, ImageService imageService, ILogger<CategoryController> logger, IUnitOfWork unitOfWork)
+        public CategoryController(IMapper mapper, ImageService imageService, ILogger<CategoryController> logger, IUnitOfWork unitOfWork)
         {
-            _context = context;
             _mapper = mapper;
             _imageService = imageService;
             _logger = logger;
@@ -96,6 +94,7 @@ namespace OnlineShoppingCart.Areas.CategoryManage.Controllers
             var category = await _unitOfWork.Categories.Get(x => x.Id == id, "Parent");
             if (category == null)
             {
+                _logger.LogError($"The category with the {id} doesn't exist");
                 return NotFound();
             }
             return View(_mapper.Map<CategoryDto>(category));
@@ -133,6 +132,7 @@ namespace OnlineShoppingCart.Areas.CategoryManage.Controllers
                 {
                     if (!await CategoryExists(categoryDto.Id!))
                     {
+                        _logger.LogError($"The category with the {categoryDto.Id} doesn't exist");
                         return NotFound();
                     }
                     else
@@ -152,6 +152,7 @@ namespace OnlineShoppingCart.Areas.CategoryManage.Controllers
             var category = await _unitOfWork.Categories.Get(x => x.Id == id, "Parent");
             if (category == null)
             {
+                _logger.LogInformation($"The category with the {id} doesn't exist");
                 return NotFound();
             }
             ViewData["ParentId"] = new SelectList(await GetItemsSelectCategories(id), "Id", "Name", category.ParentId);
@@ -168,7 +169,7 @@ namespace OnlineShoppingCart.Areas.CategoryManage.Controllers
                 return NotFound();
             }
 
-            if (categoryDto.ParentId == id || (categoryDto.ParentId != categoryDto.Id))
+            if (categoryDto.ParentId == id || (categoryDto.ParentId == categoryDto.Id))
             {
                 return Json(new { code = 201, msg = "Can't select category !" });
             }
@@ -206,6 +207,7 @@ namespace OnlineShoppingCart.Areas.CategoryManage.Controllers
             {
                 if (!await CategoryExists(categoryDto.Id))
                 {
+                    _logger.LogError($"The category with the {categoryDto.Id} doesn't exist");
                     return NotFound();
                 }
                 else
@@ -221,23 +223,28 @@ namespace OnlineShoppingCart.Areas.CategoryManage.Controllers
         [HttpPost("/admin/category/delete")]
         public async Task<IActionResult> Delete(string id)
         {
-            if (id == null || _context.Categories == null)
+            if (id == null || _unitOfWork.Categories == null)
             {
-                return NotFound();
+                return BadRequest(new
+                {
+                    code = 404,
+                    error = "Category doesn't exist"
+                });
             }
 
             try
             {
-                var category = await _context.Categories!
-                    .Include(c => c.Children)
-                    .FirstOrDefaultAsync(c => c.Id == id);
-
+                var category = await _unitOfWork.Categories.Get(c => c.Id == id, "Children");
                 if (category == null)
                 {
-                    return NotFound();
+                    return BadRequest(new
+                    {
+                        code = 404,
+                        error = "Category doesn't exist"
+                    });
                 }
 
-                var cateProduct = await _context.Products!.SingleOrDefaultAsync(c => c.Id == id);
+                var cateProduct = await _unitOfWork.Products.Get(p => p.CategoryId == id);
                 if (cateProduct != null)
                 {
                     return Json(new { code = 202, msg = "Category already used. Can't delete!" });
@@ -259,8 +266,8 @@ namespace OnlineShoppingCart.Areas.CategoryManage.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Controller Error delete method", typeof(CategoryController));
                 return Json(new { code = 500, msg = "Delete fails. Error:" + ex.Message });
-
             }
 
         }
