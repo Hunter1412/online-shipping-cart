@@ -31,7 +31,8 @@
                     <div class="d-flex justify-content-between align-content-center">
                         <strong class="h3 card-title">@ViewData["Title"]</strong>
                         <div class="flex-item">
-                            <a asp-action="Create" asp-area="CategoryManage" asp-controller="Category" class="btn btn-success">Create New</a>
+                            <a asp-action="Create" asp-area="CategoryManage" asp-controller="Category"
+                                class="btn btn-success">Create New</a>
                         </div>
                     </div>
                 </div>
@@ -50,7 +51,7 @@
                                 <th>
                                     @Html.DisplayNameFor(model => model.Parent)
                                 </th>
-                                <th></th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -103,7 +104,8 @@
                 @Html.DisplayFor(modelItem => item.Parent!.Name)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id" class="btn-sm btn-warning"><i class="fas fa-edit" title="edit"></i></a>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn-sm btn-warning"><i class="fas fa-edit"
+                        title="edit"></i></a>
                 <a asp-action="Details" asp-route-id="@item.Id" class="btn-sm btn-info"><i class="nav-icon fas fa-file"></i></a>
                 <a class="btn-sm btn-danger deleteModel" id="@item.Id"><i class="fa fa-trash" aria-hidden="true"></i></a>
 

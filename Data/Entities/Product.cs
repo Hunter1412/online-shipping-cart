@@ -11,7 +11,7 @@ namespace OnlineShoppingCart.Data.Entities
 {
     public class Product
     {
-        [Key,Required]
+        [Key, Required]
         [RegularExpression(@"\b(ST|OS|AS|CM)(\d{5})\b", ErrorMessage = "The Product-Id must be formatted as 'AAxxxxx', A is alphabet, x is the digits")]
         public string? Id { get; set; }
 
@@ -43,7 +43,7 @@ namespace OnlineShoppingCart.Data.Entities
 
         public List<Image>? Images { get; set; }
         public List<Feedback>? Feedbacks { get; set; }
-        public List<OrderDetail>? OrderDetail { get; set; }
+        public List<OrderDetail>? OrderDetails { get; set; }
         public List<Order>? Orders { get; set; }
 
         public List<Inventory>? Inventories { get; set; }

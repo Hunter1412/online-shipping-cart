@@ -20,12 +20,12 @@
             <div class="card-header">
                 <div class="text-align-left">
                     <h1 class="h1">Arts Shop</h1>
-                    <h3 class="h3">
+                    <h3 class="h3 text-end">
                         We are looking forward to your question!
                     </h3>
                 </div>
             </div>
-            <form asp-action="SendContact" class="p-3">
+            <form asp-area="ContactManage" asp-controller="Contact" asp-action="SendContact" class="p-3" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="row mb-3">
                     <div class="form-group mb-3 col-6">
@@ -76,5 +76,77 @@
             </form>
 
         </article>
+    </div>
+    <div class="container">
+        <h1>FAQ's</h1>
+        <hr />
+        <div style="text-align: justify;text-justify: inter-word;columns: 200px 2;column-gap: 30px;padding:
+            20px;">
+            <h3>What is Scooboo?</h3>
+            <p>
+                Scooboo is a stationery brand infusing novelty to the Indian stationery market by bringing the most
+                celebrated
+                stationery from around the world in one place. The online store offers an exclusive selection of
+                products
+                from
+                some of the most renowned brands in the industry. <br />
+                The aim is to provide our consumers with the convenience of having everything they need at their
+                doorstep
+                thus
+                making their shopping experience worthwhile.
+            </p>
+            <h3>How can I track my order online?</h3>
+            <p>
+                Upon placing the order, you will be provided with a tracking number via SMS and email. Visit the ‘Track
+                Order’
+                page or click here and enter the order number to check the delivery status of your order.
+            </p>
+            <h3>How long will it take for my order to be delivered?</h3>
+            <p>
+                All orders usually take 4-5 working days to reach their destination but can take longer from time to
+                time.
+                <br />
+                You will receive a tracking link via SMS and email as soon as your order is shipped. Please allow 24 hrs
+                for
+                the
+                status of the shipment to correctly display on the tracking link.
+                For more information, please click here.
+            </p>
+            <h3>Do you accept bulk orders?</h3>
+            <p>
+                Yes, we do accept bulk orders on most of the products. kindly reach out to us on support@scooboo.in or
+                call
+                us at 1800 309 9696 (Mon-Sat | 9AM to 6PM) for more details.
+            </p>
+            <h3>Do you customize products?</h3>
+            <p>
+                Yes, we do customise most of our products for bulk orders and corporate gifting. Feel free to contact us
+                for
+                our corporate gifting catalogue.
+            </p>
+            <h3>My tracking link shows 'delivered' but I have not received the package. What should I do?</h3>
+            <p>
+                Please drop us a mail at support@scooboo.in, within 48 hours of the delivery time mentioned in the
+                tracking
+                link. <br />
+                Please note: We would not be able to investigate with the courier service if it is informed to us after
+                48
+                hours.
+            </p>
+            <h3>How can I cancel my order?</h3>
+            <p>
+                To cancel your order, kindly reach out to us on support@scooboo.in or call us at 1800 309 9696 (Mon-Sat
+                |
+                9AM to 6PM) <br />
+                Please Note: An order cannot be cancelled after it has been shipped. <br />
+                For more please visit our page: Cancellation Policy
+            </p>
+            <h3>When do I get the refund for a cancelled order?</h3>
+            <p>
+                Please allow up to 10 business days after your items have been received by our warehouse. Once your
+                return
+                is received, inspected and approved, we will send you an email confirming your refund amount.
+            </p>
+        </div>
     </div>
 </section>

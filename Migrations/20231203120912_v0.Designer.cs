@@ -12,8 +12,8 @@ using OnlineShoppingCart.Data;
 namespace OnlineShoppingCart.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231203020035_SeedUsers")]
-    partial class SeedUsers
+    [Migration("20231203120912_v0")]
+    partial class v0
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -414,7 +414,7 @@ namespace OnlineShoppingCart.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Inventory");
+                    b.ToTable("Inventories");
                 });
 
             modelBuilder.Entity("OnlineShoppingCart.Data.Entities.Order", b =>
@@ -761,7 +761,7 @@ namespace OnlineShoppingCart.Migrations
                         .IsRequired();
 
                     b.HasOne("OnlineShoppingCart.Data.Entities.Product", "Product")
-                        .WithMany("OrderDetail")
+                        .WithMany("OrderDetails")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -816,7 +816,7 @@ namespace OnlineShoppingCart.Migrations
 
                     b.Navigation("Inventories");
 
-                    b.Navigation("OrderDetail");
+                    b.Navigation("OrderDetails");
                 });
 
             modelBuilder.Entity("OnlineShoppingCart.Data.Entities.Shipping", b =>

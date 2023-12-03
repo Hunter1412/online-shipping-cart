@@ -12,47 +12,6 @@ namespace OnlineShoppingCart.Migrations
         {
             for (int i = 1; i < 150; i++)
             {
-                if (i == 1)
-                {
-                    migrationBuilder.InsertData(
-                    "Users",
-                    columns: new[]{
-                        "Id",
-                        "FirstName",
-                        "LastName",
-                        "Birthday",
-                        "Avatar",
-                        "Gender",
-                        "CreateAt",
-                        "UserName",
-                        "Email",
-                        "EmailConfirmed",
-                        "PasswordHash",
-                        "SecurityStamp",
-                        "PhoneNumberConfirmed",
-                        "TwoFactorEnabled",
-                        "LockoutEnabled",
-                        "AccessFailedCount"
-                    },
-                    values: new object[]{
-                        Guid.NewGuid().ToString(),
-                        "Admin",
-                        "Art",
-                        DateTime.Now,
-                        "default-avatar-image.png",
-                        true,
-                        DateTime.Now,
-                        "admin123.@email.com",
-                        "admin123.@email.com",
-                        true,
-                        "AQAAAAIAAYagAAAAEEkt929Qv3LRfFn3iusL2grePqnJevKck0VuUMja+AOJIUE8G50OfUVEYqlLG6DIHw==",
-                        Guid.NewGuid().ToString(),
-                        true,
-                        false,
-                        false,
-                        0
-                    });
-                }
                 migrationBuilder.InsertData(
                     "Users",
                     columns: new[]{
@@ -91,12 +50,26 @@ namespace OnlineShoppingCart.Migrations
                     }
                 );
             }
+            migrationBuilder.InsertData(
+                "Roles",
+                columns: new[]{
+                    "Id",
+                    "Name",
+                    "NormalizedName"
+                },
+                values: new[]{
+                    Guid.NewGuid().ToString(),
+                    "admin",
+                    "ADMIN"
+                }
+            );
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.Sql("DELETE FROM Users", true);
+            migrationBuilder.Sql("DELETE FROM Roles", true);
         }
     }
 }

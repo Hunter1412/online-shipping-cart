@@ -140,17 +140,8 @@
 }
 
 /* shop */
-/* input[type='checkbox']::after {
-  width: 20px;
-  height: 20px;
-  position: relative;
-  content: '';
-  display: inline-block;
-  visibility: visible;
-  border: 2px solid var(--color-success);
-} */
 
-input[type='checkbox'] {
+input[type="checkbox"] {
   accent-color: var(--color-success);
   appearance: none;
   background-color: none;
@@ -158,23 +149,19 @@ input[type='checkbox'] {
   height: 20px;
 }
 
-input[type='checkbox']:checked {
+input[type="checkbox"]:checked {
   border: 2px solid var(--color-success);
   outline: 2px solid var(--color-success);
   background-color: var(--color-success);
 }
 
 
-input[type='checkbox']:focus {
-  accent-color: var(--color-success);
-  appearance: none;
-  background-color: none;
-  width: 20px;
-  height: 20px;
+input[type="checkbox"]:focus {
+  outline: none;
 }
 
 /* checkout */
-input[type=radio] {
+.checkout-container input[type="radio"] {
   accent-color: var(--color-success);
   appearance: none;
   background-color: none;
@@ -183,7 +170,7 @@ input[type=radio] {
   border-radius: 50%;
 }
 
-input[type='radio']:after {
+.checkout-container input[type='radio']:after {
   width: 20px;
   height: 20px;
   border-radius: 50%;
@@ -195,7 +182,7 @@ input[type='radio']:after {
   border: 2px solid var(--color-success);
 }
 
-input[type='radio']:checked:after {
+.checkout-container input[type="radio"]:checked:after {
   width: 20px;
   height: 20px;
   border-radius: 50%;
@@ -224,4 +211,56 @@ textarea::placeholder {
 .product-item:hover {
   outline: 2px solid var(--color-success);
   box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+
+/*product details */
+@import url("https: //use.fontawesome.com/releases/v5.13.0/js/all.js");
+
+.comment-form-rating>span {
+  display: block;
+  float: left;
+  margin-right: 7px;
+}
+
+.comment-form-rating~p {
+  margin-bottom: 0 !important;
+}
+
+.comment-form-rating p.stars {
+  display: inline-block;
+  margin-bottom: 0 !important;
+}
+
+.comment-form-rating .stars input[type="radio"] {
+  display: none;
+}
+
+.comment-form-rating .stars label {
+  display: block;
+  float: left;
+  margin: 0;
+  padding: 0 2px;
+}
+
+.comment-form-rating .stars label::before {
+  content: "\f005";
+  font-family: "Font Awesome 5 Free";
+  font-size: 1.5rem;
+  color: #efce4a;
+}
+
+.comment-form-rating .stars input[type="radio"]:checked~label::before {
+  color: #e6e6e6;
+}
+
+.comment-form-rating .stars:hover label::before {
+  color: #efce4a;
+}
+
+.comment-form-rating .stars label:hover~label::before {
+  color: #e6e6e6;
+}
+
+.comment-form-rating {
+  margin-bottom: 15px;
 }

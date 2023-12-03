@@ -387,7 +387,7 @@ namespace OnlineShoppingCart.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Inventory",
+                name: "Inventories",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -398,9 +398,9 @@ namespace OnlineShoppingCart.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Inventory", x => x.Id);
+                    table.PrimaryKey("PK_Inventories", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Inventory_Products_ProductId",
+                        name: "FK_Inventories_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
@@ -474,8 +474,8 @@ namespace OnlineShoppingCart.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Inventory_ProductId",
-                table: "Inventory",
+                name: "IX_Inventories_ProductId",
+                table: "Inventories",
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
@@ -561,7 +561,7 @@ namespace OnlineShoppingCart.Migrations
                 name: "Images");
 
             migrationBuilder.DropTable(
-                name: "Inventory");
+                name: "Inventories");
 
             migrationBuilder.DropTable(
                 name: "OrderDetails");

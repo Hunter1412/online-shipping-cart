@@ -13,7 +13,7 @@ using OnlineShoppingCart.Data.Entities;
 
 namespace OnlineShoppingCart.Areas.Admin.Pages.User
 {
-    [Authorize(Roles = "admin")]
+    // [Authorize(Roles = "admin")]
     public class SetPasswordModel : PageModel
     {
         private readonly UserManager<AppUser> _userManager;

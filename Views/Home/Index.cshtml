@@ -1,11 +1,15 @@
 ﻿@model List<OnlineShoppingCart.Models.DTOs.ProductDto>;
+@using AutoMapper;
+@using OnlineShoppingCart.Core.UnitOfWork;
+@using ProductDto = OnlineShoppingCart.Models.DTOs.ProductDto;
+
+@inject IUnitOfWork UnitOfWork;
+@inject IMapper Mapper;
 
 @{
     ViewData["Title"] = "Home Page";
-    
-    @* var productsBestSeller = ""; *@
 
-    @* var productsNew = Model; *@
+    var products = await UnitOfWork.Products.GetAll("Inventories,Images");
 }
 
 <!-- Start Banner Hero -->
@@ -26,8 +30,10 @@
                         <div class="text-align-left align-self-center">
                             <h1 class="h1 text-success">Plain</h1>
                             <h3 class="h2">Online shopping Cart</h3>
-                            <p>A playground for your thoughts and a blank canvas for your imagination, let your mind run amok amidst the pristine pages of these notebooks.</p>
-                            <p>Beyond the spotless sheets lie the gateway to your musings, a world of potential waiting to be inked.</p>
+                            <p>A playground for your thoughts and a blank canvas for your imagination, let your mind run
+                                amok amidst the pristine pages of these notebooks.</p>
+                            <p>Beyond the spotless sheets lie the gateway to your musings, a world of potential waiting
+                                to be inked.</p>
                         </div>
                     </div>
                 </div>
@@ -182,87 +188,15 @@
             <div class="col-lg-6 m-auto">
                 <h1 class="h1">Featured Product</h1>
                 <p>
-                    Reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                    Excepteur sint occaecat cupidatat non proident.
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat commodi consequatur odio ipsam rerum delectus quos! Natus culpa error dicta quasi consectetur ipsum, aliquam asperiores sunt, hic qui libero maxime!
                 </p>
             </div>
         </div>
-        <div class="row">
-            <div class="col-12 col-md-4 mb-4">
-                <div class="card h-100">
-                    <a href="shop-single.html">
-                        <img src="~/assets/img/feature_prod_01.jpg" class="card-img-top" alt="...">
-                    </a>
-                    <div class="card-body">
-                        <ul class="list-unstyled d-flex justify-content-between">
-                            <li>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-muted fa fa-star"></i>
-                                <i class="text-muted fa fa-star"></i>
-                            </li>
-                            <li class="text-muted text-right">$240.00</li>
-                        </ul>
-                        <a href="shop-single.html" class="h2 text-decoration-none text-dark">Gym Weight</a>
-                        <p class="card-text">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt in culpa qui officia
-                            deserunt.
-                        </p>
-                        <p class="text-muted">Reviews (24)</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-4 mb-4">
-                <div class="card h-100">
-                    <a href="shop-single.html">
-                        <img src="~/assets/img/feature_prod_02.jpg" class="card-img-top" alt="...">
-                    </a>
-                    <div class="card-body">
-                        <ul class="list-unstyled d-flex justify-content-between">
-                            <li>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-muted fa fa-star"></i>
-                                <i class="text-muted fa fa-star"></i>
-                            </li>
-                            <li class="text-muted text-right">$480.00</li>
-                        </ul>
-                        <a href="shop-single.html" class="h2 text-decoration-none text-dark">Cloud Nike Shoes</a>
-                        <p class="card-text">
-                            Aenean gravida dignissim finibus. Nullam ipsum diam, posuere vitae pharetra sed, commodo
-                            ullamcorper.
-                        </p>
-                        <p class="text-muted">Reviews (48)</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-4 mb-4">
-                <div class="card h-100">
-                    <a href="shop-single.html">
-                        <img src="~/assets/img/feature_prod_03.jpg" class="card-img-top" alt="...">
-                    </a>
-                    <div class="card-body">
-                        <ul class="list-unstyled d-flex justify-content-between">
-                            <li>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-warning fa fa-star"></i>
-                            </li>
-                            <li class="text-muted text-right">$360.00</li>
-                        </ul>
-                        <a href="shop-single.html" class="h2 text-decoration-none text-dark">Summer Addides Shoes</a>
-                        <p class="card-text">
-                            Curabitur ac mi sit amet diam luctus porta. Phasellus pulvinar sagittis diam, et scelerisque
-                            ipsum lobortis nec.
-                        </p>
-                        <p class="text-muted">Reviews (74)</p>
-                    </div>
-                </div>
-            </div>
+        <div class="">
+            @for (int i = 0; i < 3; i++)
+            {
+                <partial name="_ProductItemRow" />
+            }
         </div>
     </div>
 </section>

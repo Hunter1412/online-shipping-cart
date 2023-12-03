@@ -46,7 +46,7 @@ namespace OnlineShoppingCart.Areas.ContactManage.Controllers
         [HttpGet("/admin/contact")]
         public async Task<IActionResult> Index()
         {
-            var contacts = await _unitOfWork.Contacts.GetAll();
+            var contacts = await _unitOfWork.Contacts.GetAll("AppUser");
             var contactsDto = _mapper.Map<List<ContactDto>>(contacts) ?? new List<ContactDto>();
             return View(contactsDto);
         }
@@ -74,16 +74,16 @@ namespace OnlineShoppingCart.Areas.ContactManage.Controllers
         [HttpPost("/contact")]
         [AllowAnonymous] //khong can phan quyen van truy cap duoc
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Subject,Content,Answer,UserId,AppUser,CreateAt,UpdateAt")] ContactEntity contact)
+        public async Task<IActionResult> Create([Bind("Id,Subject,Content,Answer,UserId,AppUser,CreateAt,UpdateAt")] ContactDto contactDto)
         {
             if (ModelState.IsValid)
             {
+                var contact = _mapper.Map<Contact>(contactDto);
                 _logger.LogInformation(contact?.AppUser?.Email);
                 var email = contact.AppUser.Email;
-                var user = await _userManager.Users
-                .Where(u => u.Email == email)
-                .FirstOrDefaultAsync();
+                var user = await _userManager.Users.Where(u => u.Email == email).FirstOrDefaultAsync();
 
+                var id = string.Empty;
                 if (user == null)
                 {
                     //create new user
@@ -95,8 +95,8 @@ namespace OnlineShoppingCart.Areas.ContactManage.Controllers
                     var resultNewUser = await _userManager.CreateAsync(newUser);
                     if (resultNewUser.Succeeded)
                     {
-                        var userId = await _userManager.GetUserIdAsync(user);
-                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                        var userId = await _userManager.GetUserIdAsync(newUser);
+                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
                         code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                         var callbackUrl = Url.Page(
                             "/Account/ConfirmEmail",
@@ -104,21 +104,30 @@ namespace OnlineShoppingCart.Areas.ContactManage.Controllers
                             values: new { area = "Identity", userId = userId, code = code },
                             protocol: Request.Scheme
                         );
-
-                        await _emailSender.SendEmailAsync(email, "Thank you for your feedback",
-                            $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>."
+                        //send mail
+                        await _emailSender.SendEmailAsync(email!, "Thank you for your feedback",
+                            $"<h3>Thank you for your feedback!</h3>We will contact with you as soon as! \n Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl!)}'>clicking here</a>.\n<p>Thank you so much</p>"
                         );
 
-                        contact.UserId = userId;
+                        id = userId;
                     }
                 }
-                contact.UserId = user!.Id;
+                else
+                {
+                    id = user.Id;
+                    //send mail
+                    await _emailSender.SendEmailAsync(email!, "Thank you for your feedback",
+                            $"<h3>Thank you for your feedback!</h3>\n We will contact with you as soon as!</a>.\n<p>Thank you so much</p>"
+                    );
+                }
+                //save db
+                contact.UserId = id;
                 contact.Id = Guid.NewGuid().ToString();
                 _context.Add(contact);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index), "Home");
             }
-            return View(contact);
+            return View("SendContact", contactDto);
         }
 
         [HttpGet("/admin/contact/edit/{id}")]

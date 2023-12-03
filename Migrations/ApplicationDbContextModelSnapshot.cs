@@ -411,7 +411,7 @@ namespace OnlineShoppingCart.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Inventory");
+                    b.ToTable("Inventories");
                 });
 
             modelBuilder.Entity("OnlineShoppingCart.Data.Entities.Order", b =>
@@ -758,7 +758,7 @@ namespace OnlineShoppingCart.Migrations
                         .IsRequired();
 
                     b.HasOne("OnlineShoppingCart.Data.Entities.Product", "Product")
-                        .WithMany("OrderDetail")
+                        .WithMany("OrderDetails")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -813,7 +813,7 @@ namespace OnlineShoppingCart.Migrations
 
                     b.Navigation("Inventories");
 
-                    b.Navigation("OrderDetail");
+                    b.Navigation("OrderDetails");
                 });
 
             modelBuilder.Entity("OnlineShoppingCart.Data.Entities.Shipping", b =>

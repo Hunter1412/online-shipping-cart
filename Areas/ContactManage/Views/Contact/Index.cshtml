@@ -50,6 +50,9 @@
                         <thead>
                             <tr>
                                 <th>
+                                    Name
+                                </th>
+                                <th>
                                     @Html.DisplayNameFor(model => model.Subject)
                                 </th>
                                 <th>
@@ -59,21 +62,19 @@
                                     @Html.DisplayNameFor(model => model.Answer)
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.UserId)
-                                </th>
-                                <th>
                                     @Html.DisplayNameFor(model => model.CreateAt)
                                 </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.UpdateAt)
-                                </th>
-                                <th></th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
                                 <tr>
+                                    <td>
+                                        @item.AppUser.Email
+                                    </td>
+
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Subject)
                                     </td>
@@ -89,9 +90,6 @@
                                         {
                                             <span>Finished</span>
                                         }
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.UserId)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.CreateAt)

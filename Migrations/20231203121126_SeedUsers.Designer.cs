@@ -12,8 +12,8 @@ using OnlineShoppingCart.Data;
 namespace OnlineShoppingCart.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231202135358_v0")]
-    partial class v0
+    [Migration("20231203121126_SeedUsers")]
+    partial class SeedUsers
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -414,7 +414,7 @@ namespace OnlineShoppingCart.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Inventory");
+                    b.ToTable("Inventories");
                 });
 
             modelBuilder.Entity("OnlineShoppingCart.Data.Entities.Order", b =>
@@ -530,37 +530,7 @@ namespace OnlineShoppingCart.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("OnlineShoppingCart.Data.Entities.Voucher", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreateAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<double>("Discount")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime>("ExpDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<double>("MinimumBill")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Vouchers");
-                });
-
-            modelBuilder.Entity("OnlineShoppingCart.Data.Shipping", b =>
+            modelBuilder.Entity("OnlineShoppingCart.Data.Entities.Shipping", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -604,6 +574,36 @@ namespace OnlineShoppingCart.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Shippings");
+                });
+
+            modelBuilder.Entity("OnlineShoppingCart.Data.Entities.Voucher", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("Discount")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("ExpDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("MinimumBill")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Vouchers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -733,7 +733,7 @@ namespace OnlineShoppingCart.Migrations
 
             modelBuilder.Entity("OnlineShoppingCart.Data.Entities.Order", b =>
                 {
-                    b.HasOne("OnlineShoppingCart.Data.Shipping", "Shipping")
+                    b.HasOne("OnlineShoppingCart.Data.Entities.Shipping", "Shipping")
                         .WithOne("Order")
                         .HasForeignKey("OnlineShoppingCart.Data.Entities.Order", "ShippingId");
 
@@ -761,7 +761,7 @@ namespace OnlineShoppingCart.Migrations
                         .IsRequired();
 
                     b.HasOne("OnlineShoppingCart.Data.Entities.Product", "Product")
-                        .WithMany("OrderDetail")
+                        .WithMany("OrderDetails")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -816,10 +816,10 @@ namespace OnlineShoppingCart.Migrations
 
                     b.Navigation("Inventories");
 
-                    b.Navigation("OrderDetail");
+                    b.Navigation("OrderDetails");
                 });
 
-            modelBuilder.Entity("OnlineShoppingCart.Data.Shipping", b =>
+            modelBuilder.Entity("OnlineShoppingCart.Data.Entities.Shipping", b =>
                 {
                     b.Navigation("Order");
                 });

@@ -22,7 +22,6 @@ namespace OnlineShoppingCart.Data.Entities
 
         public string? Note { get; set; }
 
-
         public Inventory()
         {
             DateAt = DateTime.Now;

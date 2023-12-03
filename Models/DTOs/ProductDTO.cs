@@ -50,7 +50,7 @@ namespace OnlineShoppingCart.Models.DTOs
         public List<IFormFile>? ImageFiles { get; set; }
 
         public List<FeedbackDto>? Feedbacks { get; set; }
-        public List<OrderDetailDto>? OrderDetail { get; set; }
+        public List<OrderDetailDto>? OrderDetails { get; set; }
         public List<OrderDto>? Orders { get; set; }
 
         [ValidateNever]
