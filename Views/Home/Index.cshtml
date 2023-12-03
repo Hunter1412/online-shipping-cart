@@ -1,5 +1,11 @@
-﻿@{
+﻿@model List<OnlineShoppingCart.Models.DTOs.ProductDto>;
+
+@{
     ViewData["Title"] = "Home Page";
+    
+    @* var productsBestSeller = ""; *@
+
+    @* var productsNew = Model; *@
 }
 
 <!-- Start Banner Hero -->
@@ -20,14 +26,8 @@
                         <div class="text-align-left align-self-center">
                             <h1 class="h1 text-success">Plain</h1>
                             <h3 class="h2">Online shopping Cart</h3>
-                            <p>
-                                A playground for your thoughts and a blank canvas for your imagination, let your mind
-                                run amok amidst the pristine pages of these notebooks.
-                            </p>
-                            <p>
-                                Beyond the spotless sheets lie the gateway to your musings, a world of potential waiting
-                                to be inked.
-                            </p>
+                            <p>A playground for your thoughts and a blank canvas for your imagination, let your mind run amok amidst the pristine pages of these notebooks.</p>
+                            <p>Beyond the spotless sheets lie the gateway to your musings, a world of potential waiting to be inked.</p>
                         </div>
                     </div>
                 </div>
@@ -37,7 +37,7 @@
             <div class="container">
                 <div class="row p-5">
                     <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
-                        <img class="img-fluid" src="~/assets/img/banner_img_02.jpg" alt="">
+                        <img class="img-fluid" src="~/assets/img/category_01_notebook.webp" alt="">
                     </div>
                     <div class="col-lg-6 mb-0 d-flex align-items-center">
                         <div class="text-align-left">
@@ -57,7 +57,7 @@
             <div class="container">
                 <div class="row p-5">
                     <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
-                        <img class="img-fluid" src="~/assets/img/banner_img_03.jpg" alt="">
+                        <img class="img-fluid" src="~/assets/img/category_01_notebook.webp" alt="">
                     </div>
                     <div class="col-lg-6 mb-0 d-flex align-items-center">
                         <div class="text-align-left">
@@ -110,13 +110,13 @@
         </div>
         <div class="col-sm-6 col-lg-3 p-5 p-sm-3 mt-3">
             <a asp-action="Shop" class="img-hover-zoom--brightness">
-                <img src="~/assets/img/category_03.webp" class="rounded-circle img-fluid border"           alt="Art Supplies" />
+                <img src="~/assets/img/category_03.webp" class="rounded-circle img-fluid border" alt="Art Supplies" />
             </a>
             <h3 class="h3 text-center my-3">Art Supplies</h3>
         </div>
         <div class="col-sm-6 col-lg-3 p-5 p-sm-3 mt-3">
             <a href="#" class="img-hover-zoom--brightness">
-                <img src="~/assets/img/category_04.webp" class="rounded-circle img-fluid border"      alt="Craft Material">
+                <img src="~/assets/img/category_04.webp" class="rounded-circle img-fluid border" alt="Craft Material">
             </a>
             <h3 class="h3 text-center my-3">Craft Material</h3>
         </div>
@@ -149,12 +149,12 @@
 </section>
 <!-- End Save Product -->
 
-<!-- Start Best saler Product -->
+<!-- Start Best seller Product -->
 <section class="bg-light">
     <div class="container py-5">
         <div class="row text-left py-3">
             <div class="m-3">
-                <h1 class="h1">Best saler</h1>
+                <h1 class="h1">Best seller</h1>
                 <p>
                     Reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
                     Excepteur sint occaecat cupidatat non proident.

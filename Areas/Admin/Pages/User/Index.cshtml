@@ -49,7 +49,12 @@
                             @foreach (var item in Model.Users)
                             {
                                 <tr>
-                                    <td>@item.UserName</td>
+                                    <td>
+                                        <a class="text-dark" asp-area="Identity" asp-page="/Account/Manage/Index"
+                                            title="Profile">
+                                            <span class="">@item.UserName</span>
+                                        </a>
+                                    </td>
                                     <td>
                                         @item.ListRoles
                                     </td>

@@ -20,8 +20,8 @@
         title="Hello @UserManager.GetUserName(User)">
         @if ((SignInManager.IsSignedIn(User)) && (avatar != null))
         {
-            <img src="~/assets/img/@avatar" alt="@UserManager.GetUserName(User)"
-                class="rounded-circle" height="30px" width="30px" loading="lazy" />
+            <img src="~/assets/img/@avatar" alt="@UserManager.GetUserName(User)" class="rounded-circle" height="30px"
+                width="30px" loading="lazy" />
         }
         else
         {
@@ -37,12 +37,12 @@
                 <a id="manage" class="dropdown-item text-dark" asp-area="Identity" asp-page="/Account/Manage/Index"
                     title="Manage">
                     <i class="fas fa-user mr-2"></i>
-                    <span class="float-end text-dark text-sm">Profile</span>
+                    <span class="float-end text-dark">Profile</span>
                 </a>
                 <div class="dropdown-divider"></div>
                 <button class="dropdown-item" type="submit">
                     <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                    <span class="float-end text-dark text-sm">
+                    <span class="float-end text-dark">
                         Logout
                     </span>
                 </button>
@@ -54,7 +54,7 @@
                 <div class="dropdown-footer">
                     <a asp-area="Dashboard" asp-controller="Dashboard" asp-action="Index" class="dropdown-item-text">
                         <i class="fas fa-tachometer-alt"></i>
-                        <strong class="float-end text-dark text-sm">Dashboard</strong>
+                        <strong class="float-end text-dark ">Dashboard</strong>
                     </a>
                 </div>
             }

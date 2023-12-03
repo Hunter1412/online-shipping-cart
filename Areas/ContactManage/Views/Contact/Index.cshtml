@@ -1,4 +1,5 @@
-@model IEnumerable<OnlineShoppingCart.Data.Entities.Contact>
+@* @model IEnumerable<OnlineShoppingCart.Data.Entities.Contact> *@
+@model IEnumerable<OnlineShoppingCart.Models.DTOs.ContactDto>
 
 @{
     ViewData["Title"] = "Contact list";
@@ -32,7 +33,7 @@
                     <div class="d-flex justify-content-between align-content-center">
                         <strong class="h3 card-title">@ViewData["Title"]</strong>
                         <div class="flex-item">
-                            <a asp-action="Create" class="btn btn-success">Create New</a>
+                            <a asp-action="Create" class="btn btn-success">Contact Page</a>
                             @* <button type="button" class="btn btn-success" data-toggle="modal"
                             data-target="#modal-voucher">
                             Create New Voucher
@@ -80,7 +81,14 @@
                                         @Html.DisplayFor(modelItem => item.Content)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Answer)
+                                        @if (string.IsNullOrEmpty(item.Answer))
+                                        {
+                                            <span>Not yet</span>
+                                        }
+                                        else
+                                        {
+                                            <span>Finished</span>
+                                        }
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.UserId)

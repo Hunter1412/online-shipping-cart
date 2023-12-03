@@ -31,26 +31,28 @@
                 </div>
 
                 <!-- /.card-header -->
-                <div class="card-body">
-                    <div class="col-md-4">
+                <div class="card-body row">
+                    <div class="col-md-4 mx-auto">
                         <form asp-area="CategoryManage" asp-controller="Category" asp-action="Create"
                             enctype="multipart/form-data" method="post">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="form-group">
-                                <label asp-for="Id" class="control-label"></label>
-                                <input asp-for="Id" class="form-control" />
+                                <label asp-for="Id" class="control-label"></label><span class="text-danger">(*)</span>
+                                <input asp-for="Id" class="form-control" placeholder="Category Id" />
                                 <span asp-validation-for="Id" class="text-danger"></span>
                                 <span id="idCateErr" class="text-danger"></span>
                             </div>
                             <input type="hidden" asp-for="Slug" />
                             <div class="form-group">
-                                <label asp-for="Name" class="control-label"></label>
-                                <input asp-for="Name" class="form-control" />
+                                <label asp-for="Name" class="control-label"></label><span class="text-danger">(*)</span>
+                                <input asp-for="Name" class="form-control" placeholder="Category name" />
                                 <span asp-validation-for="Name" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label asp-for="Description" class="control-label"></label>
-                                <input asp-for="Description" class="form-control" />
+                                <textarea asp-for="Description" class="form-control"
+                                    placeholder="Description"></textarea>
+
                                 <span asp-validation-for="Description" class="text-danger"></span>
                             </div>
                             <div class="form-group">
@@ -58,14 +60,21 @@
                                 <select asp-for="ParentId" class="form-control" asp-items="ViewBag.ParentId"></select>
                             </div>
                             <div class="form-group">
-                                <label asp-for="ImageFile" class="control-label"></label>
-                                <input asp-for="ImageFile" class="form-control-file" />
+                                <div class="custom-file">
+                                    <label asp-for="ImageFile" class="control-label"></label><span
+                                        class="text-danger">(*)</span>
+                                    <input asp-for="ImageFile" class="custom-file-input" />
+                                </div>
                             </div>
                             <div class="form-group">
-                                <input type="submit" id="cateCreate" value="Create" class="btn btn-primary" />
+                                <input type="submit" id="cateCreate" value="Create" class="btn btn-primary w-25" />
                             </div>
                         </form>
                     </div>
+                    <div class="col-md-4">
+                        <div id=image-grid></div>
+                    </div>
+
                 </div>
                 <!-- /.card-body -->
             </div>
@@ -79,27 +88,44 @@
 
 @section Scripts {
     <script>
-        $("#Id").on("change", function () {
-            const id = $(this).val();
-            $.ajax({
-                url: "/admin/category/categoryexists",
-                type: "get",
-                data: {
-                    id: id
-                },
-                success: function (data) {
-                    console.log("check>>>>", data)
-                    if (data) {
-                        document.getElementById("idCateErr").innerHTML = "Id already exists";
-                        $("#cateCreate").attr("disabled", true);
+        $(document).ready(function (e) {
+            $("#Id").on("change", function () {
+                const id = $(this).val();
+                $.ajax({
+                    url: "/admin/category/categoryexists",
+                    type: "get",
+                    data: {
+                        id: id
+                    },
+                    success: function (data) {
+                        console.log("check>>>>", data)
+                        if (data) {
+                            document.getElementById("idCateErr").innerHTML = "Id already exists";
+                            $("#cateCreate").attr("disabled", true);
 
-                    } else {
-                        document.getElementById("idCateErr").innerHTML = "";
-                        $("#cateCreate").attr("disabled", false);
+                        } else {
+                            document.getElementById("idCateErr").innerHTML = "";
+                            $("#cateCreate").attr("disabled", false);
+                        }
                     }
+                })
+            });
+
+            //display upload image
+            const imageGrid = document.getElementById('image-grid');
+            $('#ImageFile').change(function (e) {
+                const files = e.target.files;
+                let reader = new FileReader();
+                for (const file of files) {
+                    const img = document.createElement('img');
+                    imageGrid.appendChild(img);
+                    img.src = URL.createObjectURL(file);
+                    img.alt = file.name;
+                    img.style.width = '85px';
+                    img.style.height = '85px';
                 }
-            })
-        })
+            });
+        });
     </script>
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

@@ -10,7 +10,7 @@
         var cart = JsonConvert.DeserializeObject<List<CartItem>>(jsonCart);
         if (cart != null)
         {
-            <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">
+            <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-danger">
                 @cart.Count
             </span>
 

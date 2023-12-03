@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "wfpX76kHv3S2Ez4XdzS0lx4O3zLsDnsXxk1MTuYzYAQ=",
+  "Hash": "c1RIygZm3I6wUcIz8Dkhb5J0U/PAE5qAFBmKBvOqP0I=",
   "Source": "OnlineShoppingCart",
   "BasePath": "_content/OnlineShoppingCart",
   "Mode": "Default",
@@ -1088,6 +1088,23 @@
       "OriginalItemSpec": "wwwroot/.DS_Store"
     },
     {
+      "Identity": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/.DS_Store",
+      "SourceId": "OnlineShoppingCart",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/",
+      "BasePath": "_content/OnlineShoppingCart",
+      "RelativePath": "assets/.DS_Store",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/assets/.DS_Store"
+    },
+    {
       "Identity": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/css/bootstrap.min.css",
       "SourceId": "OnlineShoppingCart",
       "SourceType": "Discovered",
@@ -1239,6 +1256,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/assets/css/templatemo.min.css"
+    },
+    {
+      "Identity": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/.DS_Store",
+      "SourceId": "OnlineShoppingCart",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/",
+      "BasePath": "_content/OnlineShoppingCart",
+      "RelativePath": "assets/img/.DS_Store",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/assets/img/.DS_Store"
     },
     {
       "Identity": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/about-hero.svg",
@@ -1581,6 +1615,23 @@
       "OriginalItemSpec": "wwwroot/assets/img/category_img_03.jpg"
     },
     {
+      "Identity": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/contact_question.png",
+      "SourceId": "OnlineShoppingCart",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/",
+      "BasePath": "_content/OnlineShoppingCart",
+      "RelativePath": "assets/img/contact_question.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/assets/img/contact_question.png"
+    },
+    {
       "Identity": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/default-avatar-image.png",
       "SourceId": "OnlineShoppingCart",
       "SourceType": "Discovered",
@@ -1596,57 +1647,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/assets/img/default-avatar-image.png"
-    },
-    {
-      "Identity": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/e3155752-fe37-4dfd-aaa3-5ff14b6e105d_images.jpeg",
-      "SourceId": "OnlineShoppingCart",
-      "SourceType": "Discovered",
-      "ContentRoot": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/",
-      "BasePath": "_content/OnlineShoppingCart",
-      "RelativePath": "assets/img/e3155752-fe37-4dfd-aaa3-5ff14b6e105d_images.jpeg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/assets/img/e3155752-fe37-4dfd-aaa3-5ff14b6e105d_images.jpeg"
-    },
-    {
-      "Identity": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/e884861f-efe4-42aa-a6f0-b915d20578a3_th.jpeg",
-      "SourceId": "OnlineShoppingCart",
-      "SourceType": "Discovered",
-      "ContentRoot": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/",
-      "BasePath": "_content/OnlineShoppingCart",
-      "RelativePath": "assets/img/e884861f-efe4-42aa-a6f0-b915d20578a3_th.jpeg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/assets/img/e884861f-efe4-42aa-a6f0-b915d20578a3_th.jpeg"
-    },
-    {
-      "Identity": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/favicon.ico",
-      "SourceId": "OnlineShoppingCart",
-      "SourceType": "Discovered",
-      "ContentRoot": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/",
-      "BasePath": "_content/OnlineShoppingCart",
-      "RelativePath": "assets/img/favicon.ico",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/assets/img/favicon.ico"
     },
     {
       "Identity": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/feature_prod_01.jpg",
@@ -1700,12 +1700,12 @@
       "OriginalItemSpec": "wwwroot/assets/img/feature_prod_03.jpg"
     },
     {
-      "Identity": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/product_29ad6987-d980-4bbc-8b51-64aabbdd8546_OF01_01_01_ban-chan-tu-bgd68070-01a.jpg",
+      "Identity": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/ic_a_dark.png",
       "SourceId": "OnlineShoppingCart",
       "SourceType": "Discovered",
       "ContentRoot": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/",
       "BasePath": "_content/OnlineShoppingCart",
-      "RelativePath": "assets/img/product_29ad6987-d980-4bbc-8b51-64aabbdd8546_OF01_01_01_ban-chan-tu-bgd68070-01a.jpg",
+      "RelativePath": "assets/img/ic_a_dark.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -1714,7 +1714,24 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/assets/img/product_29ad6987-d980-4bbc-8b51-64aabbdd8546_OF01_01_01_ban-chan-tu-bgd68070-01a.jpg"
+      "OriginalItemSpec": "wwwroot/assets/img/ic_a_dark.png"
+    },
+    {
+      "Identity": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/ic_a.png",
+      "SourceId": "OnlineShoppingCart",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/",
+      "BasePath": "_content/OnlineShoppingCart",
+      "RelativePath": "assets/img/ic_a.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/assets/img/ic_a.png"
     },
     {
       "Identity": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/product_44f3ba19-8a5e-49a8-bc22-2f4ca5efa4fa_OF01_01_01_ban-chan-tu-bgd68070-01a.jpg",
@@ -1749,23 +1766,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/assets/img/product_5a7a338f-6995-4219-a242-9dfe9cf24502_OF01_01_02_ban-chan-tu-bgd68070-01a.jpg"
-    },
-    {
-      "Identity": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/product_6a41d731-86e1-4ca7-bb6e-f7f7dcb1ad37_OF01_01_02_ban-chan-tu-bgd68070-01a.jpg",
-      "SourceId": "OnlineShoppingCart",
-      "SourceType": "Discovered",
-      "ContentRoot": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/",
-      "BasePath": "_content/OnlineShoppingCart",
-      "RelativePath": "assets/img/product_6a41d731-86e1-4ca7-bb6e-f7f7dcb1ad37_OF01_01_02_ban-chan-tu-bgd68070-01a.jpg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/assets/img/product_6a41d731-86e1-4ca7-bb6e-f7f7dcb1ad37_OF01_01_02_ban-chan-tu-bgd68070-01a.jpg"
     },
     {
       "Identity": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/product_71a31ad5-9e70-4dbe-910c-5cabf9e66e7b_OF01_01_01_ban-chan-tu-bgd68070-01a.jpg",

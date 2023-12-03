@@ -1,3 +1,4 @@
+@model List<OnlineShoppingCart.Models.DTOs.ProductDto>
 @{
     ViewData["Title"] = "Shop";
 }
@@ -8,60 +9,318 @@
         <!-- 1.1.Start sidebar-->
         <div class="col-lg-3">
             <div class="sidebar-sticky">
-                <h3 class="h3 pb-4">Categories</h3>
+                <div>
+                    <h3 id="filter"></h3>
+                    <ul class="list-unstyled templatemo-accordion">
+                        <li class="pb-3">
+                            <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
+                                <strong>Availability</strong>
+                                <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
+                            </a>
+                            <ul id="collapseOne" class="collapse list-unstyled pl-3">
+                                <li>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" name="" id="" value="in">
+                                            In stock (66)
+                                        </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" name="" id="" value="out">
+                                            Out of stock (0)
+                                        </label>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
 
-                <ul class="list-unstyled templatemo-accordion">
-                    <li class="pb-3">
-                        <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
-                            Stationery
-                            <i class="fa fa-fw fa-chevron-circle-down mt-1"></i>
-                        </a>
-                        <ul class="list-group collapse show list-unstyled pl-3">
-                            <li class="list-group-item"><a class="text-decoration-none" href="#">NoteBooks</a></li>
-                            <li class="list-group-item"><a class="text-decoration-none" href="#">NoteBooks</a></li>
-                            <li class="list-group-item"><a class="text-decoration-none" href="#">NoteBooks</a></li>
-                            <li class="list-group-item"><a class="text-decoration-none" href="#">NoteBooks</a></li>
-                            <li class="list-group-item"><a class="text-decoration-none" href="#">NoteBooks</a></li>
-                        </ul>
-                    </li>
-                    <li class="pb-3">
-                        <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
-                            Office Supplies
-                            <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
-                        </a>
-                        <ul id="collapseTwo" class="collapse list-unstyled pl-3">
-                            <li><a class="text-decoration-none" href="#">Sport</a></li>
-                            <li><a class="text-decoration-none" href="#">Luxury</a></li>
-                        </ul>
-                    </li>
-                    <li class="pb-3">
-                        <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
-                            Art Supplies
-                            <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
-                        </a>
-                        <ul id="collapseThree" class="collapse list-unstyled pl-3">
-                            <li><a class="text-decoration-none" href="#">Bag</a></li>
-                            <li><a class="text-decoration-none" href="#">Sweather</a></li>
-                            <li><a class="text-decoration-none" href="#">Sunglass</a></li>
-                        </ul>
-                    </li>
-                    <li class="pb-3">
-                        <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
-                            Craft Material
-                            <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
-                        </a>
-                        <ul id="collapseThree" class="collapse list-unstyled pl-3">
-                            <li><a class="text-decoration-none" href="#">Bag</a></li>
-                            <li><a class="text-decoration-none" href="#">Sweather</a></li>
-                            <li><a class="text-decoration-none" href="#">Sunglass</a></li>
-                        </ul>
-                    </li>
-                </ul>
+                    </ul>
+                </div>
+                <div class="filter-category">
+                    <h3 class="font-weight-bold mt-2 text-center">Categories</h3>
+                    <ul class="list-unstyled templatemo-accordion">
+                        <li class="pb-3">
+                            <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
+                                <strong>Stationery</strong>
+                                <i class="fa fa-fw fa-chevron-circle-down mt-1"></i>
+                            </a>
+                            <ul class="list-group collapse show list-unstyled pl-3">
+                                <li>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" name="" id="" value="in">
+                                            NoteBooks (6)
+                                        </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" name="" id="" value="in">
+                                            Planners (6)
+                                        </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" name="" id="" value="in">
+                                            Pen (6)
+                                        </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" name="" id="" value="in">
+                                            Pencils (6)
+                                        </label>
+                                    </div>
+                                </li>
+
+                                <li>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" name="" id="" value="in">
+                                            Sharpeners (6)
+                                        </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" name="" id="" value="in">
+                                            Eraser and Correction (6)
+                                        </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" name="" id="" value="in">
+                                            Highlighters (6)
+                                        </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" name="" id="" value="in">
+                                            Notepads (6)
+                                        </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" name="" id="" value="in">
+                                            Sticky Notes (6)
+                                        </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" name="" id="" value="in">
+                                            Rullers and Measuring Tools (6)
+                                        </label>
+                                    </div>
+                                </li>
+
+
+                            </ul>
+                        </li>
+                        <li class="pb-3">
+                            <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
+                                <strong>Office Supplies</strong>
+                                <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
+                            </a>
+                            <ul id="collapseTwo" class="collapse list-unstyled pl-3">
+                                <li>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" name="" id="" value="out">
+                                            Calculators (0)
+                                        </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" name="" id="" value="out">
+                                            Staplers & Pins (0)
+                                        </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" name="" id="" value="out">
+                                            Cutters (0)
+                                        </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" name="" id="" value="out">
+                                            Pen Stand & Organisers (0)
+                                        </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" name="" id="" value="out">
+                                            Paperclips, Fasteners & Rubber bands (0)
+                                        </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" name="" id="" value="out">
+                                            Folder & Filling (0)
+                                        </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" name="" id="" value="out">
+                                            Punches (0)
+                                        </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" name="" id="" value="out">
+                                            White-board Markets (0)
+                                        </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" name="" id="" value="out">
+                                            Scissors & Paper Trimmers (0)
+                                        </label>
+                                    </div>
+                                </li>
+
+                            </ul>
+                        </li>
+                        <li class="pb-3">
+                            <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
+                                <strong>Art Supplies</strong>
+                                <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
+                            </a>
+                            <ul id="collapseThree" class="collapse list-unstyled pl-3">
+                                <li>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" name="" id="" value="out">
+                                            Paints (0)
+                                        </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" name="" id="" value="out">
+                                            Art Pencils (0)
+                                        </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" name="" id="" value="out">
+                                            Makers and Pens (0)
+                                        </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" name="" id="" value="out">
+                                            Artist Sketch Pads and Sheets (0)
+                                        </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" name="" id="" value="out">
+                                            Drawing Books (0)
+                                        </label>
+                                    </div>
+                                </li>
+
+                            </ul>
+                        </li>
+                        <li class="pb-3">
+                            <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
+                                <strong>Craft Material</strong>
+                                <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
+                            </a>
+                            <ul id="collapseThree" class="collapse list-unstyled pl-3">
+                                <li>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" name="" id="" value="out">
+                                            Masking and Decorations Tapes (0)
+                                        </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" name="" id="" value="out">
+                                            Glue and Adhesive (0)
+                                        </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" name="" id="" value="out">
+                                            Stencils and Stickers (0)
+                                        </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" name="" id="" value="out">
+                                            Stamps and pads (0)
+                                        </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" name="" id="" value="out">
+                                            Backpacks (0)
+                                        </label>
+                                    </div>
+                                </li>
+
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
                 <div class="filter-price">
-                    <h1 class="h2 pb-4">Prices</h1>
+                    <h3 class="font-weight-bold mt-2 text-center">Prices</h3>
                     <div class="form-group w-100">
                         <input type="range" id="vol" name="vol" min="0" max="5000">
                     </div>
+                    <div id="price"></div>
                     <div id="from"></div>
                     <div id="to"></div>
                 </div>
@@ -81,28 +340,16 @@
                         <div class="container">
                             <div class="row p-5">
                                 <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
-                                    <img class="img-fluid" src="~/assets/img/banner_img_01.jpg" alt="">
+                                    <img class="img-fluid" src="~/assets/img/category_01_notebook.webp" alt="">
                                 </div>
                                 <div class="col-lg-6 mb-0 d-flex align-items-center">
                                     <div class="text-align-left align-self-center">
                                         <h1 class="h1 text-success"><b>Arts</b> eCommerce</h1>
                                         <h3 class="h2">Online shopping Cart</h3>
-                                        <p>
-                                            Arts Shop is an eCommerce HTML5 CSS template with latest version of
-                                            Bootstrap 5 (beta
-                                            1).
-                                            This template is 100% free provided by <a rel="sponsored"
-                                                class="text-success" href="https://templatemo.com"
-                                                target="_blank">TemplateMo</a> website.
-                                            Image credits go to <a rel="sponsored" class="text-success"
-                                                href="https://stories.freepik.com/" target="_blank">Freepik
-                                                Stories</a>,
-                                            <a rel="sponsored" class="text-success" href="https://unsplash.com/"
-                                                target="_blank">Unsplash</a> and
-                                            <a rel="sponsored" class="text-success" href="https://icons8.com/"
-                                                target="_blank">Icons
-                                                8</a>.
-                                        </p>
+                                        <p>A playground for your thoughts and a blank canvas for your imagination, let
+                                            your mind run amok amidst the pristine pages of these notebooks.</p>
+                                        <p>Beyond the spotless sheets lie the gateway to your musings, a world of
+                                            potential waiting to be inked.</p>
                                     </div>
                                 </div>
                             </div>
@@ -112,19 +359,16 @@
                         <div class="container">
                             <div class="row p-5">
                                 <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
-                                    <img class="img-fluid" src="~/assets/img/banner_img_02.jpg" alt="">
+                                    <img class="img-fluid" src="~/assets/img/category_01_notebook.webp" alt="">
                                 </div>
                                 <div class="col-lg-6 mb-0 d-flex align-items-center">
                                     <div class="text-align-left">
                                         <h1 class="h1">Proident occaecat</h1>
                                         <h3 class="h2">Aliquip ex ea commodo consequat</h3>
-                                        <p>
-                                            You are permitted to use this Zay CSS template for your commercial
-                                            websites.
-                                            You are <strong>not permitted</strong> to re-distribute the template ZIP
-                                            file in any
-                                            kind of template collection websites.
-                                        </p>
+                                        <p>A playground for your thoughts and a blank canvas for your imagination, let
+                                            your mind run amok amidst the pristine pages of these notebooks.</p>
+                                        <p>Beyond the spotless sheets lie the gateway to your musings, a world of
+                                            potential waiting to be inked.</p>
                                     </div>
                                 </div>
                             </div>
@@ -134,18 +378,16 @@
                         <div class="container">
                             <div class="row p-5">
                                 <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
-                                    <img class="img-fluid" src="~/assets/img/banner_img_03.jpg" alt="">
+                                    <img class="img-fluid" src="~/assets/img/category_01_notebook.webp" alt="">
                                 </div>
                                 <div class="col-lg-6 mb-0 d-flex align-items-center">
                                     <div class="text-align-left">
                                         <h1 class="h1">Repr in voluptate</h1>
                                         <h3 class="h2">Ullamco laboris nisi ut </h3>
-                                        <p>
-                                            We bring you 100% free CSS templates for your websites.
-                                            If you wish to support TemplateMo, please make a small contribution via
-                                            PayPal or tell
-                                            your friends about our website. Thank you.
-                                        </p>
+                                        <p>A playground for your thoughts and a blank canvas for your imagination, let
+                                            your mind run amok amidst the pristine pages of these notebooks.</p>
+                                        <p>Beyond the spotless sheets lie the gateway to your musings, a world of
+                                            potential waiting to be inked.</p>
                                     </div>
                                 </div>
                             </div>
@@ -208,184 +450,184 @@
             </div>
         </div><!-- End main content-->
     </div>
-</div>
-<!-- End Content -->
+    </div>
+    <!-- End Content -->
 
-<!-- 2.Start Brands -->
-<section class="bg-light py-5">
-    <div class="container my-4">
-        <div class="row text-center py-3">
-            <div class="col-lg-6 m-auto">
-                <h1 class="h1">Our Brands</h1>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                    Lorem ipsum dolor sit amet.
-                </p>
-            </div>
-            <div class="col-lg-9 m-auto tempaltemo-carousel">
-                <div class="row d-flex flex-row">
-                    <!--Controls-->
-                    <div class="col-1 align-self-center">
-                        <a class="h1" href="#multi-item-example" role="button" data-bs-slide="prev">
-                            <i class="text-light fas fa-chevron-left"></i>
-                        </a>
-                    </div>
-                    <!--End Controls-->
-
-                    <!--Carousel Wrapper-->
-                    <div class="col">
-                        <div class="carousel slide carousel-multi-item pt-2 pt-md-0" id="multi-item-example"
-                            data-bs-ride="carousel">
-                            <!--Slides-->
-                            <div class="carousel-inner product-links-wap" role="listbox">
-
-                                <!--First slide-->
-                                <div class="carousel-item active">
-                                    <div class="row">
-                                        <div class="col-3 p-md-5">
-                                            <a href="#"><img class="img-fluid brand-img" src="~/assets/img/brand_01.png"
-                                                    alt="Brand Logo"></a>
-                                        </div>
-                                        <div class="col-3 p-md-5">
-                                            <a href="#"><img class="img-fluid brand-img" src="~/assets/img/brand_02.png"
-                                                    alt="Brand Logo"></a>
-                                        </div>
-                                        <div class="col-3 p-md-5">
-                                            <a href="#"><img class="img-fluid brand-img" src="~/assets/img/brand_03.png"
-                                                    alt="Brand Logo"></a>
-                                        </div>
-                                        <div class="col-3 p-md-5">
-                                            <a href="#"><img class="img-fluid brand-img" src="~/assets/img/brand_04.png"
-                                                    alt="Brand Logo"></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--End First slide-->
-
-                                <!--Second slide-->
-                                <div class="carousel-item">
-                                    <div class="row">
-                                        <div class="col-3 p-md-5">
-                                            <a href="#"><img class="img-fluid brand-img" src="~/assets/img/brand_01.png"
-                                                    alt="Brand Logo"></a>
-                                        </div>
-                                        <div class="col-3 p-md-5">
-                                            <a href="#"><img class="img-fluid brand-img" src="~/assets/img/brand_02.png"
-                                                    alt="Brand Logo"></a>
-                                        </div>
-                                        <div class="col-3 p-md-5">
-                                            <a href="#"><img class="img-fluid brand-img" src="~/assets/img/brand_03.png"
-                                                    alt="Brand Logo"></a>
-                                        </div>
-                                        <div class="col-3 p-md-5">
-                                            <a href="#"><img class="img-fluid brand-img" src="~/assets/img/brand_04.png"
-                                                    alt="Brand Logo"></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--End Second slide-->
-
-                                <!--Third slide-->
-                                <div class="carousel-item">
-                                    <div class="row">
-                                        <div class="col-3 p-md-5">
-                                            <a href="#"><img class="img-fluid brand-img" src="~/assets/img/brand_01.png"
-                                                    alt="Brand Logo"></a>
-                                        </div>
-                                        <div class="col-3 p-md-5">
-                                            <a href="#"><img class="img-fluid brand-img" src="~/assets/img/brand_02.png"
-                                                    alt="Brand Logo"></a>
-                                        </div>
-                                        <div class="col-3 p-md-5">
-                                            <a href="#"><img class="img-fluid brand-img" src="~/assets/img/brand_03.png"
-                                                    alt="Brand Logo"></a>
-                                        </div>
-                                        <div class="col-3 p-md-5">
-                                            <a href="#"><img class="img-fluid brand-img" src="~/assets/img/brand_04.png"
-                                                    alt="Brand Logo"></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--End Third slide-->
-
-                            </div>
-                            <!--End Slides-->
+    <!-- 2.Start Brands -->
+    <section class="bg-light py-5">
+        <div class="container my-4">
+            <div class="row text-center py-3">
+                <div class="col-lg-6 m-auto">
+                    <h1 class="h1">Our Brands</h1>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                        Lorem ipsum dolor sit amet.
+                    </p>
+                </div>
+                <div class="col-lg-9 m-auto tempaltemo-carousel">
+                    <div class="row d-flex flex-row">
+                        <!--Controls-->
+                        <div class="col-1 align-self-center">
+                            <a class="h1" href="#multi-item-example" role="button" data-bs-slide="prev">
+                                <i class="text-light fas fa-chevron-left"></i>
+                            </a>
                         </div>
-                    </div>
-                    <!--End Carousel Wrapper-->
+                        <!--End Controls-->
 
-                    <!--Controls-->
-                    <div class="col-1 align-self-center">
-                        <a class="h1" href="#multi-item-example" role="button" data-bs-slide="next">
-                            <i class="text-light fas fa-chevron-right"></i>
-                        </a>
+                        <!--Carousel Wrapper-->
+                        <div class="col">
+                            <div class="carousel slide carousel-multi-item pt-2 pt-md-0" id="multi-item-example"
+                                data-bs-ride="carousel">
+                                <!--Slides-->
+                                <div class="carousel-inner product-links-wap" role="listbox">
+
+                                    <!--First slide-->
+                                    <div class="carousel-item active">
+                                        <div class="row">
+                                            <div class="col-3 p-md-5">
+                                                <a href="#"><img class="img-fluid brand-img"
+                                                        src="~/assets/img/brand_01.png" alt="Brand Logo"></a>
+                                            </div>
+                                            <div class="col-3 p-md-5">
+                                                <a href="#"><img class="img-fluid brand-img"
+                                                        src="~/assets/img/brand_02.png" alt="Brand Logo"></a>
+                                            </div>
+                                            <div class="col-3 p-md-5">
+                                                <a href="#"><img class="img-fluid brand-img"
+                                                        src="~/assets/img/brand_03.png" alt="Brand Logo"></a>
+                                            </div>
+                                            <div class="col-3 p-md-5">
+                                                <a href="#"><img class="img-fluid brand-img"
+                                                        src="~/assets/img/brand_04.png" alt="Brand Logo"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--End First slide-->
+
+                                    <!--Second slide-->
+                                    <div class="carousel-item">
+                                        <div class="row">
+                                            <div class="col-3 p-md-5">
+                                                <a href="#"><img class="img-fluid brand-img"
+                                                        src="~/assets/img/brand_01.png" alt="Brand Logo"></a>
+                                            </div>
+                                            <div class="col-3 p-md-5">
+                                                <a href="#"><img class="img-fluid brand-img"
+                                                        src="~/assets/img/brand_02.png" alt="Brand Logo"></a>
+                                            </div>
+                                            <div class="col-3 p-md-5">
+                                                <a href="#"><img class="img-fluid brand-img"
+                                                        src="~/assets/img/brand_03.png" alt="Brand Logo"></a>
+                                            </div>
+                                            <div class="col-3 p-md-5">
+                                                <a href="#"><img class="img-fluid brand-img"
+                                                        src="~/assets/img/brand_04.png" alt="Brand Logo"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--End Second slide-->
+
+                                    <!--Third slide-->
+                                    <div class="carousel-item">
+                                        <div class="row">
+                                            <div class="col-3 p-md-5">
+                                                <a href="#"><img class="img-fluid brand-img"
+                                                        src="~/assets/img/brand_01.png" alt="Brand Logo"></a>
+                                            </div>
+                                            <div class="col-3 p-md-5">
+                                                <a href="#"><img class="img-fluid brand-img"
+                                                        src="~/assets/img/brand_02.png" alt="Brand Logo"></a>
+                                            </div>
+                                            <div class="col-3 p-md-5">
+                                                <a href="#"><img class="img-fluid brand-img"
+                                                        src="~/assets/img/brand_03.png" alt="Brand Logo"></a>
+                                            </div>
+                                            <div class="col-3 p-md-5">
+                                                <a href="#"><img class="img-fluid brand-img"
+                                                        src="~/assets/img/brand_04.png" alt="Brand Logo"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--End Third slide-->
+
+                                </div>
+                                <!--End Slides-->
+                            </div>
+                        </div>
+                        <!--End Carousel Wrapper-->
+
+                        <!--Controls-->
+                        <div class="col-1 align-self-center">
+                            <a class="h1" href="#multi-item-example" role="button" data-bs-slide="next">
+                                <i class="text-light fas fa-chevron-right"></i>
+                            </a>
+                        </div>
+                        <!--End Controls-->
                     </div>
-                    <!--End Controls-->
                 </div>
             </div>
         </div>
-    </div>
-</section>
-<!--End Brands-->
+    </section>
+    <!--End Brands-->
 
-@section Css {
+    @section Css {
 
-    <!-- Ion Slider -->
-    <link rel="stylesheet" href="~/plugins/ion-rangeslider/css/ion.rangeSlider.min.css">
-    <!-- bootstrap slider -->
-    <link rel="stylesheet" href="~/plugins/bootstrap-slider/css/bootstrap-slider.min.css">
-}
+        <!-- Ion Slider -->
+        <link rel="stylesheet" href="~/plugins/ion-rangeslider/css/ion.rangeSlider.min.css">
+        <!-- bootstrap slider -->
+        <link rel="stylesheet" href="~/plugins/bootstrap-slider/css/bootstrap-slider.min.css">
+    }
 
-@section Scripts {
-    <!-- Ion Slider -->
-    <script src="~/plugins/ion-rangeslider/js/ion.rangeSlider.min.js"></script>
-    <!-- Bootstrap slider -->
-    <script src="~/plugins/bootstrap-slider/bootstrap-slider.min.js"></script>
-    <script type="module">
-        $(function () {
-            /* ION SLIDER */
-            let from = 1000, to = 4000;
-            if (sessionStorage.getItem('from') != null || sessionStorage.getItem('to') != null) {
-                from = ConvertInt(sessionStorage.getItem('from'));
-                to = ConvertInt(sessionStorage.getItem('to'));
-                Display(from,to);
-            }
-            function ConvertInt(s){
-                return parseInt(s.replaceAll(" ", ""));
-            }
-
-            function Display(from,to){
-                $('#from').html(from)
-                $('#to').html(to)
-            }
-            $('#vol').ionRangeSlider({
-                min: 0,
-                max: 5000,
-                from: from,
-                to: to,
-                type: 'double',
-                step: 1,
-                prefix: '$',
-                prettify: false,
-                hasGrid: true,
-                onChange: function (obj) {
-                    var t = ''
-                    for (var prop in obj) {
-                        t += prop + ': ' + obj[prop] + '\r\n'
-                    }
-                    sessionStorage.setItem('from', obj['from_pretty']);
-                    sessionStorage.setItem('to', obj['to_pretty']);
-                    from = ConvertInt(obj['from_pretty']);
-                    to = ConvertInt(obj['to_pretty']);
+    @section Scripts {
+        <!-- Ion Slider -->
+        <script src="~/plugins/ion-rangeslider/js/ion.rangeSlider.min.js"></script>
+        <!-- Bootstrap slider -->
+        <script src="~/plugins/bootstrap-slider/bootstrap-slider.min.js"></script>
+        <script type="module">
+            $(function () {
+                /* ION SLIDER */
+                let from = 1000, to = 4000;
+                if (sessionStorage.getItem('from') != null || sessionStorage.getItem('to') != null) {
+                    from = ConvertInt(sessionStorage.getItem('from'));
+                    to = ConvertInt(sessionStorage.getItem('to'));
                     Display(from, to);
-                    //ajax call API, display product list in gallery
-
-                },
-                onLoad: function (obj) {
                 }
-            });
-            //ajax func
+                function ConvertInt(s) {
+                    return parseInt(s.replaceAll(" ", ""));
+                }
 
-        });
-    </script>
-}
+                function Display(from, to) {
+                    $('#from').html(from)
+                    $('#to').html(to)
+                }
+                $('#vol').ionRangeSlider({
+                    min: 0,
+                    max: 5000,
+                    from: from,
+                    to: to,
+                    type: 'double',
+                    step: 1,
+                    prefix: '$',
+                    prettify: false,
+                    hasGrid: true,
+                    onChange: function (obj) {
+                        var t = ''
+                        for (var prop in obj) {
+                            t += prop + ': ' + obj[prop] + '\r\n'
+                        }
+                        sessionStorage.setItem('from', obj['from_pretty']);
+                        sessionStorage.setItem('to', obj['to_pretty']);
+                        from = ConvertInt(obj['from_pretty']);
+                        to = ConvertInt(obj['to_pretty']);
+                        Display(from, to);
+                        //ajax call API, display product list in gallery
+
+                    },
+                    onLoad: function (obj) {
+                    }
+                });
+                //ajax func
+
+            });
+        </script>
+    }

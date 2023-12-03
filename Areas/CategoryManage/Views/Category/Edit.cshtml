@@ -56,6 +56,7 @@
                                 <label asp-for="Image" class="control-label"></label>
                                 <input asp-for="ImageFile" class="form-control" />
                                 <span asp-validation-for="Image" class="text-danger"></span>
+                                <div id=image-grid></div>
                             </div>
                             <div class="form-group">
                                 <label asp-for="ParentId" class="control-label"></label>
@@ -81,17 +82,34 @@
 
 @section Scripts {
     <script>
-        $("#ParentId").on("change", function () {
-            const id = $("#Id").val();
-            const idParent = $(this).val();
-            if (id == idParent) {
-                document.getElementById("idCateErr").innerHTML = "Can't select this";
-                $("#cateEdit").attr("disabled", true);
-            } else {
-                document.getElementById("idCateErr").innerHTML = "";
-                $("#cateEdit").attr("disabled", false);
-            }
-        })
+        $(document).ready(function (e) {
+
+            $("#ParentId").on("change", function () {
+                const id = $("#Id").val();
+                const idParent = $(this).val();
+                if (id == idParent) {
+                    document.getElementById("idCateErr").innerHTML = "Can't select this";
+                    $("#cateEdit").attr("disabled", true);
+                } else {
+                    document.getElementById("idCateErr").innerHTML = "";
+                    $("#cateEdit").attr("disabled", false);
+                }
+            });
+
+            const imageGrid = document.getElementById('image-grid');
+            $('#ImageFile').change(function (e) {
+                const files = e.target.files;
+                let reader = new FileReader();
+                for (const file of files) {
+                    const img = document.createElement('img');
+                    imageGrid.appendChild(img);
+                    img.src = URL.createObjectURL(file);
+                    img.alt = file.name;
+                    img.style.width = '85px';
+                    img.style.height = '85px';
+                }
+            });
+        });
     </script>
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

@@ -1,20 +1,29 @@
 ﻿using System.Diagnostics;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using OnlineShoppingCart.Core.UnitOfWork;
 using OnlineShoppingCart.Models;
+using OnlineShoppingCart.Models.DTOs;
 
 namespace OnlineShoppingCart.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
+    protected readonly ILogger<HomeController> _logger;
+    protected readonly IUnitOfWork _unitOfWork;
+    protected readonly IMapper _mapper;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork, IMapper mapper)
     {
         _logger = logger;
+        _unitOfWork = unitOfWork;
+        _mapper = mapper;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
+        var products = await _unitOfWork.Products.GetAll("Inventories,Images,Feedbacks");
+        var productDtoList = products!.Select(p => _mapper.Map<ProductDto>(p)).OrderByDescending(x => x.CreateAt).ToList();
         return View();
     }
 
@@ -23,7 +32,7 @@ public class HomeController : Controller
         return View();
     }
 
-    //test
+    //tes
     public IActionResult Shop()
     {
         return View();

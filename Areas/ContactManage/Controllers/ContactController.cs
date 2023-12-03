@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -11,9 +12,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
+using OnlineShoppingCart.Core.UnitOfWork;
 using OnlineShoppingCart.Data;
 using OnlineShoppingCart.Data.Entities;
-using ContactModel = OnlineShoppingCart.Data.Entities.Contact;
+using OnlineShoppingCart.Models.DTOs;
+using ContactEntity = OnlineShoppingCart.Data.Entities.Contact;
 
 namespace OnlineShoppingCart.Areas.ContactManage.Controllers
 {
@@ -21,44 +24,44 @@ namespace OnlineShoppingCart.Areas.ContactManage.Controllers
     [Area("ContactManage")]
     public class ContactController : Controller
     {
-        private readonly ApplicationDbContext _context;
-        private readonly ILogger<ContactController> _logger;
+        protected readonly ApplicationDbContext _context;
+        protected readonly ILogger<ContactController> _logger;
 
-        private readonly UserManager<AppUser> _userManager;
-        private readonly IEmailSender _emailSender;
+        protected readonly IMapper _mapper;
+        protected readonly IUnitOfWork _unitOfWork;
 
-        public ContactController(ApplicationDbContext context, ILogger<ContactController> logger, UserManager<AppUser> userManager, IEmailSender emailSender)
+        protected readonly UserManager<AppUser> _userManager;
+        protected readonly IEmailSender _emailSender;
+
+        public ContactController(ApplicationDbContext context, ILogger<ContactController> logger, UserManager<AppUser> userManager, IEmailSender emailSender, IMapper mapper, IUnitOfWork unitOfWork)
         {
             _context = context;
             _logger = logger;
             _userManager = userManager;
             _emailSender = emailSender;
+            _mapper = mapper;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet("/admin/contact")]
         public async Task<IActionResult> Index()
         {
-            return _context.Contacts != null ?
-                        View(await _context.Contacts.ToListAsync()) :
-                        Problem("Entity set 'ApplicationDbContext.Contacts'  is null.");
+            var contacts = await _unitOfWork.Contacts.GetAll();
+            var contactsDto = _mapper.Map<List<ContactDto>>(contacts) ?? new List<ContactDto>();
+            return View(contactsDto);
         }
 
         [HttpGet("/admin/contact/detail/{id}")]
         public async Task<IActionResult> Details(string id)
         {
-            if (id == null || _context.Contacts == null)
+            if (id == null || _unitOfWork.Contacts == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Index));
             }
+            var contact = await _unitOfWork.Contacts.Get(m => m.Id == id);
+            var contactDto = _mapper.Map<ContactDto>(contact) ?? new ContactDto();
 
-            var contact = await _context.Contacts
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (contact == null)
-            {
-                return NotFound();
-            }
-
-            return View(contact);
+            return View(contactDto);
         }
 
         [HttpGet("/contact")]
@@ -71,7 +74,7 @@ namespace OnlineShoppingCart.Areas.ContactManage.Controllers
         [HttpPost("/contact")]
         [AllowAnonymous] //khong can phan quyen van truy cap duoc
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Subject,Content,Answer,UserId,AppUser,CreateAt,UpdateAt")] ContactModel contact)
+        public async Task<IActionResult> Create([Bind("Id,Subject,Content,Answer,UserId,AppUser,CreateAt,UpdateAt")] ContactEntity contact)
         {
             if (ModelState.IsValid)
             {
@@ -136,7 +139,7 @@ namespace OnlineShoppingCart.Areas.ContactManage.Controllers
 
         [HttpPost("/admin/contact/edit/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,Subject,Content,Answer,UserId,CreateAt,UpdateAt")] ContactModel contact)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,Subject,Content,Answer,UserId,CreateAt,UpdateAt")] ContactEntity contact)
         {
             if (id != contact.Id)
             {

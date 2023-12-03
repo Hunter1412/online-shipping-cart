@@ -12,7 +12,12 @@ namespace OnlineShoppingCart.Models.DTOs
     {
         [Key]
         public string? Id { get; set; }
+
+        [Required]
         public string? Subject { get; set; }
+
+        [Required]
+        [Display(Name = "Message")]
         public string? Content { get; set; }
         public string? Answer { get; set; }
 

@@ -11,13 +11,11 @@
                     </li>
                     <li>
                         <i class="fa fa-phone fa-fw"></i>
-                        <a class="text-decoration-none"
-                            href="tel:010-020-0340">010-020-0340</a>
+                        <a class="text-decoration-none" href="tel:@ViewData["PhoneShop"]">@ViewData["PhoneShop"]</a>
                     </li>
                     <li>
                         <i class="fa fa-envelope fa-fw"></i>
-                        <a class="text-decoration-none"
-                            href="mailto:info@company.com">info@company.com</a>
+                        <a class="text-decoration-none" href="mailto:@ViewData["EmailShop"]">@ViewData["EmailShop"]</a>
                     </li>
                 </ul>
             </div>
@@ -35,14 +33,11 @@
             <div class="col-md-4 pt-5">
                 <h2 class="h2 text-light border-bottom pb-3 border-light">Further Info</h2>
                 <ul class="list-unstyled text-light footer-link-list">
-                    <li><a class="text-decoration-none" href="#">Home</a></li>
-                    <li><a class="text-decoration-none" href="#">About Us</a></li>
-                    <li><a class="text-decoration-none" href="#">Shop Locations</a></li>
-                    <li><a class="text-decoration-none" href="#">FAQs</a></li>
-                    <li><a class="text-decoration-none"
-                    asp-area="contact"
-                    asp-action=""
-                    >Contact</a></li>
+                    <li><a class="text-decoration-none" asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li><a class="text-decoration-none" asp-controller="Home" asp-action="About">About Us</a></li>
+                    <li><a class="text-decoration-none" asp-controller="Home" asp-action="Shop">Shop Locations</a></li>
+                    <li><a class="text-decoration-none" asp-area="ContactManage" asp-controller="Contact"
+                            asp-action="SendContact">Contact</a></li>
                 </ul>
             </div>
 
