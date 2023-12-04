@@ -56,9 +56,6 @@
                                     @Html.DisplayNameFor(model => model.Subject)
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.Content)
-                                </th>
-                                <th>
                                     @Html.DisplayNameFor(model => model.Answer)
                                 </th>
                                 <th>
@@ -79,9 +76,6 @@
                                         @Html.DisplayFor(modelItem => item.Subject)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Content)
-                                    </td>
-                                    <td>
                                         @if (string.IsNullOrEmpty(item.Answer))
                                         {
                                             <span>Not yet</span>
@@ -95,10 +89,7 @@
                                         @Html.DisplayFor(modelItem => item.CreateAt)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.UpdateAt)
-                                    </td>
-                                    <td>
-                                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                        <a asp-action="Edit" asp-route-id="@item.Id">Answer</a> |
                                         <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                                         <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                                     </td>

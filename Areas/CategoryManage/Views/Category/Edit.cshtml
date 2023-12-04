@@ -80,8 +80,16 @@
     <!-- /.content -->
 </div>
 
+@{
+    var summernote = new OnlineShoppingCart.Models.Summernote("#Description");
+}
+
 @section Scripts {
+    <!-- Summernote -->
+    <partial name="_Summernote" model="summernote" />
+
     <script>
+
         $(document).ready(function (e) {
 
             $("#ParentId").on("change", function () {

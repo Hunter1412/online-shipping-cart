@@ -127,9 +127,20 @@
     </div>
     <!-- /.content -->
 </div>
+@{
+    var summernote = new OnlineShoppingCart.Models.Summernote("#Description")
+            {
+                Height = 500
+            };
+}
 
 @section Scripts {
+    <!-- Summernote -->
+    <partial name="_Summernote" model="summernote" />
+
+
     <script>
+
         @* $("#Id").on("change", function () {
         const id = $(this).val();
         $.ajax({

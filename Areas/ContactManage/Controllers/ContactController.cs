@@ -47,7 +47,9 @@ namespace OnlineShoppingCart.Areas.ContactManage.Controllers
         public async Task<IActionResult> Index()
         {
             var contacts = await _unitOfWork.Contacts.GetAll("AppUser");
-            var contactsDto = _mapper.Map<List<ContactDto>>(contacts) ?? new List<ContactDto>();
+            var contactsDto = contacts == null
+                                ? new List<ContactDto>()
+                                : contacts.Select(c => _mapper.Map<ContactDto>(c)).OrderByDescending(x => x.CreateAt).ToList();
             return View(contactsDto);
         }
 
@@ -58,7 +60,7 @@ namespace OnlineShoppingCart.Areas.ContactManage.Controllers
             {
                 return RedirectToAction(nameof(Index));
             }
-            var contact = await _unitOfWork.Contacts.Get(m => m.Id == id);
+            var contact = await _unitOfWork.Contacts.Get(m => m.Id == id, "AppUser");
             var contactDto = _mapper.Map<ContactDto>(contact) ?? new ContactDto();
 
             return View(contactDto);
@@ -78,9 +80,13 @@ namespace OnlineShoppingCart.Areas.ContactManage.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (contactDto.AppUser!.Email == null)
+                {
+                    return RedirectToAction(nameof(SendContact));
+                }
                 var contact = _mapper.Map<Contact>(contactDto);
                 _logger.LogInformation(contact?.AppUser?.Email);
-                var email = contact.AppUser.Email;
+                var email = contact!.AppUser!.Email;
                 var user = await _userManager.Users.Where(u => u.Email == email).FirstOrDefaultAsync();
 
                 var id = string.Empty;
@@ -90,7 +96,10 @@ namespace OnlineShoppingCart.Areas.ContactManage.Controllers
                     var newUser = new AppUser
                     {
                         UserName = email,
-                        Email = email
+                        Email = email,
+                        FirstName = contactDto.AppUser.FirstName,
+                        LastName = contactDto.AppUser.LastName,
+                        PhoneNumber = contactDto.AppUser.PhoneNumber,
                     };
                     var resultNewUser = await _userManager.CreateAsync(newUser);
                     if (resultNewUser.Succeeded)
@@ -123,8 +132,8 @@ namespace OnlineShoppingCart.Areas.ContactManage.Controllers
                 //save db
                 contact.UserId = id;
                 contact.Id = Guid.NewGuid().ToString();
-                _context.Add(contact);
-                await _context.SaveChangesAsync();
+                await _unitOfWork.Contacts.Add(contact);
+                await _unitOfWork.CompleteAsync();
                 return RedirectToAction(nameof(Index), "Home");
             }
             return View("SendContact", contactDto);
@@ -133,24 +142,24 @@ namespace OnlineShoppingCart.Areas.ContactManage.Controllers
         [HttpGet("/admin/contact/edit/{id}")]
         public async Task<IActionResult> Edit(string id)
         {
-            if (id == null || _context.Contacts == null)
+            if (id == null || _unitOfWork.Contacts == null)
             {
                 return NotFound();
             }
 
-            var contact = await _context.Contacts.FindAsync(id);
+            var contact = await _unitOfWork.Contacts.Get(x => x.Id == id, "AppUser");
             if (contact == null)
             {
                 return NotFound();
             }
-            return View(contact);
+            return View(_mapper.Map<ContactDto>(contact));
         }
 
         [HttpPost("/admin/contact/edit/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,Subject,Content,Answer,UserId,CreateAt,UpdateAt")] ContactEntity contact)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,Subject,Content,Answer,UserId,CreateAt,UpdateAt")] ContactDto contactDto)
         {
-            if (id != contact.Id)
+            if (id != contactDto.Id)
             {
                 return NotFound();
             }
@@ -159,76 +168,63 @@ namespace OnlineShoppingCart.Areas.ContactManage.Controllers
             {
                 try
                 {
-                    var user = _userManager.Users.SingleOrDefault(u => u.Id == contact.UserId);
-                    _logger.LogInformation(user.Email);
-                    if (user != null && user.Email != null)
+                    var contact = _mapper.Map<Contact>(contactDto);
+                    _logger.LogInformation(contact.AppUser.Email);
+                    if (contact.AppUser.Email != null)
                     {
                         //send email
                         await _emailSender.SendEmailAsync(
-                            user.Email,
+                            contact.AppUser.Email,
                             "Answer for your question",
                             contact.Answer + "<p>Thanks</p>"
                         );
                     }
+
                     contact.UpdateAt = DateTime.Now;
                     _context.Update(contact);
                     await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException ex)
                 {
-                    if (!ContactExists(contact.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    _logger.LogError(ex, "Error edit method", typeof(ContactController));
+                    return RedirectToAction(nameof(Edit));
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(contact);
+            return View(contactDto);
         }
 
         [HttpGet("/admin/contact/delete/{id}")]
         public async Task<IActionResult> Delete(string id)
         {
-            if (id == null || _context.Contacts == null)
+            if (id == null || _unitOfWork.Contacts == null)
             {
                 return NotFound();
             }
 
-            var contact = await _context.Contacts
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var contact = await _unitOfWork.Contacts.Get(m => m.Id == id, "AppUser");
             if (contact == null)
             {
                 return NotFound();
             }
-
-            return View(contact);
+            return View(_mapper.Map<ContactDto>(contact));
         }
 
         [HttpPost("/admin/contact/delete/{id}"), ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            if (_context.Contacts == null)
+            if (_unitOfWork.Contacts == null)
             {
                 return Problem("Entity set 'ApplicationDbContext.Contacts'  is null.");
             }
-            var contact = await _context.Contacts.FindAsync(id);
+            var contact = await _unitOfWork.Contacts.Get(x => x.Id == id);
             if (contact != null)
             {
-                _context.Contacts.Remove(contact);
+                _unitOfWork.Contacts.Delete(contact);
             }
-
-            await _context.SaveChangesAsync();
+            await _unitOfWork.CompleteAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool ContactExists(string id)
-        {
-            return (_context.Contacts?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

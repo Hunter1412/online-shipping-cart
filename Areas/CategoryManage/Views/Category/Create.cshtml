@@ -86,7 +86,15 @@
     <!-- /.content -->
 </div>
 
+@{
+    var summernote = new OnlineShoppingCart.Models.Summernote("#Description");
+}
+
 @section Scripts {
+    <!-- Summernote -->
+    <partial name="_Summernote" model="summernote" />
+
+    <!-- Page specific script -->
     <script>
         $(document).ready(function (e) {
             $("#Id").on("change", function () {

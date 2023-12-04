@@ -1,0 +1,15 @@
+@model OnlineShoppingCart.Models.Summernote;
+
+@if (Model.LoadLibrary)
+{
+    <link href="@Url.Content("~/plugins/summernote/summernote-bs4.min.css")" rel="stylesheet">
+    <script src="@Url.Content("~/plugins/summernote/summernote-bs4.min.js")"></script>
+}
+<script>
+    $(document).ready(function () {
+        $('@Model.IDEditor').summernote({
+            height: @Model.Height,
+            toolbar: @Html.Raw(Model.Toolbar)
+        });
+    });
+</script>

@@ -1,101 +1,93 @@
-@using Microsoft.AspNetCore.Identity
-@using OnlineShoppingCart.Data.Entities
 
-@model OnlineShoppingCart.Data.Entities.Contact
-
-@inject UserManager<AppUser> UserManager
+@model OnlineShoppingCart.Models.DTOs.ContactDto
 
 @{
-    ViewData["Title"] = "Answer";
-    var id = Model.UserId as string;
-    var user = UserManager.Users.SingleOrDefault(u => u.Id == id);
+    ViewData["Title"] = "Answer the question";
 }
 
-
-<section class="content-wrapper">
+<div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <div class="content-header">
+    <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">@ViewData["Title"]</h1>
-                </div><!-- /.col -->
+                    <h1>@ViewData["Title"]</h1>
+                </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a asp-area="ContactManage" asp-controller="Contact"
-                                asp-action="Index">Contact</a></li>
-                        <li class="breadcrumb-item active"><a href="#">Answer</a></li>
+                        <li class="breadcrumb-item"><a href="#">Contact</a></li>
+                        <li class="breadcrumb-item active">Answer</li>
                     </ol>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
-    <!-- Main content -->
-    <div class="content">
-        <div class="container-fluid">
-
-            <div class="card">
-                <div class="card-header">
-                    <div class="d-flex justify-content-between align-content-center">
-                        <strong class="h3 card-title">@ViewData["Title"] - @user?.UserName</strong>
-                    </div>
-
-                </div>
-                <!-- /.card-header -->
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <form asp-action="Edit">
-                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                                <input type="hidden" asp-for="Id" />
-                                <div class="form-group">
-                                    <label asp-for="Subject" class="control-label"></label>
-                                    <input asp-for="Subject" class="form-control" />
-                                    <span asp-validation-for="Subject" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="Content" class="control-label"></label>
-                                    <input asp-for="Content" class="form-control" />
-                                    <span asp-validation-for="Content" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="Answer" class="control-label"></label>
-                                    <input asp-for="Answer" class="form-control" />
-                                    <span asp-validation-for="Answer" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="UserId" class="control-label"></label>
-                                    <input asp-for="UserId" class="form-control" />
-                                    <span asp-validation-for="UserId" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="CreateAt" class="control-label"></label>
-                                    <input asp-for="CreateAt" class="form-control" />
-                                    <span asp-validation-for="CreateAt" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="UpdateAt" class="control-label"></label>
-                                    <input asp-for="UpdateAt" class="form-control" />
-                                    <span asp-validation-for="UpdateAt" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <input type="submit" value="Save" class="btn btn-primary" />
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.card-body -->
-                <div class="card-footer">
-                    <a asp-action="Index">Back to List</a>
                 </div>
             </div>
-            <!-- /.card -->
+        </div><!-- /.container-fluid -->
+    </section>
 
-        </div>
-        <!-- /.container-fluid -->
-    </div>
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+                <div class="card card-info card-outline">
+                    <div class="card-header">
+                        <h3 class="h3 card-title">@ViewData["Title"] - @Model.AppUser!.Email</h3>
+                    </div>
+                    <form asp-action="Edit" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="Id" />
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label asp-for="AppUser!.Email" class="control-label">To:</label>
+                                <input class="form-control" asp-for="AppUser!.Email" readonly>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Subject" class="control-label"></label>
+                                <input class="form-control" asp-for="Subject" required>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Content" class="control-label">Content of Question</label>
+                                <input asp-for="Content" class="form-control" readonly />
+                            </div>
+                            <div class="form-group">
+                                <textarea asp-for="Answer" class="form-control" style="height: 300px">
+                                        <h4>Hi, @Model.AppUser.FirstName</h4>
+                                        <p>Message......</p>
+                                        <p>---o0o---</p>
+                                        <p>Thank you,</p>
+                                        <p>Arts Shop</p>
+                                        <ul>
+                                            <li>--------</li>
+                                            <li>Phone number: +84 898313863</li>
+                                            <li>Address: </li>
+                                        </ul>
+                                    </textarea>
+                                <span asp-validation-for="Answer" class="text-danger"></span>
+                            </div>
+                            <input asp-for="UserId" class="form-control" type="hidden" />
+                            <input asp-for="CreateAt" class="form-control" type="hidden" />
+                            <input asp-for="UpdateAt" class="form-control" type="hidden" />
+
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <div class="float-right">
+                                <button type="submit" class="btn btn-primary"><i class="far fa-envelope"></i>
+                                    Send</button>
+                            </div>
+                            <a asp-area="ContactManage" asp-controller="Contact" asp-action="Index">Back to List</a>
+                        </div>
+                        <!-- /.card-footer -->
+                    </form>
+
+                </div>
+                <!-- /.card -->
+        </div><!-- /.container-fluid -->
+    </section>
     <!-- /.content -->
-</section>
+</div>
+
+@section Scripts {
+    <!-- Summernote -->
+    @await Html.PartialAsync("_Summernote", new { height = 200, selector = "#Answer" })
+}

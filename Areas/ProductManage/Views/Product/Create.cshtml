@@ -118,8 +118,10 @@
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer">
-                    <a class="link-info" asp-area="ProductManage" asp-controller="Product" asp-action="Index">Back to product list</a> |
-                    <a class="link-info" asp-area="CategoryManage" asp-controller="Category" asp-action="Index">Back to category list</a>
+                    <a class="link-info" asp-area="ProductManage" asp-controller="Product" asp-action="Index">Back to
+                        product list</a> |
+                    <a class="link-info" asp-area="CategoryManage" asp-controller="Category" asp-action="Index">Back to
+                        category list</a>
                 </div>
             </div>
             <!-- /.card -->
@@ -130,8 +132,20 @@
     <!-- /.content -->
 </div>
 
+@{
+    var summernote = new OnlineShoppingCart.Models.Summernote("#Description")
+            {
+                Height = 500
+            };
+}
+
 @section Scripts {
+    <partial name="_Summernote" model="summernote" />
+
+
+    <!-- Page specific script -->
     <script>
+
         @* $("#Id").on("change", function () {
         const id = $(this).val();
         $.ajax({
