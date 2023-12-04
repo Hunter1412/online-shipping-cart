@@ -25,10 +25,10 @@ builder.Services.AddDistributedMemoryCache();
 // Đăng ký dịch vụ Session
 builder.Services.AddSession(cfg =>
 {
-    cfg.Cookie.Name = "shoparts";             // Đặt tên Session - tên này sử dụng ở Browser (Cookie)
+    cfg.Cookie.Name = "shoparts";   // Đặt tên Session - tên này sử dụng ở Browser (Cookie)
     cfg.IdleTimeout = new TimeSpan(0, 30, 0);    // 30' Thời gian tồn tại của Session
 });
-
+// builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 //connect database
 var connectionString = builder.Configuration.GetConnectionString("AppConnectionString2") ?? throw new InvalidOperationException("Connection string 'AppConnectionString' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));

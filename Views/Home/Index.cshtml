@@ -1,4 +1,5 @@
-﻿@model List<OnlineShoppingCart.Models.DTOs.ProductDto>;
+﻿@model IEnumerable<OnlineShoppingCart.Models.DTOs.ProductDto>;
+
 @using AutoMapper;
 @using OnlineShoppingCart.Core.UnitOfWork;
 @using ProductDto = OnlineShoppingCart.Models.DTOs.ProductDto;
@@ -10,6 +11,7 @@
     ViewData["Title"] = "Home Page";
 
     var products = await UnitOfWork.Products.GetAll("Inventories,Images");
+    var productsAll = Mapper.Map<List<ProductDto>>(products);
 }
 
 <!-- Start Banner Hero -->
@@ -143,11 +145,11 @@
             </div>
         </div>
         <div class="carousel_list_product">
-            @for (var i = 0; i < 12; i++)
+            @foreach (ProductDto item in Model)
             {
+                var productItemSave = new OnlineShoppingCart.Models.ProductItem(item);
                 <div class="p-3">
-                    @* <partial name="_ProductItem" model="@item" /> *@
-                    <partial name="_ProductItem" />
+                    <partial name="_ProductItem" model="productItemSave" />
                 </div>
             }
         </div>
@@ -168,11 +170,11 @@
             </div>
         </div>
         <div class="carousel_list_product">
-            @for (var i = 0; i < 12; i++)
+            @foreach (ProductDto item in Model)
             {
+                var productItemSave = new OnlineShoppingCart.Models.ProductItem(item);
                 <div class="p-3">
-                    @* <partial name="_ProductItem" model="@item" /> *@
-                    <partial name="_ProductItem" />
+                    <partial name="_ProductItem" model="productItemSave" />
                 </div>
             }
         </div>
@@ -193,9 +195,12 @@
             </div>
         </div>
         <div class="">
-            @for (int i = 0; i < 3; i++)
+            @foreach (ProductDto item in Model)
             {
-                <partial name="_ProductItemRow" />
+                var productItemSave = new OnlineShoppingCart.Models.ProductItem(item);
+                <div class="p-3">
+                    <partial name="_ProductItemRow" model="productItemSave" />
+                </div>
             }
         </div>
     </div>

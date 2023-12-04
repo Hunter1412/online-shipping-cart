@@ -79,7 +79,8 @@ namespace OnlineShoppingCart.Controllers
             //luu vao session
             SaveCartSession(cart);
 
-            return RedirectToAction(nameof(Cart));
+            // return RedirectToAction(nameof(Cart));
+            return Ok();
         }
 
         //xoa cart

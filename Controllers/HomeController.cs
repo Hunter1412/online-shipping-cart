@@ -23,32 +23,42 @@ public class HomeController : Controller
     public async Task<IActionResult> Index()
     {
         var products = await _unitOfWork.Products.GetAll("Inventories,Images,Feedbacks");
-        // var productDtoList = products!.Select(p => _mapper.Map<ProductDto>(p)).OrderByDescending(x => x.CreateAt).ToList();
-        return View();
+        var productDtoList = products!.Select(p => _mapper.Map<ProductDto>(p)).OrderByDescending(x => x.CreateAt).ToList();
+
+        // var productDtoList = _mapper.Map<List<ProductDto>>(products);
+        return View(productDtoList);
     }
 
+    [HttpGet("/about")]
     public IActionResult About()
     {
         return View();
     }
 
-    //tes
-    public IActionResult Shop()
+    [HttpGet("/collection")]
+    public async Task<IActionResult> Shop()
     {
-        return View();
+        var products = await _unitOfWork.Products.GetAll("Inventories,Images,Feedbacks");
+        var productDtoList = products!.Select(p => _mapper.Map<ProductDto>(p)).OrderByDescending(x => x.CreateAt).ToList();
+
+        return View(productDtoList);
     }
 
-    //test
-    public IActionResult ShopSingle()
+    // [HttpGet("/product/{id}")]
+    [Route("/product/{id}", Name = "ShopSingle")]
+    public async Task<IActionResult> ShopSingle([FromRoute] string id)
     {
-        return View();
+        var products = await _unitOfWork.Products.GetAll("Inventories,Images,Feedbacks");
+        var productDtoList = products!.Select(p => _mapper.Map<ProductDto>(p)).OrderByDescending(x => x.CreateAt).ToList();
+        var productDto = productDtoList.Find(x => x.Slug == id);
+        if (productDto != null)
+        {
+            var item = new ProductItem(productDto);
+            return View(item);
+        }
+        return RedirectToAction(nameof(Shop));
     }
 
-
-    public IActionResult Privacy()
-    {
-        return View();
-    }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()

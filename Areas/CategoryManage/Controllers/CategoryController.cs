@@ -33,7 +33,6 @@ namespace OnlineShoppingCart.Areas.CategoryManage.Controllers
             _unitOfWork = unitOfWork;
         }
 
-
         public async Task<IEnumerable<CategoryDto>> GetItemsSelectCategories(string? id = null)
         {
 

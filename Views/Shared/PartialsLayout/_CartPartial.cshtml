@@ -1,15 +1,34 @@
+@using Microsoft.AspNetCore.Http
+@using Newtonsoft.Json
+@using OnlineShoppingCart.Models;
+@inject IHttpContextAccessor HttpContextAccessor
+
+
+@{
+    ViewData["Title"] = "Home";
+
+    var session = HttpContextAccessor.HttpContext!.Session;
+    string jsoncart = session.GetString(OnlineShoppingCart.Controllers.CartController.CART_KEY)!;
+    var carts = new List<CartItem>();
+    if (jsoncart != null)
+    {
+        var cart = JsonConvert.DeserializeObject<List<CartItem>>(jsoncart);
+    }
+}
+
+
 <div class="nav-item dropdown">
     <!-- Messages Dropdown Menu -->
     <a class="nav-icon position-relative text-decoration-none text-dark" data-toggle="dropdown" href="#">
         <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-        @await Html.PartialAsync("PartialsLayout/_CartCountItem")
+        @* @await Html.PartialAsync("PartialsLayout/_CartCountItem") *@
         <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-danger">
-            99
+            @carts.Count()
         </span>
     </a>
     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-lg-end">
         <div class="cart">
-            @for (var i = 0; i < 5; i++)
+            @foreach (var item in carts)
             {
                 <!-- CartItem Start -->
                 <div class="dropdown-item-text" style="max-width: 450px;">
@@ -26,14 +45,15 @@
                             <a asp-controller="Home" asp-action="ShopSingle" class="cart-name-product text-decoration-none"
                                 title="Product name">
                                 Product name The utility API is a Sass-based tool to generate utility classes.
+                                @item.Product.Name
                             </a>
                             <ul class="list-inline">
                                 <li class="list-inline-item btn-group px-3 quantity-input">
-                                    <span class="btn btn-success btn-minus" data-id="@(i)" id="btn-minus">-</span>
+                                    <span class="btn btn-success btn-minus" data-id="@(item.Product.Id)" id="btn-minus">-</span>
                                     <input type="hidden" name="product-quantity" id="product-quantity" value="1"
                                         data-max="1000">
                                     <span class="btn bg-secondary text-light" name="var-value">1</span>
-                                    <span class="btn btn-success btn-plus" data-id="@(i)" id="btn-plus">+</span>
+                                    <span class="btn btn-success btn-plus" data-id="@(item.Product.Id)" id="btn-plus">+</span>
                                 </li>
                                 <li class="list-inline-item float-end text-muted">
                                     <span class="text-success" title="unit price">$ 400.00</span>

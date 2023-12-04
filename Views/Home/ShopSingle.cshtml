@@ -1,7 +1,21 @@
-@model OnlineShoppingCart.Models.DTOs.ProductDto;
+@model OnlineShoppingCart.Models.ProductItem;
+
+@using AutoMapper;
+@using OnlineShoppingCart.Core.UnitOfWork;
+@using ProductDto = OnlineShoppingCart.Models.DTOs.ProductDto;
+
+@inject IUnitOfWork _unitOfWork;
+@inject IMapper _mapper;
 
 @{
     ViewData["Title"] = "Product details";
+
+    var products = await _unitOfWork.Products.GetAll("Inventories,Images,Feedbacks");
+    //Related Products
+    var productDtoList = products!.Select(p => _mapper.Map<ProductDto>(p))
+    .Where(x => x.CategoryId == Model.CategoryId)
+    .OrderByDescending(x => x.CreateAt).ToList();
+
 }
 
 <!--1. Open Content -->
@@ -10,8 +24,8 @@
         <div class="row">
             <div class="col-lg-5 mt-5">
                 <div class="card mb-3">
-                    <img class="card-img img-fluid" src="~/assets/img/product_velvet-finish-notebook-a5.webp"
-                        alt="Card image cap" id="product-detail">
+                    <img class="card-img img-fluid" src="~/assets/img/@Model.ImageNameFirst" alt="Card image cap"
+                        id="product-detail">
                 </div>
                 <div class="row">
                     <!--Start Controls-->
@@ -129,9 +143,9 @@
             <div class="col-lg-7 mt-5">
                 <div class="p-3">
                     <div class="card-body">
-                        <h1 class="h2">Active Wear</h1>
-                        <p class="h3 py-2">$25.00</p>
-                        @if (1 > 0)
+                        <h1 class="h2">@Model.Name</h1>
+                        <h3 class="h3 py-2">$@Model.NewPrice.ToString("N2")</h3>
+                        @if (Model.AverageRating > 0)
                         {
                             double avg = 0;
                             <p class="py-2">
@@ -144,85 +158,52 @@
                                 <span class="list-inline-item text-dark">Rating @avg | 36 Comments</span>
                             </p>
                         }
-                        <ul class="list-inline">
-                            <li class="list-inline-item">
-                                <h6>Brand:</h6>
-                            </li>
-                            <li class="list-inline-item">
-                                <p class="text-muted"><strong>Easy Wear</strong></p>
-                            </li>
-                        </ul>
 
-                        <h6>Description:</h6>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod temp incididunt ut
-                            labore et dolore magna aliqua. Quis ipsum suspendisse. Donec condimentum elementum
-                            convallis. Nunc sed orci a diam ultrices aliquet interdum quis nulla.</p>
+                        <h5>Description:</h5>
+                        <p>@Html.Raw(Model.Description)</p>
                         <ul class="list-inline">
                             <li class="list-inline-item">
                                 <h6>Avaliable Color :</h6>
                             </li>
                             <li class="list-inline-item">
-                                <p class="text-muted"><strong>White / Black</strong></p>
+                                <p class="text-muted"><strong>@Model.Color</strong></p>
                             </li>
                         </ul>
 
-                        <h6>Specification:</h6>
-                        <ul class="list-unstyled pb-3">
-                            <li>Lorem ipsum dolor sit</li>
-                            <li>Amet, consectetur</li>
-                            <li>Adipiscing elit,set</li>
-                            <li>Duis aute irure</li>
-                            <li>Ut enim ad minim</li>
-                            <li>Dolore magna aliqua</li>
-                            <li>Excepteur sint</li>
-                        </ul>
-
-                        <form action="" method="GET">
-                            <input type="hidden" name="product-title" value="Activewear">
+                        <div>
                             <div class="row">
                                 <div class="col-auto">
                                     <ul class="list-inline pb-3">
-                                        <li class="list-inline-item">Size :
-                                            <input type="hidden" name="product-size" id="product-size" value="S">
-                                        </li>
-                                        <li class="list-inline-item"><span class="btn btn-success btn-size">S</span>
-                                        </li>
-                                        <li class="list-inline-item"><span class="btn btn-success btn-size">M</span>
-                                        </li>
-                                        <li class="list-inline-item"><span class="btn btn-success btn-size">L</span>
-                                        </li>
-                                        <li class="list-inline-item"><span class="btn btn-success btn-size">XL</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="col-auto">
-                                    <ul class="list-inline pb-3">
                                         <li class="list-inline-item text-right quantity-input">
-                                            Quantity
+                                            <strong>Quantity</strong>
                                             <span class="btn btn-success btn-minus" id="btn-minus">-</span>
                                             <span class="btn-lg bg-secondary text-light" name="var-value">1</span>
                                             <span class="btn btn-success btn-plus" id="btn-plus">+</span>
-                                            <input type="hidden" name="product-quantity" id="product-quanity" value="1"
-                                                data-max="1000">
+                                            <input type="hidden" id="product_quantity_@(Model.Id)" data-id="@Model.Id"
+                                                name="product-quantity" value="1" data-max="1000">
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                             <div class="row pb-3">
                                 <div class="col d-grid">
+                                    <a type="submit" class="btn btn-success btn-lg add-to-cart" data-id="@Model.Id"
+                                        title="add-to-cart">Add To Cart</a>
+                                </div>
+                                <div class="col d-grid">
                                     <a asp-controller="Cart" asp-action="CheckOut" type="button"
                                         class="btn btn-success btn-lg">Buy It Now</a>
                                 </div>
-                                <div class="col d-grid">
-                                    <button type="submit" class="btn btn-success btn-lg" name="submit"
-                                        value="addtocard">Add To Cart</button>
-                                </div>
                             </div>
-                        </form>
-                        <div class="text-success p-3">
-                            In stock, ready to ship (100) or
-                            Out of stock
                         </div>
+                        @if (Model.Stock > 0)
+                        {
+                            <div class="text-success p-3">In stock, ready to ship (@Model.Stock)</div>
+                        }
+                        else
+                        {
+                            <div class="text-danger p-3">Out of stock</div>
+                        }
 
                     </div>
                 </div>
@@ -251,46 +232,35 @@
             <div class="tab-content" id="pills-tabContent">
                 <div class="tab-pane fade show active" id="pills-comment" role="tabpanel"
                     aria-labelledby="pills-comment-tab">
-
-                    <div class="mb-3">
-                        <div class="post clearfix p-3 card">
-                            <div class="d-flex justify-content-between">
-                                <strong>
-                                    good good
-                                </strong>
-                                <span class="float-right btn-tool">
-                                    <button type="button" class="btn-sm btn-close btn-outline-danger"
-                                        aria-label="Close"></button>
-                                </span>
+                    @if (Model.Feedbacks!.Count > 0)
+                    {
+                        foreach (var feedback in Model.Feedbacks!)
+                        {
+                            <div class="mb-3">
+                                <div class="post clearfix p-3 card">
+                                    <div class="d-flex justify-content-between">
+                                        <strong>
+                                            @feedback.Content
+                                        </strong>
+                                        <span class="float-right btn-tool">
+                                            <button type="button" class="btn-sm btn-close btn-outline-danger"
+                                                aria-label="Close"></button>
+                                        </span>
+                                    </div>
+                                    <small class="user-block">
+                                        <small class="username"> Create by
+                                            <a href="#">@feedback.AppUser!.UserName</a>
+                                        </small>
+                                        <small class="description">on @feedback.CreateAt</small>
+                                    </small>
+                                </div>
                             </div>
-                            <small class="user-block">
-                                <small class="username"> Create by
-                                    <a href="#">Jonathan Burke Jr.</a>
-                                </small>
-                                <small class="description">on 7:30 PM today</small>
-                            </small>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <div class="post clearfix p-3 card">
-                            <div class="d-flex justify-content-between">
-                                <strong>
-                                    good good
-                                </strong>
-                                <span class="float-right btn-tool">
-                                    <button type="button" class="btn-sm btn-close btn-outline-danger"
-                                        aria-label="Close"></button>
-                                </span>
-                            </div>
-                            <small class="user-block">
-                                <small class="username"> Create by
-                                    <a href="#">Jonathan Burke Jr.</a>
-                                </small>
-                                <small class="description">on 7:30 PM today</small>
-                            </small>
-                        </div>
-                    </div>
+                        }
+                    }
+                    else
+                    {
+                        <h5 class="mb-3">No Comments Yet!</h5>
+                    }
 
                 </div>
 
@@ -342,8 +312,8 @@
                             <div class="col-12 col-md-9 px-3">
                                 <form class="" method="post">
                                     <div class="form-group row mb-3">
-                                        <textarea type="text" class="form-control col-10" id="" placeholder="Message"
-                                            rows=5></textarea>
+                                        <textarea type="text" class="form-control col-10" id="content"
+                                            placeholder="Message" rows=5 required></textarea>
                                     </div>
                                     <input type="hidden">
                                     <div class="mb-3">
@@ -393,15 +363,16 @@
 
         <!--Start Carousel Wrapper-->
         <div id="carousel_related_product">
-            @for (var i = 0; i < 12; i++)
-            {
-                <div class="p-3">
-                    @* <partial name="_ProductItem" model="@item" /> *@
-                    <partial name="_ProductItem" />
-                </div>
-            }
+            <div class="row">
+                @foreach (ProductDto item in productDtoList)
+                {
+                    var productItemSave = new OnlineShoppingCart.Models.ProductItem(item);
+                    <div class="col-md-3 p-3">
+                        <partial name="_ProductItem" model="productItemSave" />
+                    </div>
+                }
 
-
+            </div>
         </div>
 
 
@@ -416,7 +387,9 @@
     <link rel="stylesheet" type="text/css" href="~/assets/css/slick-theme.css">
 }
 
-@section Sliders {
+
+@section Scripts {
+
     <!-- Start Slider Script -->
     <script type="text/javascript" src="~/assets/js/slick.min.js"></script>
     <script type="text/javascript">

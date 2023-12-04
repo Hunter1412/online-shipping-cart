@@ -1,28 +1,33 @@
-@using OnlineShoppingCart.Models.DTOs;
-@model ProductDto;
+@model OnlineShoppingCart.Models.ProductItem;
+@* @model OnlineShoppingCart.Models.DTOs.ProductDto; *@
 
 
-<div class="card product-wap rounded-0 product-item">
+<div class="card product-wap rounded-0 product-item mb-3">
     <div class="card rounded-0">
-        <img class="card-img rounded-0 img-fluid" src="~/assets/img/product_velvet-finish-notebook-a5.webp"
-            alt="product name">
+        <img class="card-img rounded-0 img-fluid" src="~/assets/img/@Model.ImageNameFirst" alt="product name">
         <div class="card-img-overlay rounded-0 d-flex align-items-start justify-content-start">
-            <small class="bg-danger px-2 rounded-1 text-light">Save</small>
+            @if (Model.Promotion > 0)
+            {
+                <small class="bg-danger px-2 rounded-1 text-light">Save
+                    @(Math.Ceiling(Model.Save * 100))%</small>
+            }
         </div>
         <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-end justify-content-end">
             <ul class="list-unstyled">
                 <li>
-                    <a class="btn btn-success text-white" href="shop-single.html">
+                    <a class="btn btn-success text-white" asp-controller="Cart" asp-action="Wishlist"
+                        asp-route-id="@Model.Slug">
                         <i class="far fa-heart"></i>
                     </a>
                 </li>
                 <li>
-                    <a class="btn btn-success text-white mt-2" asp-action="ShopSingle">
+                    <a class="btn btn-success text-white mt-2" asp-controller="Home" asp-action="ShopSingle"
+                        asp-route-id="@Model.Slug">
                         <i class="far fa-eye"></i>
                     </a>
                 </li>
                 <li>
-                    <a class="btn btn-success text-white mt-2" asp-route="cart" asp-route-productid="">
+                    <a class="btn btn-success text-white mt-2 add-to-cart" data-id="@Model.Id">
                         <i class="fas fa-cart-plus"></i>
                     </a>
                 </li>
@@ -30,20 +35,27 @@
         </div>
     </div>
     <div class="card-body">
-        <a asp-action="ShopSingle" class="h3 text-decoration-none card-title">Produt name</a>
-        <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
-            <li>M/L/X/XL</li>
-            <li class="pt-2">
-                <span class="product-color-dot color-dot-red float-left rounded-circle ml-1"></span>
-                <span class="product-color-dot color-dot-blue float-left rounded-circle ml-1"></span>
-                <span class="product-color-dot color-dot-black float-left rounded-circle ml-1"></span>
-                <span class="product-color-dot color-dot-light float-left rounded-circle ml-1"></span>
-                <span class="product-color-dot color-dot-green float-left rounded-circle ml-1"></span>
-            </li>
-        </ul>
-        @if (1 > 0)
-        {
-            <ul class="list-unstyled d-flex justify-content-between mb-1">
+        <div class="h-100">
+            <a asp-action="ShopSingle" asp-route-id="@Model.Slug"
+                class="h3 text-decoration-none card-title product-name" title="@Model.Name">
+                @Model.Name - @Model.Id
+            </a>
+
+            <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
+                <li>@Model.Size</li>
+                <li class="pt-1">
+                    <strong class="text-success float-left rounded-circle ml-1">
+                        $@Model.NewPrice.ToString("N2")
+                    </strong>
+                    @if (Model.Promotion > 0)
+                    {
+                        <span class="text-danger text-sm float-left rounded-circle ml-2 text-decoration-line-through">
+                            $@Model.Price.ToString("N2")
+                        </span>
+                    }
+                </li>
+            </ul>
+            <ul class="list-unstyled d-inline-block mt-auto">
                 <li>
                     @for (var i = 1; i <= 5; i++)
                     {
@@ -51,13 +63,9 @@
                         var color = (i <= avg) ? "text-warning" : "text-muted";
                         <i class="@color fa fa-star" aria-hidden="true"></i>
                     }
+                    <small>(2 review)</small>
                 </li>
             </ul>
-            <a href="#" class="card-link">2 reviews</a>
-        }
-        <div class="d-flex justify-content-between mb-0">
-            <p class="text-success mb-0">$250.00</p>
-            <p class="text-danger mb-0" style="text-decoration: line-through;">$5.00</p>
         </div>
     </div>
 </div>

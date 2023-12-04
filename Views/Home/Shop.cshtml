@@ -1,4 +1,5 @@
 @model List<OnlineShoppingCart.Models.DTOs.ProductDto>
+@using OnlineShoppingCart.Models.DTOs;
 @{
     ViewData["Title"] = "Shop";
 }
@@ -423,11 +424,11 @@
                 </div>
                 <!-- Display products list-->
                 <div class="row">
-                    @for (var i = 0; i < 12; i++)
+                    @foreach (ProductDto item in Model)
                     {
+                        var productItemSave = new OnlineShoppingCart.Models.ProductItem(item);
                         <div class="col-md-4">
-                            @* <partial name="_ProductItem" model="@item" /> *@
-                            <partial name="_ProductItem" />
+                            <partial name="_ProductItem" model="productItemSave" />
                         </div>
                     }
                 </div>

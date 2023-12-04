@@ -18,5 +18,6 @@ namespace OnlineShoppingCart.Models.DTOs
         [ForeignKey("ProductId")]
         public ProductDto? Product { get; set; }
 
+
     }
 }

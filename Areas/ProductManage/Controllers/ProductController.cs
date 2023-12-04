@@ -56,7 +56,7 @@ namespace OnlineShoppingCart.Areas.ProductManage.Controllers
         public async Task<IActionResult> Create()
         {
 
-            ViewData["CategoryId"] = new SelectList(await _unitOfWork.Categories.GetAll("Parent,Children"), "Id", "Name");
+            ViewData["CategoryId"] = new SelectList(await GetItemsSelectCategories(), "Id", "Name");
             return View();
         }
 
@@ -71,6 +71,8 @@ namespace OnlineShoppingCart.Areas.ProductManage.Controllers
             var qty = productDto.Quantity ?? 0;
             productDto.Quantity = 0;
             //add information product
+            if (productDto.CategoryId == "-1") productDto.CategoryId = null;
+
             var product = _mapper.Map<Product>(productDto);
             string _name = product.Name! + "-" + product.Id;
             product.Slug = Slug.GenerateSlug(_name);
@@ -113,13 +115,15 @@ namespace OnlineShoppingCart.Areas.ProductManage.Controllers
         [HttpGet("/admin/product/edit/{id}")]
         public async Task<IActionResult> Edit(string id)
         {
-            ViewData["CategoryId"] = new SelectList(await _unitOfWork.Categories.GetAll("Parent,Children"), "Id", "Name");
             var product = await _unitOfWork.Products.Get(p => p.Id == id);
             if (product == null)
             {
                 _logger.LogError($"The product with the {id} doesn't exist");
                 return NotFound();
             }
+            ViewData["CategoryId"] = new SelectList(await GetItemsSelectCategories(id), "Id", "Name", product.CategoryId);
+
+
             return View(_mapper.Map<ProductDto>(product));
         }
 
@@ -169,6 +173,8 @@ namespace OnlineShoppingCart.Areas.ProductManage.Controllers
                 }
 
                 //product info
+                if (productDto.CategoryId == "-1") productDto.CategoryId = null;
+
                 productDto.Slug = Slug.GenerateSlug(productDto.Name!);
                 var product = _mapper.Map<Product>(productDto);
                 await _unitOfWork.Products.Upsert(product);
@@ -280,6 +286,47 @@ namespace OnlineShoppingCart.Areas.ProductManage.Controllers
             _unitOfWork.Products.Delete(product);
             await _unitOfWork.CompleteAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IEnumerable<CategoryDto>> GetItemsSelectCategories(string? id = null)
+        {
+
+            var categories = await _unitOfWork.Categories.GetAll("Parent,Children");
+
+            var itemsDto = categories == null
+                ? new List<CategoryDto>()
+                : categories.Select(c => _mapper.Map<CategoryDto>(c)).Where(c => c.Parent == null).ToList();
+
+
+            List<CategoryDto> resultItems = new List<CategoryDto>() {
+                new CategoryDto() {
+                    Id = "-1",
+                    Name = "Not parent category"
+                }
+            };
+            Action<List<CategoryDto>, int> _ChangeTitleCategory = null!;
+            Action<List<CategoryDto>, int> ChangeTitleCategory = (itemsDto, level) =>
+            {
+                string prefix = string.Concat(Enumerable.Repeat("—", level));
+                foreach (var item in itemsDto)
+                {
+                    resultItems.Add(new CategoryDto()
+                    {
+                        Id = item.Id,
+                        Name = prefix + " " + item.Name + "_" + item.Id
+                    });
+                    if ((item.Id != id) && (item.Children != null) && (item.Children.Count > 0))
+                    {
+                        _ChangeTitleCategory(item.Children.ToList(), level + 1);
+                    }
+                }
+
+            };
+
+            _ChangeTitleCategory = ChangeTitleCategory;
+            ChangeTitleCategory(itemsDto, 0);
+
+            return resultItems;
         }
 
     }
