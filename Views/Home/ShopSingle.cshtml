@@ -13,6 +13,7 @@
     var products = await _unitOfWork.Products.GetAll("Inventories,Images,Feedbacks");
     //Related Products
     var productDtoList = products!.Select(p => _mapper.Map<ProductDto>(p))
+    .Where(p => p.Id != Model.Id)
     .Where(x => x.CategoryId == Model.CategoryId)
     .OrderByDescending(x => x.CreateAt).ToList();
 
@@ -312,10 +313,10 @@
                             <div class="col-12 col-md-9 px-3">
                                 <form class="" method="post">
                                     <div class="form-group row mb-3">
-                                        <textarea type="text" class="form-control col-10" id="content"
+                                        <textarea type="text" class="form-control col-10" id="content" name="content"
                                             placeholder="Message" rows=5 required></textarea>
                                     </div>
-                                    <input type="hidden">
+                                    <input type="hidden" name="productId" value="@Model.Id" />
                                     <div class="mb-3">
                                         <div class="mb-3 row">
                                             <div class="comment-form-rating">

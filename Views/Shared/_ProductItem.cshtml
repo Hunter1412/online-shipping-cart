@@ -56,14 +56,16 @@
                 </li>
             </ul>
             <ul class="list-unstyled d-inline-block mt-auto">
-                <li>
-                    @for (var i = 1; i <= 5; i++)
+                <li>@if (@Model.Feedbacks!.Count > 0)
                     {
-                        var avg = 3.4;
-                        var color = (i <= avg) ? "text-warning" : "text-muted";
-                        <i class="@color fa fa-star" aria-hidden="true"></i>
+                        @for (var i = 1; i <= 5; i++)
+                        {
+                            var avg = @Model.AverageRating;
+                            var color = (i <= avg) ? "text-warning" : "text-muted";
+                            <i class="@color fa fa-star" aria-hidden="true"></i>
+                        }
+                        <small>(@Model.CountReview review)</small>
                     }
-                    <small>(2 review)</small>
                 </li>
             </ul>
         </div>

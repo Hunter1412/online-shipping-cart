@@ -24,7 +24,6 @@ namespace OnlineShoppingCart.Areas.ContactManage.Controllers
     [Area("ContactManage")]
     public class ContactController : Controller
     {
-        protected readonly ApplicationDbContext _context;
         protected readonly ILogger<ContactController> _logger;
 
         protected readonly IMapper _mapper;
@@ -33,9 +32,8 @@ namespace OnlineShoppingCart.Areas.ContactManage.Controllers
         protected readonly UserManager<AppUser> _userManager;
         protected readonly IEmailSender _emailSender;
 
-        public ContactController(ApplicationDbContext context, ILogger<ContactController> logger, UserManager<AppUser> userManager, IEmailSender emailSender, IMapper mapper, IUnitOfWork unitOfWork)
+        public ContactController(ILogger<ContactController> logger, UserManager<AppUser> userManager, IEmailSender emailSender, IMapper mapper, IUnitOfWork unitOfWork)
         {
-            _context = context;
             _logger = logger;
             _userManager = userManager;
             _emailSender = emailSender;
@@ -157,7 +155,7 @@ namespace OnlineShoppingCart.Areas.ContactManage.Controllers
 
         [HttpPost("/admin/contact/edit/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,Subject,Content,Answer,UserId,CreateAt,UpdateAt")] ContactDto contactDto)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,Subject,Content,Answer,UserId,AppUser,CreateAt,UpdateAt")] ContactDto contactDto)
         {
             if (id != contactDto.Id)
             {
@@ -169,20 +167,22 @@ namespace OnlineShoppingCart.Areas.ContactManage.Controllers
                 try
                 {
                     var contact = _mapper.Map<Contact>(contactDto);
-                    _logger.LogInformation(contact.AppUser.Email);
-                    if (contact.AppUser.Email != null)
+                    _logger.LogInformation(contactDto.AppUser!.Email);
+                    var email = contact!.AppUser!.Email;
+
+                    if (email != null)
                     {
                         //send email
                         await _emailSender.SendEmailAsync(
-                            contact.AppUser.Email,
+                            email,
                             "Answer for your question",
                             contact.Answer + "<p>Thanks</p>"
                         );
                     }
 
                     contact.UpdateAt = DateTime.Now;
-                    _context.Update(contact);
-                    await _context.SaveChangesAsync();
+                    await _unitOfWork.Contacts.Upsert(contact);
+                    await _unitOfWork.CompleteAsync();
                 }
                 catch (DbUpdateConcurrencyException ex)
                 {

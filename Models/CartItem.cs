@@ -9,7 +9,8 @@ namespace OnlineShoppingCart.Models
     public class CartItem
     {
         public int Quantity { get; set; }
-        public Product Product { get; set; }
+        public Product? Product { get; set; }
+        public string? ImageName { get; set; }
 
     }
 }

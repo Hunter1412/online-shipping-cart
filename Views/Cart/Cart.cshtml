@@ -1,52 +1,87 @@
 @model List<OnlineShoppingCart.Models.CartItem>
 
+@using AutoMapper;
+@using OnlineShoppingCart.Core.UnitOfWork;
+@using ProductDto = OnlineShoppingCart.Models.DTOs.ProductDto;
+
+@inject IUnitOfWork _unitOfWork;
+@inject IMapper _mapper;
+
 @{
     ViewData["Title"] = "Cart";
+
+    var products = await _unitOfWork.Products.GetAll("Inventories,Images,Feedbacks");
+    //News Products
+    var productDtoList = products!.Select(p => _mapper.Map<ProductDto>(p))
+    .OrderByDescending(x => x.CreateAt).ToList();
 }
-<div class="container">
+
+<section class="container p-5">
     <h1>Your Cart</h1>
     @if (Model.Count > 0)
     {
         double total = 0;
         int n = 1;
 
-        <table class="table table-hover table-inverse table-responsive">
-            <thead class="thead-inverse">
-                <tr>
-                    <th>#</th>
-                    <th>Product</th>
-                    <th>Unit price</th>
-                    <th>Quantity</th>
-                    <th>Amount</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    double amount = item.Quantity * (double)(item.Product.Price - item.Product.Promotion);
-                    total += amount;
+        <div class="mb-3 table-cart">
+            <table class="table table-hover table-inverse table-responsive">
+                <thead class="thead-inverse">
                     <tr>
-                        <td>@(n++)</td>
-                        <td>@item.Product.Name</td>
-                        <td>@item.Product.Price.ToString("n0")</td>
-                        <td><input asp-for="@item.Quantity" id="@($"quantity_{item.Product.Id}")" /></td>
-                        <td>@amount.ToString("n0")</td>
-                        <td>
-                            <button class="btn btn-success update_cart_item" data-id="@item.Product.Id">Update</button>
-                            <a asp-route="remove-cart" asp-route-id="@item.Product.Id">Delete</a>
-                        </td>
+                        <th style="width: 35px;">#</th>
+                        <th>Product</th>
+                        <th style="width: 400px;">Product</th>
+                        <th>Unit price ($)</th>
+                        <th>Quantity</th>
+                        <th class="text-end">Amount ($)</th>
+                        <th></th>
                     </tr>
-                }
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="4" class="text-right">Total cart:</td>
-                    <td>@(total.ToString("n0"))</td>
-                </tr>
-            </tfoot>
-        </table>
-        <a asp-controller="Order" asp-action="CheckOut" class="btn btn-success">Check out</a>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        double amount = item.Quantity * (double)(item.Product.Price - item.Product.Promotion);
+                        total += amount;
+                        <tr>
+                            <td>@(n++)</td>
+                            <td><img src="~/assets/img/@item.ImageName" alt="@item.ImageName" width="85px" height="auto" /></td>
+                            <td>@item.Product.Name @item.Product.Id</td>
+                            <td>
+                                @{
+                                    double price = (double)(item.Product.Price - item.Product.Promotion);
+                                }
+                                <span class="text-success">@price.ToString("N2")</span> <br />
+                                <span class="text-danger text-decoration-line-through">@item.Product.Price.ToString("N2")</span>
+
+                            </td>
+                            <td><input asp-for="@item.Quantity" id="@($"quantity-{item.Product.Id}")" class="col-6 px-3" /></td>
+                            <td class="text-end">@amount.ToString("N2")</td>
+                            <td>
+                                <div class="btn btn-group">
+                                    <button class="btn btn-success updatecartitem"
+                                        data-productid="@item.Product.Id">Update</button>
+                                    <a asp-route="removecart" asp-route-id="@item.Product.Id" class="btn btn-danger">Delete</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr class="text-end">
+                        <td colspan="5" class="text-end">Total cart:</td>
+                        <td class="text-end">@(total.ToString("N2"))</td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="m-3">
+            <a asp-controller="Cart" asp-action="CheckOut" class="btn btn-warning w-25 float-end">
+                <i class="fa fa-money-bill"></i>
+                Check out</a>
+            <a asp-controller="Home" asp-action="Shop" class="btn btn-secondary w-25"><i
+                    class="fa fa-fw fa-cart-arrow-down mr-1"></i>
+                Go back to Shop</a>
+        </div>
 
     }
     else
@@ -57,28 +92,52 @@
             </p>
         </div>
     }
-</div>
+</section>
 
+<!-- 3.Start Article -->
+<section class="bg-light py-5">
+    <div class="container">
+        <div class="row text-left p-3">
+            <h4>Related Products</h4>
+        </div>
+
+        <!--Start Carousel Wrapper-->
+        <div id="carousel_related_product">
+            <div class="row">
+                @foreach (ProductDto item in productDtoList)
+                {
+                    var productItemSave = new OnlineShoppingCart.Models.ProductItem(item);
+                    <div class="col-md-3 p-3">
+                        <partial name="_ProductItem" model="productItemSave" />
+                    </div>
+                }
+
+            </div>
+        </div>
+
+
+    </div>
+</section>
+<!-- End Article -->
 
 @section Scripts {
     <script>
         $(document).ready(function () {
-            $(".update_cart_item").click(function (event) {
+            $(".updatecartitem").click(function (event) {
                 event.preventDefault();
-                var id = $(this.attr("data-id"));
-                var quantity = $("#quantity-" + id).val();
-
+                var productid = $(this).attr("data-productid");
+                var quantity = $("#quantity-" + productid).val();
                 $.ajax({
                     type: "POST",
-                    url: "@Url.RouteUrl("update-cart")",
+                    url: "@Url.RouteUrl("updatecart")",
                     data: {
-                        id: id,
+                        id: productid,
                         quantity: quantity
                     },
                     success: function (result) {
-                        window.location.href = "@Url.RouteUrl("cart")"
+                        window.location.href = "@Url.RouteUrl("cart")";
                     }
-                })
+                });
             });
         });
     </script>

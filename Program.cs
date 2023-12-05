@@ -6,6 +6,8 @@ using OnlineShoppingCart.Core.UnitOfWork;
 using OnlineShoppingCart.Utils.MailUtils;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using OnlineShoppingCart.Utils;
+using OnlineShoppingCart.ExtendMethods;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -87,9 +89,10 @@ builder.Services.AddAuthentication()
     });
 
 
-// builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+builder.Services.AddTransient<CartService>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
@@ -102,6 +105,9 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
 }
 app.UseStaticFiles(); //read file from wwwroot
+
+//Tuy bien tao ra noi dung tu error 400-599
+app.AddStatusCodePages();
 
 app.UseSession(); //sd Session
 

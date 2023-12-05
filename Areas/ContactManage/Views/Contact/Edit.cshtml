@@ -1,4 +1,3 @@
-
 @model OnlineShoppingCart.Models.DTOs.ContactDto
 
 @{
@@ -27,67 +26,73 @@
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-                <div class="card card-info card-outline">
-                    <div class="card-header">
-                        <h3 class="h3 card-title">@ViewData["Title"] - @Model.AppUser!.Email</h3>
-                    </div>
-                    <form asp-action="Edit" method="post">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <input type="hidden" asp-for="Id" />
-                        <!-- /.card-header -->
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label asp-for="AppUser!.Email" class="control-label">To:</label>
-                                <input class="form-control" asp-for="AppUser!.Email" readonly>
-                            </div>
-
-                            <div class="form-group">
-                                <label asp-for="Subject" class="control-label"></label>
-                                <input class="form-control" asp-for="Subject" required>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="Content" class="control-label">Content of Question</label>
-                                <input asp-for="Content" class="form-control" readonly />
-                            </div>
-                            <div class="form-group">
-                                <textarea asp-for="Answer" class="form-control" style="height: 300px">
-                                        <h4>Hi, @Model.AppUser.FirstName</h4>
-                                        <p>Message......</p>
-                                        <p>---o0o---</p>
-                                        <p>Thank you,</p>
-                                        <p>Arts Shop</p>
-                                        <ul>
-                                            <li>--------</li>
-                                            <li>Phone number: +84 898313863</li>
-                                            <li>Address: </li>
-                                        </ul>
-                                    </textarea>
-                                <span asp-validation-for="Answer" class="text-danger"></span>
-                            </div>
-                            <input asp-for="UserId" class="form-control" type="hidden" />
-                            <input asp-for="CreateAt" class="form-control" type="hidden" />
-                            <input asp-for="UpdateAt" class="form-control" type="hidden" />
-
-                        </div>
-                        <!-- /.card-body -->
-                        <div class="card-footer">
-                            <div class="float-right">
-                                <button type="submit" class="btn btn-primary"><i class="far fa-envelope"></i>
-                                    Send</button>
-                            </div>
-                            <a asp-area="ContactManage" asp-controller="Contact" asp-action="Index">Back to List</a>
-                        </div>
-                        <!-- /.card-footer -->
-                    </form>
-
+            <div class="card card-info card-outline">
+                <div class="card-header">
+                    <h3 class="h3 card-title">@ViewData["Title"] - @Model.AppUser!.Email</h3>
                 </div>
-                <!-- /.card -->
+                <form asp-action="Edit" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label asp-for="AppUser!.Email" class="control-label">To:</label>
+                            <input class="form-control" asp-for="AppUser!.Email">
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Subject" class="control-label"></label>
+                            <input class="form-control" asp-for="Subject" required>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Content" class="control-label">Content of Question</label>
+                            <input asp-for="Content" class="form-control" readonly />
+                        </div>
+                        <div class="form-group">
+                            <textarea asp-for="Answer" class="form-control">
+                                    <h4>Hi, @Model.AppUser.FirstName</h4>
+                                    <p>Message......</p>
+                                    <p>---o0o---</p>
+                                    <p>Thank you,</p>
+                                    <p>Arts Shop</p>
+                                    <ul>
+                                        <li>--------</li>
+                                        <li>Phone number: +84 898313863</li>
+                                        <li>Address: </li>
+                                    </ul>
+                                </textarea>
+                            <span asp-validation-for="Answer" class="text-danger"></span>
+                        </div>
+                        <input asp-for="UserId" class="form-control" type="hidden" />
+                        <input asp-for="CreateAt" class="form-control" type="hidden" />
+                        <input asp-for="UpdateAt" class="form-control" type="hidden" />
+
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                        <div class="float-right">
+                            <button type="submit" class="btn btn-primary"><i class="far fa-envelope"></i>
+                                Send</button>
+                        </div>
+                        <a asp-area="ContactManage" asp-controller="Contact" asp-action="Index">Back to List</a>
+                    </div>
+                    <!-- /.card-footer -->
+                </form>
+
+            </div>
+            <!-- /.card -->
         </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
 </div>
 
+@{
+    var summernote = new OnlineShoppingCart.Models.Summernote("#Answer")
+            {
+                Height = 500
+            };
+}
 @section Scripts {
     <!-- Summernote -->
-    @await Html.PartialAsync("_Summernote", new { height = 200, selector = "#Answer" })
+    <partial name="_Summernote" model="summernote" />
 }

@@ -1,20 +1,19 @@
 @using Microsoft.AspNetCore.Http
 @using Newtonsoft.Json
-@inject IHttpContextAccessor HttpContextAccessor
+@inject OnlineShoppingCart.Utils.CartService CartService
 
 @{
-    var session = HttpContextAccessor.HttpContext.Session;
-    string jsonCart = session.GetString(OnlineShoppingCart.Controllers.CartController.CART_KEY);
-    if (jsonCart != null)
+    var cart = CartService.GetCartItems();
+    if (cart.Count > 0)
     {
-        var cart = JsonConvert.DeserializeObject<List<CartItem>>(jsonCart);
-        if (cart != null)
-        {
+
+
+        <a class="nav-icon d-none d-lg-inline" asp-route="cart">
+            <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
             <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-danger">
                 @cart.Count
             </span>
-
-        }
+        </a>
 
     }
 }

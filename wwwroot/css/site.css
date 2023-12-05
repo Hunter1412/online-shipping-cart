@@ -200,10 +200,15 @@ textarea::placeholder {
 
 .table {
   width: 100%;
-  table-layout: fixed;
+  table-layout: fixed !important;
 }
 
-.product-item{
+.table-cart {
+  overflow-x: hidden;
+  scroll-behavior:auto;
+}
+
+.product-item {
   font-size: clamp(1rem, 0.7rem + 1.5vw, 2rem);
 }
 

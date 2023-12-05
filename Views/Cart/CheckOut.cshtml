@@ -1,6 +1,14 @@
+@using Microsoft.AspNetCore.Http
+@using Newtonsoft.Json
+@using OnlineShoppingCart.Models;
+
+@inject OnlineShoppingCart.Utils.CartService CartService;
+
 @{
-    ViewData["Title"] = "Check out";
+    var carts = CartService.GetCartItems();
+
 }
+
 <section class="container checkout-container">
     <div class="row py-5">
         <h1 class="card-header text-center">Order Information</h1>
@@ -11,8 +19,7 @@
                     <h4 class="card-header">Contact</h4>
                     <div class="card-body">
                         <small id="" class="float-end">Have an account?
-                            <a class="text-dark" id="login" asp-area="Identity"
-                                asp-page="/Account/Login">Log in</a>
+                            <a class="text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">Log in</a>
                         </small>
 
                         <div class="form-group">
@@ -83,7 +90,7 @@
                 <div class="card sidebar-sticky">
                     <h4 class="card-header">Your Shopping-Cart</h4>
                     <div class="card-body">
-                        @for (var i = 0; i < 3; i++)
+                        @foreach (var item in carts!)
                         {
                             <!-- CartItem Start -->
                             <div class="mt-3">
@@ -94,17 +101,17 @@
                                         <span
                                             class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-secondary text-light"
                                             style="font-size: 1.2rem;">
-                                            3
+                                            @(item.Quantity)
                                         </span>
                                     </span>
                                     <span class="col-7 px-3 text-sm">
                                         <a asp-controller="Home" asp-action="ShopSingle"
                                             class="cart-name-product text-decoration-none">
-                                            Product name The utility API is a Sass-based tool to generate utility classes.
+                                            @item.Product!.Name
                                         </a>
                                     </span>
                                     <span class="text-end text-sm">
-                                        $ 400.00
+                                        $ @(item.Product.Price - item.Product.Promotion)
                                     </span>
                                 </div>
                             </div>

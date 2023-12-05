@@ -50,8 +50,43 @@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <partial name="_Toastr" />
+
     @await RenderSectionAsync("Scripts", required: false)
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        $('.add-to-cart').click(function (e) {
+            e.preventDefault();
+            let pid = $(this).data("id") ?? '';
+            let quantity = $('#product_quantity_' + pid).val() ?? 1;
+            let data = {
+                id: pid,
+                quantity: quantity
+            };
+            postAjax(data);
+        });
+
+        function postAjax(data) {
+            console.log(`data>>>>`, data); //ok
+            $.ajax({
+                type: "POST",
+                url: "/add-cart",
+                data: data,
+                success: function (result) {
+                    console.log(result); //ok
+                    $("#count_cart").html(result.count)
+                    toastr["success"]("Success", "Added successfully");
+                    window.location.href = "@Url.RouteUrl("cart")";
+                },
+                error: function (e) {
+                    console.log(e);
+                    toastr["error"]("Error", e);
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>

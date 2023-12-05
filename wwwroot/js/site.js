@@ -76,50 +76,10 @@
             // End accordion
         },
         add_to_cart: function () {
-            //create cart
-            $('.add-to-cart').click(function (e) {
-                e.preventDefault();
-                let pid = $(this).data("id") ?? '';
-                let quantity = $('#product_quantity_' + pid).val() ?? 1;
-                console.log(pid);
-                console.log(quantity);
-                var data = {
-                    pid: pid,
-                    quantity: quantity
-                };
-                postAjax(data);
-            });
-
-            function postAjax(data) {
-                $.ajax({
-                    type: "POST",
-                    url: "/update-cart",
-                    data: data,
-                    success: function (result) {
-                        console.log(result);
-                        //show site-cart
-                        // if (data.status == 'error') {
-                        //     $('#error_add').append(data.pid + " " + data.message);
-                        //     wrapper_cart.classList.add('active-popup');
-                        //     setTimeout(function () {
-                        //         $('#error_add').remove();
-                        //         wrapper_cart.classList.remove('active-popup');
-
-                        //     }, 3000);
-                        //     return;
-                        // }
-                        // wrapper_cart.classList.add('active-popup');
-                        // getCart();
-                    },
-                    error: function (e) {
-                        console.log(e);
-                    }
-                });
-            }
+           
 
 
-        },
-
+        }
     }
 
     $(document).ready(function () {
