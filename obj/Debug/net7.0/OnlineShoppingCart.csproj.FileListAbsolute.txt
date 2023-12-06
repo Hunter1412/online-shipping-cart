@@ -578,3 +578,4 @@ D:/Project_HKIII/online-shipping-cart/obj/Debug/net7.0/refint/OnlineShoppingCart
 D:/Project_HKIII/online-shipping-cart/obj/Debug/net7.0/OnlineShoppingCart.pdb
 D:/Project_HKIII/online-shipping-cart/obj/Debug/net7.0/OnlineShoppingCart.genruntimeconfig.cache
 D:/Project_HKIII/online-shipping-cart/obj/Debug/net7.0/ref/OnlineShoppingCart.dll
+/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/bin/Debug/net7.0/PayPal.dll

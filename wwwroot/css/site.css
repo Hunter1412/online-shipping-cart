@@ -183,11 +183,11 @@ input[type="checkbox"]:focus {
   border-radius: 50%;
   position: relative;
   top: 2px;
-  content: '\2713';
+  /* content: '\2713'; */
   display: inline-block;
   visibility: visible;
   border: 2px solid var(--color-success);
-  background-color: #59ab6e;
+  background-color: var(--color-success);
 }
 
 select,
@@ -198,10 +198,6 @@ textarea::placeholder {
   padding: 0.05rem 0.075rem;
 }
 
-.table {
-  width: 100%;
-  table-layout: fixed !important;
-}
 
 .table-cart {
   overflow-x: hidden;

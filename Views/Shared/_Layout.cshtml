@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
+    <meta name="author" content="T12206M1 Team 3">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - OnlineShoppingCart</title>
 
@@ -57,35 +58,61 @@
 
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script>
-        $('.add-to-cart').click(function (e) {
-            e.preventDefault();
-            let pid = $(this).data("id") ?? '';
-            let quantity = $('#product_quantity_' + pid).val() ?? 1;
-            let data = {
-                id: pid,
-                quantity: quantity
-            };
-            postAjax(data);
-        });
-
-        function postAjax(data) {
-            console.log(`data>>>>`, data); //ok
-            $.ajax({
-                type: "POST",
-                url: "/add-cart",
-                data: data,
-                success: function (result) {
-                    console.log(result); //ok
-                    $("#count_cart").html(result.count)
-                    toastr["success"]("Success", "Added successfully");
-                    window.location.href = "@Url.RouteUrl("cart")";
-                },
-                error: function (e) {
-                    console.log(e);
-                    toastr["error"]("Error", e);
-                }
+        $(document).ready(function () {
+            //add-cart
+            $('.add-to-cart').click(function (e) {
+                e.preventDefault();
+                let pid = $(this).data("id") ?? '';
+                let quantity = $('#product_quantity_' + pid).val() ?? 1;
+                let data = {
+                    id: pid,
+                    quantity: quantity
+                };
+                postAjax(data);
             });
-        }
+            function postAjax(data) {
+                $.ajax({
+                    type: "POST",
+                    url: "/add-cart",
+                    data: data,
+                    success: function (result) {
+                        $("#count_cart").html(result.count)
+                        toastr["success"]("Success", "Added successfully");
+                        window.location.href = "@Url.RouteUrl("cart")";
+                    },
+                    error: function (e) {
+                        console.log(e);
+                        toastr["error"]("Error", e);
+                    }
+                });
+            }
+
+            //check voucher
+            $("#check_voucher").on("click", function (e) {
+                e.preventDefault();
+                let code = $("#code").val().trim().toUpperCase();
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.RouteUrl("checkvoucher")",
+                    data: {
+                        code: code,
+                    },
+                    success: function (result) {
+                        if (result.code) {
+                            let discount = Number.parseFloat(result.discount);
+                            let total = Number.parseFloat(result.value);
+                            $('#discount').html(discount);
+                            $('#total').html(total);
+                        }
+                        if (result.error) {
+                            toastr["error"]("Error", result.error);
+                        }
+                    }
+                })
+            })
+
+
+        });
     </script>
 </body>
 

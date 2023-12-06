@@ -1,6 +1,7 @@
+
 @{
     var message = TempData["StatusMessage"] as string;
-    var statusMessageClass = message.StartsWith("Error") ? "danger" : "success";
+    var statusMessageClass = message!.StartsWith("Error") ? "danger" : "success";
 }
 
 @if (!string.IsNullOrEmpty(message))

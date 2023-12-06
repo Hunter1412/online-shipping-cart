@@ -6,9 +6,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Newtonsoft.Json;
 
 namespace OnlineShoppingCart.Data.Entities
 {
+    [JsonObject(IsReference = true)]
     public class Product
     {
         [Key, Required]

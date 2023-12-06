@@ -20,8 +20,8 @@ namespace OnlineShoppingCart.Models.DTOs
 
         public double OrderTotal { get; set; }
 
-        public int PaymentStatus { get; set; }
-        public int PaymentMethod { get; set; }
+        public int? PaymentStatus { get; set; }
+        public int? PaymentMethod { get; set; }
 
         public string? ApprovedBy { get; set; }
 
