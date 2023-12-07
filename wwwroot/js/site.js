@@ -8,6 +8,7 @@
             this.product_links_wap();
             this.accordion();
             this.add_to_cart();
+            this.search();
         },
         product_quantity: function () {
             if ($(".quantity-input").length > 0) {
@@ -76,9 +77,12 @@
             // End accordion
         },
         add_to_cart: function () {
-           
 
 
+
+        },
+        search: function () {
+          
         }
     }
 
@@ -87,3 +91,4 @@
     });
 
 })();
+

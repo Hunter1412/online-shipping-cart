@@ -16,7 +16,7 @@
 
     <!-- Load fonts style after rendering the layout styles -->
     <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+          href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" href="~/assets/css/fontawesome.min.css">
 
     @await RenderSectionAsync("SlidersCss", required: false)
@@ -58,62 +58,35 @@
 
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script>
-        $(document).ready(function () {
-            //add-cart
-            $('.add-to-cart').click(function (e) {
-                e.preventDefault();
-                let pid = $(this).data("id") ?? '';
-                let quantity = $('#product_quantity_' + pid).val() ?? 1;
-                let data = {
-                    id: pid,
-                    quantity: quantity
-                };
-                postAjax(data);
-            });
-            function postAjax(data) {
-                $.ajax({
-                    type: "POST",
-                    url: "/add-cart",
-                    data: data,
-                    success: function (result) {
-                        $("#count_cart").html(result.count)
-                        toastr["success"]("Success", "Added successfully");
-                        window.location.href = "@Url.RouteUrl("cart")";
-                    },
-                    error: function (e) {
-                        console.log(e);
-                        $("#error_voucher").html(e.error);
-                        toastr["error"]("Error", e.error);
-                    }
-                });
-            }
-
-            //check voucher
-            $("#check_voucher").on("click", function (e) {
-                e.preventDefault();
-                let code = $("#code").val().trim().toUpperCase();
-                $.ajax({
-                    type: "POST",
-                    url: "@Url.RouteUrl("checkvoucher")",
-                    data: {
-                        code: code,
-                    },
-                    success: function (result) {
-                        if (result.code) {
-                            let discount = Number.parseFloat(result.discount);
-                            let total = Number.parseFloat(result.value);
-                            $('#discount').html(discount);
-                            $('#total').html(total);
-                        }
-                        if (result.error) {
-                            toastr["error"]("Error", result.error);
-                        }
-                    }
-                })
-            })
-
-
+        $('.add-to-cart').click(function (e) {
+            e.preventDefault();
+            let pid = $(this).data("id") ?? '';
+            let quantity = $('#product_quantity_' + pid).val() ?? 1;
+            let data = {
+                id: pid,
+                quantity: quantity
+            };
+            postAjax(data);
         });
+
+        function postAjax(data) {
+            console.log(`data>>>>`, data); //ok
+            $.ajax({
+                type: "POST",
+                url: "/add-cart",
+                data: data,
+                success: function (result) {
+                    console.log(result); //ok
+                    $("#count_cart").html(result.count)
+                    toastr["success"]("Success", "Added successfully");
+                    window.location.href = "@Url.RouteUrl("cart")";
+                },
+                error: function (e) {
+                    console.log(e);
+                    toastr["error"]("Error", e);
+                }
+            });
+        }
     </script>
 </body>
 

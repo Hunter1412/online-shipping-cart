@@ -104,10 +104,11 @@
                 @Html.DisplayFor(modelItem => item.Parent!.Name)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id" class="btn-sm btn-warning"><i class="fas fa-edit"
-                        title="edit"></i></a>
-                <a asp-action="Details" asp-route-id="@item.Id" class="btn-sm btn-info"><i class="nav-icon fas fa-file"></i></a>
-                <a class="btn-sm btn-danger deleteModel" id="@item.Id"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="text-warning">
+                    <i class="fas fa-edit" title="edit"></i></a> |
+                <a asp-action="Details" asp-route-id="@item.Id" class="text-info">
+                    <i class="nav-icon fas fa-file"></i></a> |
+                <a class="deleteModel text-danger" id="@item.Id"> <i class="fa fa-trash" aria-hidden="true"></i></a>
 
             </td>
         </tr>

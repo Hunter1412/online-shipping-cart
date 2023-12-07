@@ -3,6 +3,7 @@
 @using AutoMapper;
 @using OnlineShoppingCart.Core.UnitOfWork;
 @using ProductDto = OnlineShoppingCart.Models.DTOs.ProductDto;
+@using CategoryDto = OnlineShoppingCart.Models.DTOs.CategoryDto;
 
 @inject IUnitOfWork UnitOfWork;
 @inject IMapper Mapper;
@@ -10,8 +11,22 @@
 @{
     ViewData["Title"] = "Home Page";
 
+    var categories = await UnitOfWork.Categories.GetAll("Parent,Children");
+    var categoriesAll = Mapper.Map<List<CategoryDto>>(categories).Where(x => x.ParentId == null).Take(4);
+
     var products = await UnitOfWork.Products.GetAll("Inventories,Images");
     var productsAll = Mapper.Map<List<ProductDto>>(products);
+
+
+    //Save Off
+    var productSaveOff = productsAll.OrderByDescending(x => x.Promotion).Take(4);
+
+    //Best Seller
+    var sumProduct = productsAll.Where(p => p.OrderDetails!.Select(x => x.Quantity).Sum() > 0);
+    var productBestSeller = sumProduct.OrderByDescending(x => x.Quantity).Take(8);
+
+    //Featured
+    var productFeatured = productsAll.OrderByDescending(x => x.CreateAt).Take(8);
 }
 
 <!-- Start Banner Hero -->
@@ -32,10 +47,15 @@
                         <div class="text-align-left align-self-center">
                             <h1 class="h1 text-success">Plain</h1>
                             <h3 class="h2">Online shopping Cart</h3>
-                            <p>A playground for your thoughts and a blank canvas for your imagination, let your mind run
-                                amok amidst the pristine pages of these notebooks.</p>
-                            <p>Beyond the spotless sheets lie the gateway to your musings, a world of potential waiting
-                                to be inked.</p>
+                            <p>
+                                A playground for your thoughts and a blank canvas for your imagination, let your mind
+                                run
+                                amok amidst the pristine pages of these notebooks.
+                            </p>
+                            <p>
+                                Beyond the spotless sheets lie the gateway to your musings, a world of potential waiting
+                                to be inked.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -83,17 +103,15 @@
         </div>
     </div>
     <a class="carousel-control-prev text-decoration-none w-auto ps-3" href="#template-mo-zay-hero-carousel"
-        role="button" data-bs-slide="prev">
+       role="button" data-bs-slide="prev">
         <i class="fas fa-chevron-left"></i>
     </a>
     <a class="carousel-control-next text-decoration-none w-auto pe-3" href="#template-mo-zay-hero-carousel"
-        role="button" data-bs-slide="next">
+       role="button" data-bs-slide="next">
         <i class="fas fa-chevron-right"></i>
     </a>
 </div>
 <!-- End Banner Hero -->
-
-
 <!-- Start Categories of The Month -->
 <section class="container py-5">
     <div class="row text-center pt-3">
@@ -102,36 +120,21 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-6 col-lg-3 p-5 p-sm-3 mt-3">
-            <a asp-action="Shop" class="img-hover-zoom--brightness">
-                <img src="~/assets/img/category_01_notebook.webp" class="rounded-circle img-fluid border"
-                    alt="Stationery" />
-            </a>
-            <h3 class="h3 text-center my-3">Stationery</h3>
-        </div>
-        <div class="col-sm-6 col-lg-3 p-5 p-sm-3 mt-3">
-            <a asp-action="Shop" class="img-hover-zoom--brightness">
-                <img src="~/assets/img/category_02_CI-stapler_1.webp" class="rounded-circle img-fluid border"
-                    alt="Office Supplies" />
-            </a>
-            <h3 class="h3 text-center my-3">Office Supplies</h3>
-        </div>
-        <div class="col-sm-6 col-lg-3 p-5 p-sm-3 mt-3">
-            <a asp-action="Shop" class="img-hover-zoom--brightness">
-                <img src="~/assets/img/category_03.webp" class="rounded-circle img-fluid border" alt="Art Supplies" />
-            </a>
-            <h3 class="h3 text-center my-3">Art Supplies</h3>
-        </div>
-        <div class="col-sm-6 col-lg-3 p-5 p-sm-3 mt-3">
-            <a href="#" class="img-hover-zoom--brightness">
-                <img src="~/assets/img/category_04.webp" class="rounded-circle img-fluid border" alt="Craft Material">
-            </a>
-            <h3 class="h3 text-center my-3">Craft Material</h3>
-        </div>
+        @foreach (var cateItem in categoriesAll)
+        {
+            <div class="col-sm-6 col-lg-3 p-5 p-sm-3 mt-3">
+                <a asp-action="Shop" asp-route-id="@cateItem.Id" class="img-hover-zoom--brightness">
+                    <div class="cate_image">
+                        <img src="~/assets/img/@cateItem.Image" class="rounded-circle img-fluid border"
+                             alt="@cateItem.Name" />
+                    </div>
+                </a>
+                <h3 class="h3 text-center my-3">@cateItem.Name</h3>
+            </div>
+        }
     </div>
 </section>
 <!-- End Categories of The Month -->
-
 <!-- Start Save Product -->
 <section class="bg-light">
     <div class="container py-5">
@@ -145,7 +148,7 @@
             </div>
         </div>
         <div class="carousel_list_product">
-            @foreach (ProductDto item in Model)
+            @foreach (ProductDto item in productSaveOff)
             {
                 var productItemSave = new OnlineShoppingCart.Models.ProductItem(item);
                 <div class="p-3">
@@ -156,7 +159,6 @@
     </div>
 </section>
 <!-- End Save Product -->
-
 <!-- Start Best seller Product -->
 <section class="bg-light">
     <div class="container py-5">
@@ -181,33 +183,31 @@
     </div>
 </section>
 <!-- End Best saler Product -->
-
-
 <!-- Start Featured Product -->
 <section class="bg-light">
     <div class="container py-5">
-        <div class="row text-center py-3">
-            <div class="col-lg-6 m-auto">
+        <div class="row text-left py-3">
+            <div class="m-3">
                 <h1 class="h1">Featured Product</h1>
                 <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat commodi consequatur odio ipsam rerum delectus quos! Natus culpa error dicta quasi consectetur ipsum, aliquam asperiores sunt, hic qui libero maxime!
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat commodi consequatur odio ipsam
+                    rerum delectus quos! Natus culpa error dicta quasi consectetur ipsum, aliquam asperiores sunt, hic
+                    qui libero maxime!
                 </p>
             </div>
         </div>
-        <div class="">
-            @foreach (ProductDto item in Model)
+        <div class="carousel_list_product">
+            @foreach (ProductDto item in productFeatured)
             {
                 var productItemSave = new OnlineShoppingCart.Models.ProductItem(item);
                 <div class="p-3">
-                    <partial name="_ProductItemRow" model="productItemSave" />
+                    <partial name="_ProductItem" model="productItemSave" />
                 </div>
             }
         </div>
     </div>
 </section>
 <!-- End Featured Product -->
-
-
 @section SlidersCss {
     <!-- Slick -->
     <link rel="stylesheet" type="text/css" href="~/assets/css/slick.min.css">

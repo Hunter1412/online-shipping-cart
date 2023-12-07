@@ -17,7 +17,7 @@ namespace OnlineShoppingCart.Models
             Size = productDto.Size;
             Color = productDto.Color;
             Price = productDto.Price;
-            Promotion = (double)productDto.Promotion!;
+            Promotion = (double)productDto.Promotion! >0?(double)productDto.Promotion:0.00;
             Stock = productDto.Inventories?.Select(x => x.Quantity).Sum();
             ImageNameFirst = productDto.Images?.Select(x => x.ImageName).FirstOrDefault() ?? "product_velvet-finish-notebook-a5.webp";
             Images = productDto.Images;

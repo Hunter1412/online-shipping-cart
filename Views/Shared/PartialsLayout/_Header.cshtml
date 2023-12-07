@@ -12,20 +12,23 @@
                     href="tel:@ViewData["PhoneShop"]">@ViewData["PhoneShop"]</a>
             </div>
             <div>
-                <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i
-                        class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
-                <a class="text-light" href="https://www.instagram.com/" target="_blank"><i
-                        class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
-                <a class="text-light" href="https://twitter.com/" target="_blank"><i
-                        class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
-                <a class="text-light" href="https://www.linkedin.com/" target="_blank"><i
-                        class="fab fa-linkedin fa-sm fa-fw"></i></a>
+                <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored">
+                    <i class="fab fa-facebook-f fa-sm fa-fw me-2"></i>
+                </a>
+                <a class="text-light" href="https://www.instagram.com/" target="_blank">
+                    <i class="fab fa-instagram fa-sm fa-fw me-2"></i>
+                </a>
+                <a class="text-light" href="https://twitter.com/" target="_blank">
+                    <i class="fab fa-twitter fa-sm fa-fw me-2"></i>
+                </a>
+                <a class="text-light" href="https://www.linkedin.com/" target="_blank">
+                    <i class="fab fa-linkedin fa-sm fa-fw"></i>
+                </a>
             </div>
         </div>
     </div>
 </nav>
 <!-- Close Top Nav -->
-
 <!-- Header -->
 <nav class="navbar navbar-expand-lg navbar-light shadow" aria-label="hiding">
     <div class="container d-flex justify-content-between align-items-center">
@@ -59,15 +62,18 @@
                     <!-- Navbar Search -->
                     <li class="nav-item">
                         <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="inputMobileSearch" placeholder="Search ...">
-                                <div class="input-group-text">
+                            <form class="input-group" asp-action="Shop" asp-controller="Home" method="get">
+                                <input type="text" class="form-control" name="id" id="inputSearchMobile"
+                                    placeholder="Search ...">
+                                <button type="submit" class="input-group-text btnSearchMobile">
                                     <i class="fa fa-fw fa-search"></i>
+                                </button>
+                                <div class="tt-menu tt-open"
+                                    style="position: absolute; top: 100%; left: 0px; z-index: 100; display: block;">
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </li>
-
                 </ul>
             </div>
             <div class="navbar align-self-center justify-content-between d-flex px-2 ml-auto">
@@ -83,7 +89,6 @@
     </div>
 </nav>
 <!-- Close Header -->
-
 <!-- Modal -->
 <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
@@ -94,12 +99,11 @@
             <h4 class="modal-title">Search</h4>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form action="" method="get" class="modal-content modal-body border-0 p-0">
-            <div class="input-group mb-2">
-                <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search ...">
-                <button type="submit" class="input-group-text btn bg-success text-light">
-                    <i class="fa fa-fw fa-search text-white"></i>
-                </button>
+        <form class="modal-content modal-body border-0 p-0" asp-action="Shop" asp-controller="Home" method="get">
+            <input type="text" class="form-control mt-3" name="id" id="inputSearch" placeholder="Search ...">
+            <button type="submit" class="btnSearch"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <div class="tt-menu tt-open"
+                style="position: absolute; top: 100%; left: 0px; z-index: 100; display: block;">
             </div>
         </form>
     </div>
