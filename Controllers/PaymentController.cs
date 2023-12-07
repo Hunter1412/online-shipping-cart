@@ -5,34 +5,35 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using OnlineShoppingCart.Core.UnitOfWork;
 using OnlineShoppingCart.Models;
 using PayPal.Api;
 
 namespace OnlineShoppingCart.Controllers
 {
-    [Route("[controller]")]
     public class PaymentController : Controller
     {
         private readonly ILogger<PaymentController> _logger;
         private readonly IHttpContextAccessor httpContextAccessor;
-        IConfiguration _configuration;
+        protected readonly IConfiguration _configuration;
+        protected readonly IUnitOfWork _unitOfWork;
 
-        public PaymentController(ILogger<PaymentController> logger, IHttpContextAccessor context, IConfiguration configuration)
+        public PaymentController(ILogger<PaymentController> logger, IHttpContextAccessor context, IConfiguration configuration, IUnitOfWork unitOfWork)
         {
             _logger = logger;
             this.httpContextAccessor = context;
             _configuration = configuration;
+            _unitOfWork = unitOfWork;
         }
 
-        public IActionResult Index()
+        public IActionResult PaymentFailed()
         {
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult PaymentSuccess()
         {
-            return View("Error!");
+            return View();
         }
 
         public ActionResult PaymentWithPaypal(string Cancel = null, string PayerID = "", string guid = "")
@@ -54,8 +55,7 @@ namespace OnlineShoppingCart.Controllers
                     //it is returned by the create function call of the payment class
                     // Creating a payment
                     // baseURL is the url on which paypal sendsback the data.
-                    string baseURI = this.Request.Scheme + "://" + this.Request.Host + "/Home/PaymentWithPayPal?";
-                    // string baseURI = Request.Scheme + "://" + Request.Authority + "/Home/PaymentWithPayPal?";
+                    string baseURI = this.Request.Scheme + "://" + this.Request.Host + "/Payment/PaymentWithPayPal?";
                     //here we are generating guid for storing the paymentID received in session
                     //which will be used in the payment execution
                     var guidd = Convert.ToString((new Random()).Next(100000));
@@ -99,18 +99,20 @@ namespace OnlineShoppingCart.Controllers
             //on successful payment, show success page to user.
             return View("PaymentSuccess");
         }
-        private PayPal.Api.Payment payment;
+
+
+        private PayPal.Api.Payment Payment;
         private Payment ExecutePayment(APIContext apiContext, string payerId, string paymentId)
         {
             var paymentExecution = new PaymentExecution()
             {
                 payer_id = payerId
             };
-            this.payment = new Payment()
+            Payment = new Payment()
             {
                 id = paymentId
             };
-            return this.payment.Execute(apiContext, paymentExecution);
+            return Payment.Execute(apiContext, paymentExecution);
         }
         private Payment CreatePayment(APIContext apiContext, string redirectUrl)
         {
@@ -162,7 +164,7 @@ namespace OnlineShoppingCart.Controllers
                 amount = amount,
                 item_list = itemList
             });
-            this.payment = new Payment()
+            Payment = new Payment()
             {
                 intent = "sale",
                 payer = payer,
@@ -170,7 +172,7 @@ namespace OnlineShoppingCart.Controllers
                 redirect_urls = redirUrls
             };
             // Create a payment using a APIContext
-            return this.payment.Create(apiContext);
+            return Payment.Create(apiContext);
         }
 
     }

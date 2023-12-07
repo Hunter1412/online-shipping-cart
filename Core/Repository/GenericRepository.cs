@@ -34,7 +34,7 @@ namespace OnlineShoppingCart.Core.Repository
                         query = query.Include(includeProp);
                     }
                 }
-                return await query.ToListAsync();
+                return await query.AsSplitQuery().ToListAsync();
             }
             catch (System.Exception ex)
             {
@@ -57,7 +57,7 @@ namespace OnlineShoppingCart.Core.Repository
                         query = query.Include(includeProp);
                     }
                 }
-                return await query.FirstOrDefaultAsync();
+                return await query.AsSplitQuery().FirstOrDefaultAsync();
             }
             catch (System.Exception ex)
             {

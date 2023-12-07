@@ -18,9 +18,9 @@ using OnlineShoppingCart.Utils;
 namespace OnlineShoppingCart.Controllers
 {
     [Route("/products")]
-    public class CartController : Controller
+    public class ShoppingCartController : Controller
     {
-        private readonly ILogger<CartController> _logger;
+        private readonly ILogger<ShoppingCartController> _logger;
         private readonly ApplicationDbContext _context;
         private readonly CartService _cartService;
         private readonly IUnitOfWork _unitOfWork;
@@ -28,7 +28,7 @@ namespace OnlineShoppingCart.Controllers
 
 
 
-        public CartController(ILogger<CartController> logger, ApplicationDbContext context, CartService cartService, IUnitOfWork unitOfWork, IMapper mapper)
+        public ShoppingCartController(ILogger<ShoppingCartController> logger, ApplicationDbContext context, CartService cartService, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _logger = logger;
             _context = context;
@@ -194,6 +194,57 @@ namespace OnlineShoppingCart.Controllers
         }
 
 
+
+
+        //payment
+        public IActionResult Success(string paymentId, string token, string payerID)
+        {
+            ViewData["PaymentId"] = paymentId;
+            ViewData["token"] = token;
+            ViewData["PayerId"] = payerID;
+            return View();
+        }
+
+        public IActionResult Cancel()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PayUsingCard(double amount = 10)
+        {
+            try
+            {
+                if (amount == 0)
+                {
+                    TempData["error"] = "Plz enter amount";
+                    return RedirectToAction("Index");
+                }
+
+                string returnUrl = "http://localhost:5051/ShoppingCart/Success";
+                string cancelUrl = "http://localhost:5051/ShoppingCart/Cancel";
+
+                //create order
+                var createdPayment = await _unitOfWork.PaypalServices.CreateOrderAsync(amount, returnUrl, cancelUrl);
+
+                string approvalUrl = createdPayment.links.FirstOrDefault(x => x.rel.ToLower() == "approval_url")?.href;
+
+                if (!string.IsNullOrEmpty(approvalUrl))
+                {
+                    return Redirect(approvalUrl);
+                }
+                else
+                {
+                    TempData["error"] = "Failure to initiate Paypal payment";
+                }
+            }
+            catch (System.Exception ex)
+            {
+                TempData["error"] = ex.Message;
+            }
+
+            return RedirectToAction(nameof(Index), "Home");
+        }
     }
 
 }

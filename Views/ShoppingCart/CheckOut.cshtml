@@ -28,9 +28,9 @@
                             class="text-decoration-none">Home</a></li>
                     <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Shop"
                             class="text-decoration-none">Shopping-Cart</a></li>
-                    <li class="breadcrumb-item"><a asp-controller="Cart" asp-action="Cart"
+                    <li class="breadcrumb-item"><a asp-controller="ShoppingCart" asp-action="Cart"
                             class="text-decoration-none">Shopping-Cart</a></li>
-                    <li class="breadcrumb-item"><a asp-controller="Cart" asp-action="CheckOut"
+                    <li class="breadcrumb-item"><a asp-controller="ShoppingCart" asp-action="CheckOut"
                             class="text-decoration-none">Check-out</a></li>
 
                 </ol>
@@ -41,7 +41,7 @@
     <!-- Main content -->
     <div class="row py-5">
         <h1 class="card-header text-center">Order Information</h1>
-        <form asp-controller="" asp-action="" method="post">
+        <form asp-controller="Payment" asp-action="PayUsingCard" method="post">
         <div class="card-body row">
             <!-- Order Start -->
             <div class="col-md-7">
@@ -107,7 +107,7 @@
                                 <p class="custom-control-description text-sm text-muted">
                                     After clicking “Pay now”, you will be redirected to Pay using online payment methods to
                                     complete your purchase securely.
-                                    <a href="/Home/PaymentWithPayPal" class="btn btn-primary">PayPal</a>
+                                    <a href="/Payment/PaymentWithPayPal" class="btn btn-primary">PayPal</a>
                                 </p>
                             </label>
                             <label class="custom-control custom-radio">
@@ -183,7 +183,8 @@
                                     <span class="col-3"><label for="voucher">Voucher:</label></span>
                                     <span class="col-4">
                                         <input class="form-control-sm form-control" type="text" id="code" name="code" value="@code"
-                                            placeholder="Enter code" required >
+                                            placeholder="Enter code">
+                                        <small class="text-danger" id="error_voucher"></small>
                                     </span>
                                     <span class="col-1">
                                         <button id="check_voucher" class="btn btn-outline-success btn-md">Check</button>

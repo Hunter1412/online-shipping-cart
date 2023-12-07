@@ -14,7 +14,7 @@
 
 <div id="cart_container" class="nav-item dropdown">
     <!-- Messages Dropdown Menu -->
-    <a asp-action="Cart" asp-controller="Cart" class="nav-icon position-relative text-decoration-none text-dark"
+    <a asp-action="Cart" asp-controller="ShoppingCart" class="nav-icon position-relative text-decoration-none text-dark"
         data-toggle="dropdown" aria-expanded="false">
         <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
         <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-danger"
@@ -73,7 +73,7 @@
                 <strong class="col-sm-6 border-bottom text-center">$@total.ToString("N2")</strong>
             </div>
             <div class="text-center mx-3">
-                <a asp-controller="Cart" asp-action="CheckOut" class="btn btn-success w-100 text-light">Check out</a>
+                <a asp-controller="ShoppingCart" asp-action="CheckOut" class="btn btn-success w-100 text-light">Check out</a>
             </div>
         </div>
     </div>
