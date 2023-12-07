@@ -11873,27 +11873,33 @@
     ]
   },
   "packageFolders": {
-    "/Users/thachnguyenlongvinh/.nuget/packages/": {}
+    "C:\\Users\\DELL\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/OnlineShoppingCart.csproj",
+      "projectUniqueName": "D:\\online-shipping-cart\\OnlineShoppingCart.csproj",
       "projectName": "OnlineShoppingCart",
-      "projectPath": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/OnlineShoppingCart.csproj",
-      "packagesPath": "/Users/thachnguyenlongvinh/.nuget/packages/",
-      "outputPath": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/obj/",
+      "projectPath": "D:\\online-shipping-cart\\OnlineShoppingCart.csproj",
+      "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
+      "outputPath": "D:\\online-shipping-cart\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "/Users/thachnguyenlongvinh/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
       ],
       "sources": {
-        "/usr/local/share/dotnet/library-packs": {},
-        "/usr/local/share/dotnet/sdk/7.0.310/Sdks/Microsoft.NET.Sdk.Web/library-packs": {},
-        "https://api.nuget.org/v3/index.json": {}
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {},
+        "https://packagesource": {}
       },
       "frameworks": {
         "net7.0": {
@@ -12019,7 +12025,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.310/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
       }
     }
   },

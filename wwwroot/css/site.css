@@ -18,7 +18,7 @@
 }
 
 .nav-pills .nav-link.active,
-.nav-pills .show>.nav-link {
+.nav-pills .show > .nav-link {
 	color: #fff;
 	background-color: var(--color-success);
 	border-color: var(--color-success);
@@ -105,15 +105,15 @@
 	opacity: 1;
 }
 
-.img-hover-zoom--brightness:hover~h3 {
+.img-hover-zoom--brightness:hover ~ h3 {
 	color: var(--color-success);
 }
 
-.img-hover-zoom--brightness~h3 {
+.img-hover-zoom--brightness ~ h3 {
 	position: relative;
 }
 
-.img-hover-zoom--brightness~h3::after {
+.img-hover-zoom--brightness ~ h3::after {
 	content: "";
 	position: absolute;
 	left: 0;
@@ -127,7 +127,7 @@
 	transition: transform 0.5s;
 }
 
-.img-hover-zoom--brightness:hover~h3::after {
+.img-hover-zoom--brightness:hover ~ h3::after {
 	transform-origin: left;
 	transform: scaleX(1);
 }
@@ -180,7 +180,7 @@ input[type="checkbox"]:focus {
 	border-radius: 50%;
 	position: relative;
 	top: 2px;
-	content: '\2713';
+	content: "\2713";
 	display: inline-block;
 	visibility: visible;
 	border: 2px solid var(--color-success);
@@ -193,16 +193,6 @@ textarea::placeholder {
 	font-size: 18px !important;
 	font-weight: 300 !important;
 	padding: 0.05rem 0.075rem;
-}
-
-.table {
-	width: 100%;
-	table-layout: fixed !important;
-}
-
-.table-cart {
-	overflow-x: hidden;
-	scroll-behavior: auto;
 }
 
 .product-item {
@@ -228,13 +218,13 @@ textarea::placeholder {
 /*product details */
 @import url("https: //use.fontawesome.com/releases/v5.13.0/js/all.js");
 
-.comment-form-rating>span {
+.comment-form-rating > span {
 	display: block;
 	float: left;
 	margin-right: 7px;
 }
 
-.comment-form-rating~p {
+.comment-form-rating ~ p {
 	margin-bottom: 0 !important;
 }
 
@@ -261,7 +251,7 @@ textarea::placeholder {
 	color: #efce4a;
 }
 
-.comment-form-rating .stars input[type="radio"]:checked~label::before {
+.comment-form-rating .stars input[type="radio"]:checked ~ label::before {
 	color: #e6e6e6;
 }
 
@@ -269,7 +259,7 @@ textarea::placeholder {
 	color: #efce4a;
 }
 
-.comment-form-rating .stars label:hover~label::before {
+.comment-form-rating .stars label:hover ~ label::before {
 	color: #e6e6e6;
 }
 
