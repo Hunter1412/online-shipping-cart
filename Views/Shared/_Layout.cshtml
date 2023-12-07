@@ -16,7 +16,7 @@
 
     <!-- Load fonts style after rendering the layout styles -->
     <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" href="~/assets/css/fontawesome.min.css">
 
     @await RenderSectionAsync("SlidersCss", required: false)
@@ -58,35 +58,93 @@
 
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script>
-        $('.add-to-cart').click(function (e) {
-            e.preventDefault();
-            let pid = $(this).data("id") ?? '';
-            let quantity = $('#product_quantity_' + pid).val() ?? 1;
-            let data = {
-                id: pid,
-                quantity: quantity
-            };
-            postAjax(data);
-        });
+        $(document).ready(function () {
+            $('.add-to-cart').click(function (e) {
+                e.preventDefault();
+                let pid = $(this).data("id") ?? '';
+                let quantity = $('#product_quantity_' + pid).val() ?? 1;
+                let data = {
+                    id: pid,
+                    quantity: quantity
+                };
+                postAjax(data);
+            });
 
-        function postAjax(data) {
-            console.log(`data>>>>`, data); //ok
-            $.ajax({
-                type: "POST",
-                url: "/add-cart",
-                data: data,
-                success: function (result) {
-                    console.log(result); //ok
-                    $("#count_cart").html(result.count)
-                    toastr["success"]("Success", "Added successfully");
-                    window.location.href = "@Url.RouteUrl("cart")";
-                },
-                error: function (e) {
-                    console.log(e);
-                    toastr["error"]("Error", e);
+            function postAjax(data) {
+                console.log(`data>>>>`, data); //ok
+                $.ajax({
+                    type: "POST",
+                    url: "/add-cart",
+                    data: data,
+                    success: function (result) {
+                        console.log(result); //ok
+                        $("#count_cart").html(result.count)
+                        toastr["success"]("Success", "Added successfully");
+                        window.location.href = "@Url.RouteUrl("cart")";
+                    },
+                    error: function (e) {
+                        console.log(e);
+                        toastr["error"]("Error", e);
+                    }
+                });
+            }
+
+            $("#inputSearch").keyup(function () {
+                var searchFeild = $("#inputSearch").val();
+                var expression = RegExp(searchFeild, "i");
+
+                $(".tt-dataset").remove();
+                ajaxSearch(searchFeild, expression);
+            })
+
+
+            $('#inputSearch').bind('keypress', function (e) {
+                var code = (e.keyCode ? e.keyCode : e.which);
+                if (code == 13) { //Enter keycode
+                    $(".btnSearch").click();
                 }
             });
-        }
+
+            $("#inputSearchMobile").keyup(function () {
+                var searchFeild = $("#inputSearchMobile").val();
+                var expression = RegExp(searchFeild, "i");
+
+                $(".tt-dataset").remove();
+                ajaxSearch(searchFeild, expression);
+            })
+
+
+            $('#inputSearchMobile').bind('keypress', function (e) {
+                var code = (e.keyCode ? e.keyCode : e.which);
+                if (code == 13) { //Enter keycode
+                    $(".btnSearchMobile").click();
+                }
+            });
+
+            function ajaxSearch(searchFeild, expression) {
+                $.ajax({
+                    url: "/home/search",
+                    type: "get",
+                    success: function (response) {
+                        var data = JSON.parse(response);
+                        $.each(data, function (key, item) {
+                            if (item.Name.search(expression) != -1 && searchFeild != "") {
+                                var html_Search = ` <div class="tt-dataset tt-dataset-states">
+                                                        <a href="/product/${item.Slug}">
+                                                            <div class="man-section tt-suggestion tt-selectable">
+                                                                <div class="productName" id="${item.Id}">
+                                                                    ${item.Name}
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                    </div>`
+                                $(".tt-menu").append(html_Search);
+                            }
+                        })
+                    }
+                })
+            }
+        })
     </script>
 </body>
 

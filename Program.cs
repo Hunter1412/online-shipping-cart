@@ -32,7 +32,7 @@ builder.Services.AddSession(cfg =>
 });
 // builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 //connect database
-var connectionString = builder.Configuration.GetConnectionString("AppConnectionString2") ?? throw new InvalidOperationException("Connection string 'AppConnectionString' not found.");
+var connectionString = builder.Configuration.GetConnectionString("AppConnectionString") ?? throw new InvalidOperationException("Connection string 'AppConnectionString' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 
 // Thêm vào dịch vụ Identity với cấu hình mặc định cho AppUser (model user) vào IdentityRole (model Role)
