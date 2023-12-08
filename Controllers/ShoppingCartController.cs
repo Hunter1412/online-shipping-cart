@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -17,7 +19,6 @@ using OnlineShoppingCart.Utils;
 
 namespace OnlineShoppingCart.Controllers
 {
-    [Route("/products")]
     public class ShoppingCartController : Controller
     {
         private readonly ILogger<ShoppingCartController> _logger;
@@ -25,16 +26,20 @@ namespace OnlineShoppingCart.Controllers
         private readonly CartService _cartService;
         private readonly IUnitOfWork _unitOfWork;
         protected readonly IMapper _mapper;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        protected readonly UserManager<AppUser> _userManager;
 
 
 
-        public ShoppingCartController(ILogger<ShoppingCartController> logger, ApplicationDbContext context, CartService cartService, IUnitOfWork unitOfWork, IMapper mapper)
+        public ShoppingCartController(ILogger<ShoppingCartController> logger, ApplicationDbContext context, CartService cartService, IUnitOfWork unitOfWork, IMapper mapper, UserManager<AppUser> userManager, IHttpContextAccessor httpContextAccessor)
         {
             _logger = logger;
             _context = context;
             _cartService = cartService;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _userManager = userManager;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<ProductDto> GetProductAsync(string id)
@@ -90,7 +95,7 @@ namespace OnlineShoppingCart.Controllers
             // Lưu cart vào Session
             _cartService.SaveCartSession(cart);
             // return RedirectToAction(nameof(Cart));
-            return Ok(new
+            return Json(new
             {
                 count = cart.Count,
                 data = cart
@@ -142,6 +147,7 @@ namespace OnlineShoppingCart.Controllers
 
 
         [Route("/checkout", Name = "checkout")]
+        [Authorize]
         public IActionResult CheckOut()
         {
             var cart = _cartService.GetCartItems();
@@ -154,13 +160,117 @@ namespace OnlineShoppingCart.Controllers
         }
 
 
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> ConfirmOrder([FromForm] FormCheckOut form)
+        {
+            _logger.LogInformation(">>>>>>>>>>CheckOut action>>>>>>>>>>>>>>>>>>>>");
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Please enter your information.");
+                return RedirectToAction(nameof(CheckOut));
+            }
+
+            string SubStringAddress(string input)
+            {
+                return input[(input.LastIndexOf("--") + 2)..];
+            }
+
+            AppUser? user = await _unitOfWork.Users.Get(x => x.Email == form.Email);
+
+            var shipping = new Shipping();
+            shipping.Id = Guid.NewGuid().ToString();
+            shipping.Name = form.Name;
+            shipping.Email = form.Email;
+            shipping.Phone = form.Phone;
+
+            shipping.City = SubStringAddress(form.City!);
+            shipping.District = SubStringAddress(form.District!);
+            shipping.Wards = SubStringAddress(form.Ward!);
+            shipping.Address = form.Address;
+            shipping.Note = form.Note;
+
+            shipping.DeliveryType = form.DeliveryType;
+            shipping.ShippingFee = 0; //khuyen mai
+
+            await _unitOfWork.Shippings.Add(shipping);
+
+            List<CartItem> carts = _cartService.GetCartItems();
+            Voucher? voucher = _cartService.GetVoucher();
+
+            //save order
+            var guidNumber = Convert.ToString((new Random()).Next(100000000));
+            var order = new Order
+            {
+                Id = guidNumber,
+                OrderDate = DateTime.Now,
+                OrderStatus = "Pending", //dang xu ly
+                OrderTotal = _cartService.CalculateTotal(carts),
+                PaymentStatus = "Finish", //-Await payment | Finish | Refund,
+                PaymentMethod = form.PaymentMethod,
+                ShippingId = shipping.Id,
+                VoucherId = voucher?.Id,
+                UserId = user.Id,
+                CreateAt = DateTime.Now,
+                UpdateAt = DateTime.Now,
+            };
+
+            _cartService.ClearVoucher(); //delete voucher used
+            await _unitOfWork.Orders.Add(order);
+            await _unitOfWork.CompleteAsync();
+
+            foreach (var cart in carts)
+            {
+                var discount = cart.Product?.Promotion > 0 ? cart.Product.Promotion : 0;
+                //order detail
+                var od = new OrderDetail
+                {
+                    // a unique 16 digit order number
+                    //includes the type of the delivery (1 digit)
+                    //that the user has opted for, Product id (7 digit), and the order number (8 digit)
+                    OrderNumber = form.DeliveryType + cart.Product!.Id + order.Id,
+                    OrderId = order.Id,
+                    ProductId = cart.Product!.Id,
+                    Quantity = cart.Quantity,
+                    Price = (double)(cart.Product.Price! - discount)
+                };
+                await _unitOfWork.OrderDetails.Add(od);
+                await _unitOfWork.CompleteAsync();
+
+                //stock warehouse
+                var inventory = new Inventory
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    DateAt = DateTime.Now,
+                    ProductId = cart.Product.Id,
+                    Quantity = -cart.Quantity,
+                    Note = "Output"
+                };
+                await _unitOfWork.Inventory.Add(inventory);
+                await _unitOfWork.CompleteAsync();
+            }
+            //Clear Session (carts, voucher)
+            _cartService.ClearCart();
+            _cartService.ClearVoucher();
+
+
+            return RedirectToAction("Index", "Home");
+        }
+
+
+
+
+
+
         //voucher
         [Route("/voucher", Name = "checkvoucher")]
         [HttpPost]
         public async Task<ActionResult> CheckVoucher([FromForm] string code)
         {
             _logger.LogInformation($"check voucher>> {code}");
-            Voucher? voucher = await _context.Vouchers!.SingleOrDefaultAsync(x => x.Code == code);
+            code = code.Trim().ToUpper();
+            var voucher = await _unitOfWork.Vouchers.Get(x => x.Code!.ToUpper() == code);
+            // Voucher? voucher = await _context.Vouchers!.SingleOrDefaultAsync(x => x.Code == code);
             if (voucher == null)
             {
                 return Json(new { error = "Voucher is invalid" });
@@ -194,24 +304,19 @@ namespace OnlineShoppingCart.Controllers
         }
 
 
-
-
         //payment
-        public IActionResult Success(string paymentId, string token, string payerID)
+        [HttpGet]
+        public IActionResult Success(string paymentId, string token, string PayerID)
         {
-            ViewData["PaymentId"] = paymentId;
+            ViewData["paymentId"] = paymentId;
             ViewData["token"] = token;
-            ViewData["PayerId"] = payerID;
+            ViewData["PayerId"] = PayerID;
             return View();
         }
 
-        public IActionResult Cancel()
-        {
-            return View();
-        }
 
         [HttpPost]
-        public async Task<IActionResult> PayUsingCard(double amount = 10)
+        public async Task<IActionResult> PayUsingCard(double amount = 1)
         {
             try
             {
@@ -243,7 +348,7 @@ namespace OnlineShoppingCart.Controllers
                 TempData["error"] = ex.Message;
             }
 
-            return RedirectToAction(nameof(Index), "Home");
+            return RedirectToAction(nameof(CheckOut));
         }
     }
 

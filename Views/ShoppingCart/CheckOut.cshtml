@@ -1,8 +1,10 @@
-@model OnlineShoppingCart.Models.DTOs.OrderDto
+@model OnlineShoppingCart.Models.FormCheckOut
+
 @using Microsoft.AspNetCore.Identity
 @using OnlineShoppingCart.Data.Entities
 
 @inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> _userManager
 @using Microsoft.AspNetCore.Http
 @using Newtonsoft.Json
 @using OnlineShoppingCart.Models;
@@ -10,6 +12,10 @@
 @inject OnlineShoppingCart.Utils.CartService CartService;
 
 @{
+    ViewData["Title"] = "CheckOut";
+
+    var userSignIn = await _userManager.GetUserAsync(User);
+
     var carts = CartService.GetCartItems();
     var voucher = CartService.GetVoucher();
     var code = voucher != null ? voucher.Code : string.Empty;
@@ -41,10 +47,17 @@
     <!-- Main content -->
     <div class="row py-5">
         <h1 class="card-header text-center">Order Information</h1>
-        <form asp-controller="Payment" asp-action="PayUsingCard" method="post">
+
+        @if(TempData["error"] != null){
+            <div class="alert alert-danger">
+                @TempData["error"];
+            </div>
+        }
+        <form asp-area="" asp-controller="ShoppingCart" asp-action="ConfirmOrder" method="POST">
         <div class="card-body row">
             <!-- Order Start -->
             <div class="col-md-7">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="card mb-3">
                         <h4 class="card-header">Contact</h4>
                         <div class="card-body">
@@ -56,9 +69,10 @@
                             }
 
                             <div class="form-group">
-                                <input type="email" asp-for="Shipping.Email" class="form-control"
-                                    placeholder="Enter your email">
+                                <input type="email" asp-for="Email" class="form-control" value="@userSignIn?.Email"
+                                    placeholder="Enter your emai (*)">
 
+                                    <span asp-validation-for="Email" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
@@ -67,32 +81,56 @@
                         <div class="card-body">
                             <div class="row mb-3">
                                 <div class="col-md-6">
-                                    <input asp-for="Shipping.Name" class="form-control" placeholder="Full name">
+                                    <input asp-for="Name" class="form-control" placeholder="Full name (*)" value="@userSignIn?.UserName">
+                                    <span asp-validation-for="Name" class="text-danger"></span>
                                 </div>
-                                <div class="col-md-6"><input asp-for="Shipping.Phone" type="phone" class="form-control" placeholder="Phone"></div>
+                                <div class="col-md-6">
+                                    <input asp-for="Phone" type="phone" class="form-control" placeholder="Phone (*)" value="@userSignIn?.PhoneNumber">
+                                    <span asp-validation-for="Phone" class="text-danger"></span>
+                                    </div>
                             </div>
 
                             <div class="row mb-3">
                                 <div class="col-md-4">
-                                    <input asp-for="Shipping.City" class="form-control" placeholder="City">
+                                    <select asp-for="City" class="form-control" aria-label=".form-select-sm">
+                                        <option value="" selected>Select City (*)</option>
+                                    </select>
                                 </div>
                                 <div class="col-md-4">
-                                    <input asp-for="Shipping.Province" class="form-control" placeholder="District">
+                                    <select asp-for="District" class="form-control" aria-label=".form-select-sm">
+                                        <option value="" selected>Select District (*)</option>
+                                    </select>
                                 </div>
                                 <div class="col-md-4">
-                                    <input asp-for="Shipping.Wards" class="form-control" placeholder="Wards">
-                                    </div>
+                                    <select asp-for="Ward" class="form-control" aria-label=".form-select-sm">
+                                        <option value="" selected>Select Ward (*)</option>
+                                    </select>
+                                </div>
+                                <span asp-validation-for="City" class="text-danger"></span>
+                                <span asp-validation-for="District" class="text-danger"></span>
+                                <span asp-validation-for="Ward" class="text-danger"></span>
                             </div>
                             <div class="col-12  mb-3">
-                                <input asp-for="Shipping.Address" class="form-control" placeholder="Address">
+                                <input asp-for="Address" class="form-control" placeholder="Address (*)">
+                                    <span asp-validation-for="Address" class="text-danger"></span>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <textarea asp-for="Note" class="form-control col-12" rows="3" placeholder="If have, you can note here..."></textarea>
                             </div>
                             <div class="form-group mb-3">
-                                <label for="">Shiping method</label>
-                                <select class="form-control form-control" name="" id="">
-                                    <option>A</option>
-                                    <option>B</option>
-                                    <option>C</option>
-                                </select>
+                                <h4 for="">Shiping method</h4>
+                                <label class="custom-control custom-radio my-3">
+                                    <input type="radio" asp-for="DeliveryType" value="1" checked
+                                    class="custom-control-input radio_delivery">
+                                    <b class="custom-control-indicator">1. Expedited Shipping</b>
+                                </label>
+                                <label class="custom-control custom-radio my-3">
+                                    <input type="radio" asp-for="DeliveryType" value="2"
+                                    class="custom-control-input radio_delivery">
+                                    <b class="custom-control-indicator">2. Click and Collect</b>
+                                    <small class="text-muted">(BOPIS buy online pick up in store)</small>
+                                </label>
+
                             </div>
                         </div>
                     </div>
@@ -101,33 +139,26 @@
                         <div class="card-body">
                             <small class="text-muted">All transactions are secure and encrypted.</small>
                             <label class="custom-control custom-radio my-3">
-                                <input type="radio" asp-for="PaymentMethod" value="1"
-                                    class="custom-control-input">
+                                <input type="radio" asp-for="PaymentMethod" value="PayPal" checked
+                                    class="custom-control-input chk-payment">
                                 <b class="custom-control-indicator">Pay using online payment methods</b>
-                                <p class="custom-control-description text-sm text-muted">
+                                <small class="custom-control-description text-sm text-muted">
                                     After clicking “Pay now”, you will be redirected to Pay using online payment methods to
                                     complete your purchase securely.
                                     <a href="/Payment/PaymentWithPayPal" class="btn btn-primary">PayPal</a>
-                                </p>
+                                </small>
                             </label>
                             <label class="custom-control custom-radio">
-                                <input type="radio" asp-for="PaymentMethod" value="2"
-                                    class="custom-control-input">
+                                <input type="radio" asp-for="PaymentMethod" value="COD"
+                                    class="custom-control-input chk-payment">
                                 <b class="custom-control-indicator">Pay cash at the time of delivery</b>
-                                <p class="custom-control-description text-sm text-muted">Only for customer VPP</p>
+                                <small class="custom-control-description text-sm text-muted">Only for customer VPP</small>
                             </label>
+                            <div class="col-12"><span asp-validation-for="PaymentMethod" class="text-danger"></span></div>
                         </div>
                     </div>
-                    <input asp-for="Voucher.Code">
                     <div class="form-group mb-3">
-                        @{
-                            var isDisabled = string.Empty;
-                            @if (!SignInManager.IsSignedIn(User))
-                            {
-                                isDisabled = "disabled";
-                            }
-                            <button type="submit" class="btn btn-lg btn-success w-100" @isDisabled >Pay now</button>
-                        }
+                        <button type="submit" class="btn btn-lg btn-success w-100" >Pay now</button>
                     </div>
             </div>
 
@@ -158,7 +189,7 @@
                                             </span>
                                         </span>
                                         <span class="col-7 px-3 text-sm">
-                                            <a asp-controller="Home" asp-action="ShopSingle"
+                                            <a asp-controller="Home" asp-action="ShopSingle" asp-route-id="@item.Product.Slug"
                                                 class="cart-name-product text-decoration-none">
                                                 @item.Product!.Name- @item.Product!.Id
                                             </a>
@@ -180,25 +211,25 @@
                             </div>
                             <div class="row mt-3 align-items-center d-inline-block">
                                 <div id="form_voucher" class="row col-12">
-                                    <span class="col-3"><label for="voucher">Voucher:</label></span>
-                                    <span class="col-4">
-                                        <input class="form-control-sm form-control" type="text" id="code" name="code" value="@code"
+                                    <span class="col-12 col-sm-3"><label for="voucher">Voucher:</label></span>
+                                    <span class="col-12 col-sm-4">
+                                        <input class="form-control-sm form-control" type="text" asp-for="Code" value="@code"
                                             placeholder="Enter code">
                                         <small class="text-danger" id="error_voucher"></small>
                                     </span>
-                                    <span class="col-1">
+                                    <span class="col-12 col-sm-1">
                                         <button id="check_voucher" class="btn btn-outline-success btn-md">Check</button>
-                                        <span is="error_voucher"></span>
                                     </span>
-                                    <span class="col-4 text-end">$ <span id="discount">@discount.ToString("N2")</span></span>
+                                    <span class="col-12 col-sm-4 text-end">$ <span id="discount">@discount.ToString("N2")</span></span>
+                                    <small class="col-12" is="error_voucher"></small>
                                 </div>
                             </div>
                             <div class="row mt-3 align-items-center">
                                 <div class="col-8">Shiping fee</div>
-                                <div class="col-4 text-end" id="shppingFee">$ 0.00</div>
+                                <div class="col-4 text-end" id="shppingFee">$ <span style="text-decoration-line-through" id="shippingFee">1.00</span></div>
                             </div>
                             <div class="row mt-3 text-end">
-                                <strong class="col-sm-6">Total:</strong>
+                                <strong class="col-sm-6">Order Total:</strong>
                                 <strong class="col-sm-6 border-bottom" >$<span id="total">
                                     @((total - discount).ToString("N2"))
                                 </span></strong>
@@ -211,32 +242,118 @@
         </form>
     </div>
 </section>
+<section class="container p-5">
+    <article>
+        <h1>Note:</h1>
+        <p>Need help? Check our Help pages or <a asp-area="ContactManage" asp-controller="Contact" asp-action="SendContact">contact us</a></p>
+        <p>You may return new, unopened merchandise in original condition within 07 days of delivery. Exceptions and restrictions apply. See Shop's Returns Policy.</p>
+    </article>
+</section>
+
 
 
 @section Scripts {
-    <script>
         @{
             await Html.RenderPartialAsync("_ValidationScriptsPartial");
         }
-
-        $(document).ready(function () {
-
-
-            @* async function getProvinces(){
-                const url = 'https://provinces.open-api.vn/api/?depth=3';
-                return (await fetch(url)).json();
-            }; *@
-
-                @* const provinces = await ()=>{
-                let data = await getProvinces();
-                return JSON.stringify(data);
-
-                }
-                console.log(provinces()); *@
-
-
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <script>
+        const citis = document.getElementById("City");
+        const districts = document.getElementById("District");
+        const wards = document.getElementById("Ward");
+        const Parameter = {
+        url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
+        method: "GET",
+        responseType: "application/json",
+        };
+        var promise = axios(Parameter);
+        promise.then(function (result) {
+            renderCity(result.data);
         });
-    </script>
+
+        function renderCity(data) {
+            for (const x of data) {
+                citis.options[citis.options.length] = new Option(removeVietnameseTones(x.Name), x.Id +"--"+removeVietnameseTones(x.Name));
+            }
+            citis.onchange = function () {
+                districts.length = 1;
+                wards.length=1;
+                if(this.value != ""){
+                    //const result = data.filter(n => n.Id === this.value);
+                    const result = data.filter(n => this.value.startsWith(n.Id));
+                    for (const k of result[0].Districts) {
+                        districts.options[districts.options.length] = new Option(removeVietnameseTones(k.Name), k.Id+"--"+removeVietnameseTones(k.Name));
+                    }
+                }
+            };
+            districts.onchange = function () {
+                wards.length=1;
+                const dataCity = data.filter((n) => citis.value.startsWith(n.Id));
+                if (this.value != "") {
+                    const dataWards = dataCity[0].Districts.filter(n => this.value.startsWith(n.Id))[0].Wards;
+
+                    for (const w of dataWards) {
+                        wards.options[wards.options.length] = new Option(removeVietnameseTones(w.Name), w.Id+"--"+removeVietnameseTones(w.Name));
+                    }
+                }
+            };
+        };
+
+        function removeVietnameseTones(str) {
+            str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g,"a");
+            str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g,"e");
+            str = str.replace(/ì|í|ị|ỉ|ĩ/g,"i");
+            str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g,"o");
+            str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g,"u");
+            str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g,"y");
+            str = str.replace(/đ/g,"d");
+            str = str.replace(/À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ/g, "A");
+            str = str.replace(/È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ/g, "E");
+            str = str.replace(/Ì|Í|Ị|Ỉ|Ĩ/g, "I");
+            str = str.replace(/Ò|Ó|Ọ|Ỏ|Õ|Ô|Ồ|Ố|Ộ|Ổ|Ỗ|Ơ|Ờ|Ớ|Ợ|Ở|Ỡ/g, "O");
+            str = str.replace(/Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ/g, "U");
+            str = str.replace(/Ỳ|Ý|Ỵ|Ỷ|Ỹ/g, "Y");
+            str = str.replace(/Đ/g, "D");
+            // Some system encode vietnamese combining accent as individual utf-8 characters
+            // Một vài bộ encode coi các dấu mũ, dấu chữ như một kí tự riêng biệt nên thêm hai dòng này
+            str = str.replace(/\u0300|\u0301|\u0303|\u0309|\u0323/g, ""); // ̀ ́ ̃ ̉ ̣  huyền, sắc, ngã, hỏi, nặng
+            str = str.replace(/\u02C6|\u0306|\u031B/g, ""); // ˆ ̆ ̛  Â, Ê, Ă, Ơ, Ư
+            // Remove extra spaces
+            // Bỏ các khoảng trắng liền nhau
+            str = str.replace(/ + /g," ");
+
+            str = str.replace('Tinh ', 'City ');
+            str = str.replace('Thanh pho ', 'City ');
+            str = str.replace('Quan ', 'District ');
+            str = str.replace('Huyen ', 'District ');
+            str = str.replace('Thi tran', 'Ward');
+            str = str.replace('Thi xa', 'Ward');
+            str = str.replace('Phuong', 'Ward');
+            str = str.replace('Xa ', 'Ward ');
+            str = str.trim();
+
+            return str;
+        };
+
+
+        //shiping fee
+        @* $(function(){
+
+            $(".chk-payment").click(function(){
+                let paymentMethod = $(".chk-payment:checked").map(function () { return $(this).val() }).toArray().toString();
+                alert(paymentMethod);
+                var fee = 0;
+                if(paymentMethod==="COD"){
+                    fee = 2;
+                }else if(paymentMethod==="PayPal"){
+                    fee = 1;
+                }
+                var total = parseInt($("#total").val());
+                return $("#shippingFee").html(fee)
+            });
+
+        })() *@
+
+	</script>
 
 }

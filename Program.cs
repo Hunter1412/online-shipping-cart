@@ -30,9 +30,8 @@ builder.Services.AddSession(cfg =>
     cfg.Cookie.Name = "shoparts";   // Đặt tên Session - tên này sử dụng ở Browser (Cookie)
     cfg.IdleTimeout = new TimeSpan(0, 30, 0);    // 30' Thời gian tồn tại của Session
 });
-// builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 //connect database
-var connectionString = builder.Configuration.GetConnectionString("AppConnectionString") ?? throw new InvalidOperationException("Connection string 'AppConnectionString' not found.");
+var connectionString = builder.Configuration.GetConnectionString("AppConnectionString2") ?? throw new InvalidOperationException("Connection string 'AppConnectionString' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 
 // Thêm vào dịch vụ Identity với cấu hình mặc định cho AppUser (model user) vào IdentityRole (model Role)
@@ -87,7 +86,6 @@ builder.Services.AddAuthentication()
         googleOptions.CallbackPath = "/login-from-google";
 
     });
-
 
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();

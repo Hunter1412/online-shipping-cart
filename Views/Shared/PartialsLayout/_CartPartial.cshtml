@@ -7,7 +7,6 @@
 
 @{
     var carts = CartService.GetCartItems();
-
     double total = 0;
 }
 
@@ -24,7 +23,7 @@
     </a>
     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-lg-end" id="cart_show">
         <div class="cart" id="shopping_cart">
-            @foreach (var item in @carts!)
+            @foreach (var item in carts!)
             {
                 double newPrice = (double)(item.Product!.Price! - item.Product?.Promotion!);
                 double amount = item.Quantity * newPrice;

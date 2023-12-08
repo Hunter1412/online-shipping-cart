@@ -1,0 +1,159 @@
+﻿@using OnlineShoppingCart.Models.DTOs;
+@model OrderDto;
+
+@{
+    ViewData["Title"] = "Order Infomation";
+}
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">@ViewData["Title"]</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item">
+                            <a asp-area="OrderManage" asp-controller="Order" asp-action="Index">Orders</a>
+                        </li>
+                        <li class="breadcrumb-item active">@ViewData["Title"]</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <!-- Main content -->
+    <div class="content">
+        <div class="container-fluid">
+
+            <div class="card">
+                <div class="card-header">
+                    <strong class="h3 card-title">@ViewData["Title"]</strong>
+                </div>
+
+                <!-- /.card-header -->
+                <div class="card-body row">
+                    <dl class="row col-12 col-md-6">
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.Id)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.Id)
+                        </dd>
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.OrderDate)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.OrderDate)
+                        </dd>
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.OrderTotal)
+
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.OrderTotal)
+                        </dd>
+                        <dt class="col-sm-4">
+                            Payment
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.PaymentMethod)
+                            @Html.DisplayFor(model => model.PaymentStatus)
+                        </dd>
+                    </dl>
+
+                    <dl class="row col-12 col-md-6">
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.Shipping.Name)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.Shipping.Name)
+                        </dd>
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.Shipping.Email)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.Shipping.Email)
+                        </dd>
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.Shipping.Phone)
+
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.Shipping.Phone)
+                        </dd>
+                        <dt class="col-sm-4">
+                            Address
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.Shipping.City),
+                            @Html.DisplayFor(model => model.Shipping.District),
+                            @Html.DisplayFor(model => model.Shipping.Wards),
+                            @Html.DisplayFor(model => model.Shipping.Address).
+                        </dd>
+                    </dl>
+
+                    <div class="col-12">
+                        <div class="card">
+                            <h3 class="card-header">Order details</h3>
+                            <div class="card-body">
+                                <table id="order_details"
+                                    class="table table-border table-striped table-inverse text-center"
+                                    aria-label="order_details">
+                                    <thead>
+                                        <tr>
+                                            <th>Order Number</th>
+                                            <th>Product</th>
+                                            <th>Quantity (pcs)</th>
+                                            <th>Amount ($)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model.OrderDetails != null)
+                                        {
+                                            @foreach (var item in Model.OrderDetails)
+                                            {
+                                                <tr>
+                                                    <td>@item.OrderNumber</td>
+                                                    <td>@item.ProductId</td>
+                                                    <td>@item.Quantity</td>
+                                                    <td>@((item.Quantity * item.Price).ToString("N2"))</td>
+                                                </tr>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <tr>
+                                                <td colspan="4">Not data</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                    <a asp-area="OrderManage" asp-controller="Order" asp-action="Index">Back to list</a> |
+                    <a asp-area="OrderManage" asp-controller="Order" asp-action="Edit">Update Status</a>
+                </div>
+            </div>
+            <!-- /.card -->
+
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+</div>
+
+@{
+    var dataTable = new OnlineShoppingCart.Models.DataTableView("#order_details");
+}
+
+@section Scripts {
+    <partial name="_Datatables" model="dataTable" />
+}

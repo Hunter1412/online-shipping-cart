@@ -20,5 +20,10 @@ namespace OnlineShoppingCart.Models.DTOs
 
         public int Quantity { get; set; }
         public double Price { get; set; }
+
+        [Required]
+        [StringLength(16)]
+        public string? OrderNumber { get; set; }
+        
     }
 }

@@ -20,8 +20,8 @@ namespace OnlineShoppingCart.Data.Entities
 
         public double OrderTotal { get; set; }
 
-        public int PaymentStatus { get; set; }
-        public int PaymentMethod { get; set; }
+        public string? PaymentStatus { get; set; }
+        public string? PaymentMethod { get; set; }
 
         public string? ApprovedBy { get; set; }
 

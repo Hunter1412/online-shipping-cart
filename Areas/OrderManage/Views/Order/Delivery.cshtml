@@ -1,4 +1,4 @@
-@model OnlineShoppingCart.Data.Entities.Order;
+@model IEnumerable<OnlineShoppingCart.Models.DTOs.ShippingDto>;
 
 @{
     ViewData["Title"] = "Delivery Report";
@@ -16,7 +16,8 @@
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
                         <li class="breadcrumb-item active">
-                            <a asp-area="OrderManage" asp-controller="Order" asp-action="Delivery">@ViewData["Title"]</a>
+                            <a asp-area="OrderManage" asp-controller="Order"
+                                asp-action="Delivery">@ViewData["Title"]</a>
                         </li>
                     </ol>
                 </div><!-- /.col -->
@@ -35,45 +36,46 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table id="table_delivery_date" class="table table-bordered table-striped">
+                    <table id="table_delivery_date" class="table table-bordered table-striped" aria-describedby="false">
                         <thead>
                             <tr>
-                                <th>Rendering engine</th>
-                                <th>Browser</th>
-                                <th>Platform(s)</th>
-                                <th>Engine version</th>
-                                <th>CSS grade</th>
+                                <th>Date</th>
+                                <th>Delivery ID</th>
+                                <th>Delivery to</th>
+                                <th>Delivery Type</th>
+                                <th>EndTo</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Trident</td>
-                                <td>Internet
-                                    Explorer 4.0
-                                </td>
-                                <td>Win 95+</td>
-                                <td> 4</td>
-                                <td>X</td>
-                            </tr>
-                            <tr>
-                                <td>Trident</td>
-                                <td>Internet
-                                    Explorer 5.0
-                                </td>
-                                <td>Win 95+</td>
-                                <td>5</td>
-                                <td>C</td>
-                            </tr>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@String.Format("{0:MM/dd/yyyy}", item.CreateAt)</td>
+                                    <td>
+                                        <a asp-area="OrderManage" asp-controller="Order" asp-action="DeliveryDetails" asp-route-id="@item.Id">
+                                            @item.Id
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <p>@item.Name</p>
+                                            <p>@item.Phone</p>
+                                        </div>
+                                    </td>
+                                    <td>@item.DeliveryType</td>
+                                    <td>
+                                        @if (item.EndAt < item.CreateAt)
+                                        {
+                                            <span class="badge badge-danger">Not yet</span>
+                                        }else{
+                                            <span class="badge badge-success">Done</span>
+                                        }
+                                    </td>
+                                    <td>Actions</td>
+                                </tr>
+                            }
                         </tbody>
-                        <tfoot>
-                            <tr>
-                                <th>Rendering engine</th>
-                                <th>Browser</th>
-                                <th>Platform(s)</th>
-                                <th>Engine version</th>
-                                <th>CSS grade</th>
-                            </tr>
-                        </tfoot>
                     </table>
                 </div>
                 <!-- /.card-body -->
@@ -88,13 +90,13 @@
 
 
 @section Css {
-<!-- DataTables -->
-<link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-<link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-<link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 }
 
-@section Scripts{
+@section Scripts {
     <script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="~/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
     <script src="~/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>

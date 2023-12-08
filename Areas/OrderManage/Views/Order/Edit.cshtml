@@ -1,0 +1,98 @@
+﻿@model OnlineShoppingCart.Models.DTOs.OrderDto
+
+@{
+    ViewData["Title"] = "Edit status";
+}
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">@ViewData["Title"]</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a asp-area="OrderManage" asp-controller="Order"
+                                asp-action="Index">Product list</a></li>
+                        <li class="breadcrumb-item active">@ViewData["Title"]</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <!-- Main content -->
+    <div class="content">
+        <div class="container-fluid">
+
+            <div class="card">
+                <div class="card-header">
+                    <strong class="h3 card-title text-center">Edit Product</strong>
+                </div>
+
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <div class="col-10 mx-auto">
+                        <form asp-area="ProductManage" asp-controller="Product" asp-action="Edit"
+                            enctype="multipart/form-data" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            <div class="row mb-3">
+                                <div class="form-group mb-3 col-12 col-md-4">
+                                    Order ID: @Model.Id
+                                    <input type="hidden" asp-for="Id" />
+                                </div>
+                                <div class="form-group mb-3 col-12 col-md-4">
+                                    Order Date: @Model.OrderDate
+                                    <input type="hidden" asp-for="OrderDate" />
+                                </div>
+                                <div class="form-group mb-3 col-12 col-md-4">
+                                    Order Total: @Model.OrderTotal
+                                    <input type="hidden" asp-for="OrderTotal" />
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="form-group mb-3 col-12 col-md-6">
+                                    <label asp-for="OrderStatus" class="control-label"></label><span
+                                        class="text-danger mr-3">(*)</span>
+                                    <select asp-for="OrderStatus" class="form-control custom-select">
+
+                                    </select>
+                                </div>
+                                <div class="form-group mb-3 col-12 col-md-6">
+                                    <label asp-for="PaymentStatus" class="control-label"></label><span
+                                        class="text-danger mr-3">(*)</span>
+                                    <select asp-for="PaymentStatus" class="form-control custom-select"></select>
+                                </div>
+                            </div>
+
+                            <div class="justify-content-end d-flex">
+                                <input type="submit" value="Update" class="btn btn-primary w-25" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                    <a class="link-info" asp-area="OrderManage" asp-controller="Order" asp-action="Index">Back to
+                        order list</a>
+                </div>
+            </div>
+            <!-- /.card -->
+
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+</div>
+
+@section Scripts {
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+}

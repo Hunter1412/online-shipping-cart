@@ -85,7 +85,7 @@ namespace OnlineShoppingCart.Areas.ContactManage.Controllers
                 var contact = _mapper.Map<Contact>(contactDto);
                 _logger.LogInformation(contact?.AppUser?.Email);
                 var email = contact!.AppUser!.Email;
-                var user = await _userManager.Users.Where(u => u.Email == email).FirstOrDefaultAsync();
+                AppUser? user = await _unitOfWork.Users.Get(x => x.Email == email);
 
                 var id = string.Empty;
                 if (user == null)

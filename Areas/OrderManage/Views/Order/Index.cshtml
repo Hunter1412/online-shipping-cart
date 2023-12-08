@@ -1,5 +1,9 @@
-@model OnlineShoppingCart.Data.Entities.Order;
+@model IEnumerable<OnlineShoppingCart.Models.DTOs.OrderDto>;
 
+@{
+    ViewData["Title"] = "Order List";
+    double total = 0.00;
+}
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -25,47 +29,62 @@
 
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">DataTable with default features</h3>
+                    <h3 class="card-title">@ViewData["Title"]</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table id="table_order" class="table table-bordered table-striped">
+                    <table id="table_order" class="table table-bordered table-striped" aria-describedby="false">
                         <thead>
                             <tr>
-                                <th>Rendering engine</th>
-                                <th>Browser</th>
-                                <th>Platform(s)</th>
-                                <th>Engine version</th>
-                                <th>CSS grade</th>
+                                <th>Date</th>
+                                <th>Order ID</th>
+                                <th>Order Total</th>
+                                <th>Order status</th>
+                                <th>Payment</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Trident</td>
-                                <td>Internet
-                                    Explorer 4.0
-                                </td>
-                                <td>Win 95+</td>
-                                <td> 4</td>
-                                <td>X</td>
-                            </tr>
-                            <tr>
-                                <td>Trident</td>
-                                <td>Internet
-                                    Explorer 5.0
-                                </td>
-                                <td>Win 95+</td>
-                                <td>5</td>
-                                <td>C</td>
-                            </tr>
+                            @if (Model.Any())
+                            {
+                                @foreach (var item in @Model)
+                                {
+                                    total += item.OrderTotal;
+                                    <tr>
+                                        <td>@String.Format("{0:MM/dd/yyyy}", item.CreateAt)</td>
+                                        <td>
+                                            <a asp-area="OrderManage" asp-controller="Order" asp-action="Details"
+                                                asp-route-id="@item.Id" class="text-info">
+                                                @Html.DisplayFor(modelItem => item.Id)
+                                            </a>
+                                        </td>
+                                        <td>@item.OrderTotal.ToString("N2")</td>
+                                        <td>@item.OrderStatus</td>
+                                        <td>
+                                            @item.PaymentStatus
+                                            <span class="badge badge-primary">@item.PaymentMethod</span>
+                                        </td>
+                                        <td>
+                                            <a asp-area="OrderManage" asp-controller="Order" asp-action="Edit"
+                                                asp-route-id="@item.Id" class="text-warning">
+                                                <i class="fas fa-edit" title="edit"></i></a> |
+                                            <a asp-area="OrderManage" asp-controller="Order" asp-action="Delete"
+                                                asp-route-id="@item.Id" class="text-danger">
+                                                <i class="fa fa-trash" aria-hidden="true"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="6">No data</td>
+                                </tr>
+                            }
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th>Rendering engine</th>
-                                <th>Browser</th>
-                                <th>Platform(s)</th>
-                                <th>Engine version</th>
-                                <th>CSS grade</th>
+                                <th colspan="6">Order total: @total.ToString("N2")</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -80,35 +99,10 @@
     <!-- /.content -->
 </div>
 
-
-@section Css {
-<!-- DataTables -->
-<link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-<link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-<link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+@{
+    var dataTable = new OnlineShoppingCart.Models.DataTableView("#table_order");
 }
 
-@section Scripts{
-    <script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="~/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-    <script src="~/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="~/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-    <script src="~/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-    <script src="~/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-    <script src="~/plugins/jszip/jszip.min.js"></script>
-    <script src="~/plugins/pdfmake/pdfmake.min.js"></script>
-    <script src="~/plugins/pdfmake/vfs_fonts.js"></script>
-    <script src="~/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-    <script src="~/plugins/datatables-buttons/js/buttons.print.min.js"></script>
-    <script src="~/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
-    <!-- Page specific script -->
-    <script>
-        $(function () {
-            $("#table_order").DataTable({
-                "responsive": true, "lengthChange": false, "autoWidth": false,
-                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-            }).buttons().container().appendTo('#table_order_wrapper .col-md-6:eq(0)');
-
-        });
-    </script>
+@section Scripts {
+    <partial name="_Datatables" model="dataTable" />
 }

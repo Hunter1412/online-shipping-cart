@@ -46,6 +46,18 @@ namespace OnlineShoppingCart.Utils
             session.SetString(CART_KEY, jsonCart);
         }
 
+        public double CalculateTotal(List<CartItem> carts)
+        {
+            if (carts == null || carts.Count == 0) return 0;
+            double total = 0.00;
+            foreach (var cart in carts)
+            {
+                var discount = cart?.Product?.Promotion > 0 ? cart.Product.Promotion : 0.00;
+                total += cart!.Quantity * (double)(cart.Product!.Price - discount);
+            }
+            return total;
+        }
+
 
         //lay voucher
         public Voucher? GetVoucher()

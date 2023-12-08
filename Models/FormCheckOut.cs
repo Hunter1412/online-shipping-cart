@@ -4,13 +4,12 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using MailKit;
 
-namespace OnlineShoppingCart.Models.DTOs
+namespace OnlineShoppingCart.Models
 {
-    public class ShippingDto
+    public class FormCheckOut
     {
-        [Key]
-        public string? Id { get; set; }
         [Required(ErrorMessage = "Please enter your name")]
         [MinLength(3)]
         public string? Name { get; set; }
@@ -25,22 +24,21 @@ namespace OnlineShoppingCart.Models.DTOs
         [Required]
         [Phone]
         public string? Phone { get; set; }
+        [Required]
         public string? City { get; set; }
+        [Required]
         public string? District { get; set; }
-        public string? Wards { get; set; }
+        [Required]
+        public string? Ward { get; set; }
+        [Required]
         public string? Address { get; set; }
         public string? Note { get; set; }
         public string? DeliveryType { get; set; }
         public double? ShippingFee { get; set; }
 
-        public DateTime? CreateAt { get; set; }
-        public DateTime? EndAt { get; set; }
+        public string? Code { get; set; }
 
+        public string PaymentMethod { get; set; } = "PayPal";
 
-        public ShippingDto()
-        {
-            CreateAt = DateTime.Now;
-        }
-        public OrderDto? Order { get; set; }
     }
 }

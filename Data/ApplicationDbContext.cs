@@ -42,7 +42,23 @@ public class ApplicationDbContext : IdentityDbContext<AppUser>
             r => r.HasOne<Product>(e => e.Product).WithMany(e => e.OrderDetails).HasForeignKey(e => e.ProductId));
         //one - one
         builder.Entity<Shipping>()
-        .HasOne(e => e.Order)
-        .WithOne(e => e.Shipping);
+            .HasOne(e => e.Order)
+            .WithOne(e => e.Shipping);
+
+        builder.Entity<OrderDetail>()
+                .HasIndex(u => u.OrderNumber)
+                .IsUnique();
+
+        builder.Entity<Product>()
+                .HasIndex(p => p.Slug)
+                .IsUnique();
+
+        builder.Entity<Category>()
+                .HasIndex(p => p.Slug)
+                .IsUnique();
+
+        builder.Entity<Voucher>()
+                .HasIndex(p => p.Code)
+                .IsUnique();
     }
 }

@@ -42,7 +42,6 @@
     <script src="~/assets/js/jquery-1.11.0.min.js"></script>
     <script src="~/assets/js/jquery-migrate-1.2.1.min.js"></script>
     <script src="~/assets/js/bootstrap.bundle.min.js"></script>
-    @* <script src="~/assets/js/templatemo.js"></script> *@
     <script src="~/assets/js/custom.js"></script>
     @await RenderSectionAsync("Sliders", required: false)
 
@@ -56,38 +55,14 @@
 
     @await RenderSectionAsync("Scripts", required: false)
 
+    @{
+        await Html.RenderPartialAsync("_ShoppingCart");
+    }
+
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     <script>
         $(document).ready(function () {
-            $('.add-to-cart').click(function (e) {
-                e.preventDefault();
-                let pid = $(this).data("id") ?? '';
-                let quantity = $('#product_quantity_' + pid).val() ?? 1;
-                let data = {
-                    id: pid,
-                    quantity: quantity
-                };
-                postAjax(data);
-            });
-
-            function postAjax(data) {
-                console.log(`data>>>>`, data); //ok
-                $.ajax({
-                    type: "POST",
-                    url: "/add-cart",
-                    data: data,
-                    success: function (result) {
-                        console.log(result); //ok
-                        $("#count_cart").html(result.count)
-                        toastr["success"]("Success", "Added successfully");
-                        window.location.href = "@Url.RouteUrl("cart")";
-                    },
-                    error: function (e) {
-                        console.log(e);
-                        toastr["error"]("Error", e);
-                    }
-                });
-            }
 
             $("#inputSearch").keyup(function () {
                 var searchFeild = $("#inputSearch").val();
@@ -145,6 +120,7 @@
                 })
             }
         })
+
     </script>
 </body>
 

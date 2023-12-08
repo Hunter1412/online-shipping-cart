@@ -8,7 +8,7 @@ namespace OnlineShoppingCart.Core.Services
         private readonly Payment payment;
         private readonly IConfiguration configuration;
 
-        public PaypalServices(IConfiguration configuration = null)
+        public PaypalServices(IConfiguration configuration)
         {
             this.configuration = configuration;
 

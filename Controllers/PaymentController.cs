@@ -36,7 +36,7 @@ namespace OnlineShoppingCart.Controllers
             return View();
         }
 
-        public ActionResult PaymentWithPaypal(string Cancel = null, string PayerID = "", string guid = "")
+        public ActionResult PaymentWithPaypal(string? Cancel = null, string PayerID = "", string guid = "")
         {
             var clientId = _configuration.GetValue<string>("PayPal:Key");
             var clientSecret = _configuration.GetValue<string>("PayPal:Secret");
@@ -97,7 +97,7 @@ namespace OnlineShoppingCart.Controllers
                 return View("FailureView");
             }
             //on successful payment, show success page to user.
-            return View("PaymentSuccess");
+            return RedirectToAction("Success", "ShoppingCart");
         }
 
 
