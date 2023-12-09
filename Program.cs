@@ -65,7 +65,7 @@ builder.Services.Configure<IdentityOptions>(options =>
     // Cấu hình đăng nhập.
     options.SignIn.RequireConfirmedEmail = true;            // Cấu hình xác thực địa chỉ email (email phải tồn tại)
     options.SignIn.RequireConfirmedPhoneNumber = false;     // Xác thực số điện thoại
-    options.SignIn.RequireConfirmedAccount = true; // Xac thuc new acc truoc khi login
+    options.SignIn.RequireConfirmedAccount = false; // Xac thuc new acc truoc khi login
 });
 
 builder.Services.ConfigureApplicationCookie(options =>
