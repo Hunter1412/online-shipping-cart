@@ -14,7 +14,7 @@ using OnlineShoppingCart.Models.DTOs;
 namespace OnlineShoppingCart.Areas.OrderManage.Controllers
 {
     [Area("OrderManage")]
-    [Authorize]
+    [Authorize(Roles ="admin,employee")]
     public class OrderController : Controller
     {
         private readonly ILogger<OrderController> _logger;
@@ -70,14 +70,6 @@ namespace OnlineShoppingCart.Areas.OrderManage.Controllers
         [HttpGet("/admin/delivery-details")]
         public async Task<IActionResult> DeliveryDetails(string id)
         {
-            // var orders = await _unitOfWork.Orders.GetAll("OrderDetails,Shipping");
-            // if (orders == null)
-            // {
-            //     return View(new List<OrderDto>());
-            // }
-            // var orderDtoList = orders.Select(o => _mapper.Map<OrderDto>(o)).OrderByDescending(x => x.CreateAt).ToList();
-            // return View(orderDtoList);
-
             var order = await _unitOfWork.Orders.Get(o => o.ShippingId == id, "OrderDetails,Shipping");
             if (order == null)
             {
@@ -130,6 +122,16 @@ namespace OnlineShoppingCart.Areas.OrderManage.Controllers
             }
         }
 
+        [HttpGet("/admin/payment")]
+        public async Task<IActionResult> Payment()
+        {
+            var order = await _unitOfWork.Orders.GetAll("Shipping");
+            if (order == null)
+            {
+                return View(new OrderDto());
+            }
+            return View(_mapper.Map<OrderDto>(order));
+        }
 
     }
 }

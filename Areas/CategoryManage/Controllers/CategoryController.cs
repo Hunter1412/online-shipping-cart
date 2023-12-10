@@ -13,9 +13,11 @@ using AutoMapper;
 using OnlineShoppingCart.Models.DTOs;
 using OnlineShoppingCart.Utils;
 using OnlineShoppingCart.Core.UnitOfWork;
+using Microsoft.AspNetCore.Authorization;
 
 namespace OnlineShoppingCart.Areas.CategoryManage.Controllers
 {
+    [Authorize(Roles ="admin")]
     [Area("CategoryManage")]
     public class CategoryController : Controller
     {

@@ -45,6 +45,6 @@ namespace OnlineShoppingCart.Models.DTOs
         }
 
         public List<ProductDto>? Products { get; set; }
-        public List<OrderDetailDto>? OrderDetails { get; set; }
+        public List<OrderDetailDto> OrderDetails { get; set; }
     }
 }

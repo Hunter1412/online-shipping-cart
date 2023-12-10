@@ -9,7 +9,7 @@ using OnlineShoppingCart.Data;
 
 namespace OnlineShoppingCart.Areas.Database.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="admin")]
     [Area("Database")]
     [Route("/database-manage/[action]")]
     public class DbManageController : Controller

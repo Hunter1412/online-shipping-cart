@@ -870,3 +870,7 @@ D:/online-shipping-cart/obj/Debug/net7.0/refint/OnlineShoppingCart.dll
 D:/online-shipping-cart/obj/Debug/net7.0/OnlineShoppingCart.pdb
 D:/online-shipping-cart/obj/Debug/net7.0/OnlineShoppingCart.genruntimeconfig.cache
 D:/online-shipping-cart/obj/Debug/net7.0/ref/OnlineShoppingCart.dll
+/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/bin/Debug/net7.0/Microsoft.AspNetCore.JsonPatch.dll
+/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/bin/Debug/net7.0/Newtonsoft.Json.Bson.dll
+/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/bin/Debug/net7.0/X.PagedList.dll
+/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/bin/Debug/net7.0/X.PagedList.Mvc.Core.dll

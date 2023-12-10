@@ -12,7 +12,7 @@ using OnlineShoppingCart.Data.Entities;
 
 namespace OnlineShoppingCart.Areas.Admin.Pages.User
 {
-    // [Authorize(Roles = "admin")]
+    [Authorize(Roles = "admin")]
     public class Index : PageModel
     {
         const int USER_PER_PAGE = 10;
@@ -52,7 +52,7 @@ namespace OnlineShoppingCart.Areas.Admin.Pages.User
         {
             //lay danh sach user
             Users = await _userManager.Users.OrderBy(u => u.UserName)
-                .Select(u => new UserAndRole { Id = u.Id, UserName = u.UserName })
+                .Select(u => new UserAndRole { Id = u.Id, UserName = u.UserName, Email = u.Email })
                 .ToListAsync();
 
             // int totalUsers = Users.Count;

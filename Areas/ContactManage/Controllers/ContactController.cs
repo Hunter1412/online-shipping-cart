@@ -20,7 +20,7 @@ using ContactEntity = OnlineShoppingCart.Data.Entities.Contact;
 
 namespace OnlineShoppingCart.Areas.ContactManage.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="admin")]
     [Area("ContactManage")]
     public class ContactController : Controller
     {
@@ -83,7 +83,6 @@ namespace OnlineShoppingCart.Areas.ContactManage.Controllers
                     return RedirectToAction(nameof(SendContact));
                 }
                 var contact = _mapper.Map<Contact>(contactDto);
-                _logger.LogInformation(contact?.AppUser?.Email);
                 var email = contact!.AppUser!.Email;
                 AppUser? user = await _unitOfWork.Users.Get(x => x.Email == email);
 

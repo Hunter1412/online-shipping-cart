@@ -1,14 +1,22 @@
 @model OnlineShoppingCart.Models.ProductItem;
 
+@using Microsoft.AspNetCore.Identity;
 @using AutoMapper;
 @using OnlineShoppingCart.Core.UnitOfWork;
 @using ProductDto = OnlineShoppingCart.Models.DTOs.ProductDto;
+@using OnlineShoppingCart.Models.DTOs;
+@using OnlineShoppingCart.Data.Entities;
+
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> _userManager
 
 @inject IUnitOfWork _unitOfWork;
 @inject IMapper _mapper;
 
 @{
     ViewData["Title"] = "Product details";
+    AppUser? user = await _userManager.GetUserAsync(User);
+    bool isFeedback = false;
 
     var products = await _unitOfWork.Products.GetAll("Inventories,Images,Feedbacks");
     //Related Products
@@ -42,90 +50,20 @@
                         data-bs-ride="carousel">
                         <!--Start Slides-->
                         <div class="carousel-inner product-links-wap" role="listbox">
-
-                            <!--First slide-->
-                            <div class="carousel-item active">
-                                <div class="row">
-                                    <div class="col-4">
-                                        <a href="#">
-                                            <img class="card-img img-fluid"
-                                                src="~/assets/img/product_velvet-finish-notebook-a5.webp"
-                                                alt="Product Image 1">
-                                        </a>
-                                    </div>
-                                    <div class="col-4">
-                                        <a href="#">
-                                            <img class="card-img img-fluid"
-                                                src="~/assets/img/product_velvet-finish-notebook-a5.webp"
-                                                alt="Product Image 2">
-                                        </a>
-                                    </div>
-                                    <div class="col-4">
-                                        <a href="#">
-                                            <img class="card-img img-fluid"
-                                                src="~/assets/img/product_velvet-finish-notebook-a5.webp"
-                                                alt="Product Image 3">
-                                        </a>
-                                    </div>
-                                </div>
+                            <div class="row">
+                                @if (Model.Images?.Count > 0)
+                                {
+                                    @foreach (var image in Model.Images)
+                                    {
+                                        <div class="carousel-item active col-4">
+                                            <a href="#">
+                                                <img class="card-img img-fluid" src="~/assets/img/@(image.ImageName)"
+                                                    alt="Product Image 1" style="width: 100px;height: auto;">
+                                            </a>
+                                        </div>
+                                    }
+                                }
                             </div>
-                            <!--/.First slide-->
-
-                            <!--Second slide-->
-                            <div class="carousel-item">
-                                <div class="row">
-                                    <div class="col-4">
-                                        <a href="#">
-                                            <img class="card-img img-fluid"
-                                                src="~/assets/img/product_velvet-finish-notebook-a5.webp"
-                                                alt="Product Image 4">
-                                        </a>
-                                    </div>
-                                    <div class="col-4">
-                                        <a href="#">
-                                            <img class="card-img img-fluid"
-                                                src="~/assets/img/product_velvet-finish-notebook-a5.webp"
-                                                alt="Product Image 5">
-                                        </a>
-                                    </div>
-                                    <div class="col-4">
-                                        <a href="#">
-                                            <img class="card-img img-fluid"
-                                                src="~/assets/img/product_velvet-finish-notebook-a5.webp"
-                                                alt="Product Image 6">
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--/.Second slide-->
-
-                            <!--Third slide-->
-                            <div class="carousel-item">
-                                <div class="row">
-                                    <div class="col-4">
-                                        <a href="#">
-                                            <img class="card-img img-fluid"
-                                                src="~/assets/img/product_velvet-finish-notebook-a5.webp"
-                                                alt="Product Image 7">
-                                        </a>
-                                    </div>
-                                    <div class="col-4">
-                                        <a href="#">
-                                            <img class="card-img img-fluid"
-                                                src="~/assets/img/product_velvet-finish-notebook-a5.webp"
-                                                alt="Product Image 8">
-                                        </a>
-                                    </div>
-                                    <div class="col-4">
-                                        <a href="#">
-                                            <img class="card-img img-fluid"
-                                                src="~/assets/img/product_velvet-finish-notebook-a5.webp"
-                                                alt="Product Image 9">
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--/.Third slide-->
                         </div>
                         <!--End Slides-->
                     </div>
@@ -146,17 +84,17 @@
                     <div class="card-body">
                         <h1 class="h2">@Model.Name</h1>
                         <h3 class="h3 py-2">$@Model.NewPrice.ToString("N2")</h3>
-                        @if (Model.AverageRating > 0)
+                        @if (@Model.AverageRating > 0)
                         {
                             double avg = 0;
                             <p class="py-2">
                                 @for (var i = 1; i <= 5; i++)
                                 {
-                                    avg = 3.4;
+                                    avg = @Model.AverageRating;
                                     var color = (i <= avg) ? "text-warning" : "text-muted";
                                     <i class="@color fa fa-star" aria-hidden="true"></i>
                                 }
-                                <span class="list-inline-item text-dark">Rating @avg | 36 Comments</span>
+                                <span class="list-inline-item text-dark">Rating @avg | (@Model.CountReview review)</span>
                             </p>
                         }
 
@@ -196,15 +134,15 @@
                                         class="btn btn-success btn-lg">Buy It Now</a>
                                 </div>
                             </div>
+                            @if (Model.Stock > 0)
+                            {
+                                <div class="text-success p-3">In stock, ready to ship (@Model.Stock)</div>
+                            }
+                            else
+                            {
+                                <div class="text-danger p-3">Out of stock</div>
+                            }
                         </div>
-                        @if (Model.Stock > 0)
-                        {
-                            <div class="text-success p-3">In stock, ready to ship (@Model.Stock)</div>
-                        }
-                        else
-                        {
-                            <div class="text-danger p-3">Out of stock</div>
-                        }
 
                     </div>
                 </div>
@@ -233,35 +171,59 @@
             <div class="tab-content" id="pills-tabContent">
                 <div class="tab-pane fade show active" id="pills-comment" role="tabpanel"
                     aria-labelledby="pills-comment-tab">
-                    @if (Model.Feedbacks!.Count > 0)
-                    {
-                        foreach (var feedback in Model.Feedbacks!)
+                    <div class="row">
+                        @if (Model.Feedbacks!.Count > 0)
                         {
-                            <div class="mb-3">
-                                <div class="post clearfix p-3 card">
-                                    <div class="d-flex justify-content-between">
-                                        <strong>
-                                            @feedback.Content
-                                        </strong>
-                                        <span class="float-right btn-tool">
-                                            <button type="button" class="btn-sm btn-close btn-outline-danger"
-                                                aria-label="Close"></button>
-                                        </span>
-                                    </div>
-                                    <small class="user-block">
-                                        <small class="username"> Create by
-                                            <a href="#">@feedback.AppUser!.UserName</a>
+                            var feedbackList = Model.Feedbacks.OrderByDescending(f => f.CreateAt).ToList();
+                            foreach (var feedback in feedbackList)
+                            {
+                                <div class="mb-3 col-12 col-md-6">
+                                    <div class="post clearfix p-3 card">
+                                        <div class="d-flex justify-content-between">
+                                            <strong>
+                                                @feedback.Content
+                                            </strong>
+                                            <span class="float-right btn-tool">
+                                                @if ((user != null) && (user.Id == feedback.UserId))
+                                                {
+                                                    <form asp-area="FeedbackManage" asp-controller="Feedback" asp-action="Delete"
+                                                        method="post">
+                                                        <input type="hidden" name="feedbackId" value="@feedback.Id">
+                                                        <input type="hidden" name="productSlug" value="@Model.Slug">
+                                                        <button type="submit" class="btn-sm btn-close btn-outline-danger"
+                                                            aria-label="Close"></button>
+                                                    </form>
+                                                }
+                                            </span>
+                                        </div>
+                                        <small class="user-block">
+                                            @if (@feedback.Rating > 0)
+                                            {
+                                                @for (var i = 1; i <= 5; i++)
+                                                {
+                                                    var avg = @feedback.Rating;
+                                                    var color = (i <= avg) ? "text-warning" : "text-muted";
+                                                    <i class="@color fa fa-star" aria-hidden="true"></i>
+                                                }
+                                            }
+                                            <small class="username"> Create by
+                                                @if (feedback.UserId != null)
+                                                {
+                                                    var name = await _unitOfWork.Users.Get(x => x.Id == feedback.UserId);
+                                                    <span>@name</span>
+                                                }
+                                            </small>
+                                            <small class="description">on @feedback.CreateAt</small>
                                         </small>
-                                        <small class="description">on @feedback.CreateAt</small>
-                                    </small>
+                                    </div>
                                 </div>
-                            </div>
+                            }
                         }
-                    }
-                    else
-                    {
-                        <h5 class="mb-3">No Comments Yet!</h5>
-                    }
+                        else
+                        {
+                            <h5 class="mb-3">No Comments Yet!</h5>
+                        }
+                    </div>
 
                 </div>
 
@@ -294,7 +256,8 @@
                                 For every order you place, we'll provide free delivery. Thank you for trusting Art Shop
                                 products!
                                 In case of any concerns in regards to the delivery status, kindly contact us at
-                                @ViewData["EmailShop"] or call us on our toll-free number @ViewData["PhoneShop"].
+                                onlineshoppingcart.arts@gmail.com or call us on our toll-free number
+                                +84 898313863.
                             </p>
                         </div>
                     </article>
@@ -330,7 +293,8 @@
                                 and where to send your package. Items sent back to us without first requesting a return
                                 will
                                 not be accepted.
-                                You can always contact us for assistance with returns at @ViewData["EmailShop"]
+                                You can always contact us for assistance with returns at
+                                onlineshoppingcart.arts@gmail.com
                             </p>
 
                             <b>Damages and issues</b>
@@ -377,51 +341,59 @@
                     </article>
                 </div>
                 <div class="tab-pane fade" id="pills-feedback" role="tabpanel" aria-labelledby="pills-feedback-tab">
-
-                    <dic class="card col-md-10 mx-auto">
-                        <h5 class="card-header bg-light text-dark">We are looking forward to your feedback!</h5>
-                        <div class="card-body row">
-                            <div class="col-12 col-md-3 text-center">
-                                <div class="text-center">
-                                    <img class="avatar" src="~/assets/img/default-avatar-image.png" alt="avatar">
-                                    <p class="h5 mt-3">Username</p>
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-9 px-3">
-                                <form class="" method="post">
-                                    <div class="form-group row mb-3">
-                                        <textarea type="text" class="form-control col-10" id="content" name="content"
-                                            placeholder="Message" rows=5 required></textarea>
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <div class="card col-md-10 mx-auto">
+                            <h5 class="card-header bg-light text-dark">We are looking forward to your feedback!</h5>
+                            <div class="card-body row">
+                                <div class="col-12 col-md-3 text-center">
+                                    <div class="text-center">
+                                        <img class="avatar" src="~/assets/img/default-avatar-image.png" alt="avatar">
+                                        <p class="h5 mt-3">@user?.UserName</p>
                                     </div>
-                                    <input type="hidden" name="productId" value="@Model.Id" />
-                                    <div class="mb-3">
-                                        <div class="mb-3 row">
-                                            <div class="comment-form-rating">
-                                                <span>Your rating: </span>
-                                                <p class="stars">
-                                                    <label for="rated-1"></label>
-                                                    <input type="radio" id="rated-1" name="rating" value="1">
-                                                    <label for="rated-2"></label>
-                                                    <input type="radio" id="rated-2" name="rating" value="2">
-                                                    <label for="rated-3"></label>
-                                                    <input type="radio" id="rated-3" name="rating" value="3">
-                                                    <label for="rated-4"></label>
-                                                    <input type="radio" id="rated-4" name="rating" value="4">
-                                                    <label for="rated-5"></label>
-                                                    <input type="radio" id="rated-5" name="rating" value="5"
-                                                        checked="checked">
-                                                </p>
-                                            </div>
-                                            <div class="form-group">
-                                                <button type="submit"
-                                                    class="btn btn-success offset-sm-9 w-25">Send</button>
+                                </div>
+                                <div class="col-12 col-md-9 px-3">
+                                    <form class="mx-auto" asp-area="FeedbackManage" asp-controller="Feedback"
+                                        asp-action="Create" method="post">
+                                        <div class="form-group row mb-3">
+                                            <textarea type="text" class="form-control col-10" id="content" name="content"
+                                                placeholder="Message" rows=5 required></textarea>
+                                        </div>
+                                        <input type="hidden" name="productId" value="@Model.Id" />
+                                        <input type="hidden" name="productSlug" value="@Model.Slug" />
+                                        <div class="mb-3">
+                                            <div class="mb-3 row">
+                                                <div class="comment-form-rating">
+                                                    <span>Your rating: </span>
+                                                    <p class="stars">
+                                                        <label for="rated-1"></label>
+                                                        <input type="radio" id="rated-1" name="rating" value="1">
+                                                        <label for="rated-2"></label>
+                                                        <input type="radio" id="rated-2" name="rating" value="2">
+                                                        <label for="rated-3"></label>
+                                                        <input type="radio" id="rated-3" name="rating" value="3">
+                                                        <label for="rated-4"></label>
+                                                        <input type="radio" id="rated-4" name="rating" value="4">
+                                                        <label for="rated-5"></label>
+                                                        <input type="radio" id="rated-5" name="rating" value="5"
+                                                            checked="checked">
+                                                    </p>
+                                                </div>
+                                                <div class="form-group">
+                                                    <button type="submit"
+                                                        class="btn btn-success offset-sm-9 w-25">Send</button>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </form>
+                                    </form>
+                                </div>
                             </div>
                         </div>
-                    </dic>
+                    }
+                    else
+                    {
+                        <div class="text-center">You'll need to log in before you're allowed to post.</div>
+                    }
                 </div>
             </div>
         </div><!-- End Feed -->

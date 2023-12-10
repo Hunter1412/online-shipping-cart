@@ -12,8 +12,7 @@ using OnlineShoppingCart.Data;
 
 namespace OnlineShoppingCart.Areas.Admin.Pages.Role
 {
-    // [Authorize(Roles = "admin")]
-    [Authorize]
+    [Authorize(Roles = "admin")]
     public class Index : RolePageModel
     {
         public Index(RoleManager<IdentityRole> roleManager, ApplicationDbContext context) : base(roleManager, context)

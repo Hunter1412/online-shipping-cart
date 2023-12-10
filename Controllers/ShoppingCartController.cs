@@ -197,6 +197,7 @@ namespace OnlineShoppingCart.Controllers
 
             List<CartItem> carts = _cartService.GetCartItems();
             Voucher? voucher = _cartService.GetVoucher();
+            var voucherDiscount = voucher != null ? voucher.Discount : 0;
 
             //save order
             var guidNumber = Convert.ToString((new Random()).Next(100000000));
@@ -205,7 +206,7 @@ namespace OnlineShoppingCart.Controllers
                 Id = guidNumber,
                 OrderDate = DateTime.Now,
                 OrderStatus = "Pending", //dang xu ly
-                OrderTotal = _cartService.CalculateTotal(carts),
+                OrderTotal = _cartService.CalculateTotal(carts) - voucherDiscount,
                 PaymentStatus = "Finish", //-Await payment | Finish | Refund,
                 PaymentMethod = form.PaymentMethod,
                 ShippingId = shipping.Id,
@@ -257,7 +258,7 @@ namespace OnlineShoppingCart.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-
+        
 
 
 

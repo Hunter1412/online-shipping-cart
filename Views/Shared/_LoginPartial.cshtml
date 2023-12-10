@@ -36,8 +36,14 @@
                 asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post">
                 <a id="manage" class="dropdown-item text-dark" asp-area="Identity" asp-page="/Account/Manage/Index"
                     title="Manage">
-                    <i class="fas fa-user mr-2"></i>
+                    <i class="fas fa-user me-2"></i>
                     <span class="float-end text-dark">Profile</span>
+                </a>
+
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item text-dark" asp-area="" asp-controller="ViewOrder" asp-action="Index">
+                    <i class="fas fa-copy me-2"></i>
+                    <span class="float-end text-dark">Orders</span>
                 </a>
                 <div class="dropdown-divider"></div>
                 <button class="dropdown-item" type="submit">
@@ -47,8 +53,8 @@
                     </span>
                 </button>
             </form>
-            @* @if (User.IsInRole("admin") || User.IsInRole("employee")) *@
-            @if (true)
+            @if (User.IsInRole("admin") || User.IsInRole("employee"))
+            @* @if (true) *@
             {
                 <div class="dropdown-divider"></div>
                 <div class="dropdown-footer">

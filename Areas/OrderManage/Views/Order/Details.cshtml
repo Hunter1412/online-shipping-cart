@@ -1,11 +1,16 @@
 ﻿@using OnlineShoppingCart.Models.DTOs;
+@using OnlineShoppingCart.Data.Entities;
 @model OrderDto;
 @inject OnlineShoppingCart.Core.UnitOfWork.IUnitOfWork _unitOfWork;
 
 @{
-    ViewData["Title"] = "Order Infomation";
+    ViewData["Title"] = "The details of the payments";
     double subtotal = 0.00;
-    var product = await _unitOfWork.Products.GetAll();
+    var vouchers = await _unitOfWork.Vouchers.GetAll();
+    var voucher = vouchers != null
+    ? vouchers.SingleOrDefault(x => x.Id == Model.VoucherId)
+    : new Voucher();
+    double discount = voucher != null ? voucher.Discount : 0;
 }
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -139,10 +144,14 @@
                             <!-- /.col -->
                             <div class="col-6">
                                 <div class="table-responsive">
-                                    <table class="table">
+                                    <table class="table text-end">
                                         <tr>
                                             <th style="width:50%">Subtotal:</th>
-                                            <td>$@subtotal</td>
+                                            <td>$@subtotal.ToString("N2")</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Voucher:</th>
+                                            <td>-$@discount.ToString("N2")</td>
                                         </tr>
                                         <tr>
                                             <th>Shipping:</th>
@@ -150,7 +159,7 @@
                                         </tr>
                                         <tr>
                                             <th>Total:</th>
-                                            <td>$@Model.OrderTotal</td>
+                                            <td>$@Model.OrderTotal.ToString("N2")</td>
                                         </tr>
                                     </table>
                                 </div>

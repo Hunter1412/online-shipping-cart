@@ -15,7 +15,7 @@ using OnlineShoppingCart.Models.DTOs;
 namespace App.Areas.VoucherManage.Controllers
 {
     [Area("VoucherManage")]
-    [Authorize]
+    [Authorize(Roles = "admin")]
     public class VoucherController : Controller
     {
         private readonly ApplicationDbContext _context;

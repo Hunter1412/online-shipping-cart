@@ -1,0 +1,80 @@
+﻿@page
+@using OnlineShoppingCart.Areas.Admin.Pages.Role.AddEmployee
+@model RegisterModel
+@{
+    ViewData["Title"] = "";
+}
+
+<section class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">@ViewData["Title"]</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item">
+                            <a asp-area="Admin" asp-page="/Role/Index">
+                                Role List
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            <a asp-area="Admin" asp-page="/Role/Add">
+                                @ViewData["Title"]
+                            </a>
+                        </li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+
+    <div class="content">
+        <div class="container-fluid">
+            <div class="card">
+                <div class="card-header">
+                    <strong class="h3 card-title">@ViewData["Title"]</strong>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 mx-auto">
+                            <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                                <h2>Create a new Employee.</h2>
+                                <hr />
+                                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                                <div class="form-floating mb-3">
+                                    <label asp-for="Input.Email">Email</label>
+                                    <input asp-for="Input.Email" class="form-control" autocomplete="username"
+                                        aria-required="true" placeholder="name@example.com" />
+                                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <label asp-for="Input.Password">Password</label>
+                                    <input asp-for="Input.Password" class="form-control" autocomplete="new-password"
+                                        aria-required="true" placeholder="password" />
+                                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <label asp-for="Input.ConfirmPassword">Confirm Password</label>
+                                    <input asp-for="Input.ConfirmPassword" class="form-control"
+                                        autocomplete="new-password" aria-required="true" placeholder="password" />
+                                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                                </div>
+                                <button id="registerSubmit" type="submit"
+                                    class="w-100 btn btn-lg btn-success">Register</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

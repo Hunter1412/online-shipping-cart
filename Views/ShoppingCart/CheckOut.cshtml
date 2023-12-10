@@ -220,13 +220,13 @@
                                     <span class="col-12 col-sm-1">
                                         <button id="check_voucher" class="btn btn-outline-success btn-md">Check</button>
                                     </span>
-                                    <span class="col-12 col-sm-4 text-end">$ <span id="discount">@discount.ToString("N2")</span></span>
+                                    <span class="col-12 col-sm-4 text-end"> -$ <span id="discount">@discount.ToString("N2")</span></span>
                                     <small class="col-12" is="error_voucher"></small>
                                 </div>
                             </div>
                             <div class="row mt-3 align-items-center">
                                 <div class="col-8">Shiping fee</div>
-                                <div class="col-4 text-end" id="shppingFee">$ <span style="text-decoration-line-through" id="shippingFee">1.00</span></div>
+                                <div class="col-4 text-end" id="shppingFee">$ <span class="text-decoration-line-through" id="shippingFee">1.00</span></div>
                             </div>
                             <div class="row mt-3 text-end">
                                 <strong class="col-sm-6">Order Total:</strong>
@@ -322,14 +322,14 @@
             // Bỏ các khoảng trắng liền nhau
             str = str.replace(/ + /g," ");
 
-            str = str.replace('Tinh ', 'City ');
+            str = str.replace('Tinh ', 'Province ');
             str = str.replace('Thanh pho ', 'City ');
             str = str.replace('Quan ', 'District ');
             str = str.replace('Huyen ', 'District ');
-            str = str.replace('Thi tran', 'Ward');
-            str = str.replace('Thi xa', 'Ward');
+            str = str.replace('Thi tran', 'Town');
+            str = str.replace('Thi xa', 'Town');
             str = str.replace('Phuong', 'Ward');
-            str = str.replace('Xa ', 'Ward ');
+            str = str.replace('Xa ', 'Commune ');
             str = str.trim();
 
             return str;

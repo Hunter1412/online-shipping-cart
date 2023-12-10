@@ -1,0 +1,138 @@
+@model X.PagedList.IPagedList<OnlineShoppingCart.Models.DTOs.OrderDto>;
+
+@using X.PagedList.Mvc.Core;
+
+
+@using Microsoft.AspNetCore.Identity;
+@using OnlineShoppingCart.Data.Entities;
+
+@inject UserManager<AppUser> UserManager
+@inject OnlineShoppingCart.Core.UnitOfWork.IUnitOfWork UnitOfWork;
+
+@{
+    ViewData["Title"] = "Order history";
+    var orderDetails = await UnitOfWork.OrderDetails.GetAll("Product");
+}
+
+<section class="container py-md-5">
+    <h1>Hello @UserManager.GetUserName(User)</h1>
+    <hr>
+    <div class="row">
+        <div class="col-md-9">
+            <div class="card-header">
+                <h3>Order History</h3>
+            </div>
+            <div class="card-body">
+                @if (TempData["success"] != null)
+                {
+                    <div class="alert alert-success">
+                        @TempData["success"]
+                    </div>
+                }
+                @foreach (var order in @Model)
+                {
+                    double subtotal = 0.00;
+                    <div class="mb-5">
+                        <div class="p-3 card">
+                            <div class="card-header">
+                                <div class="row">
+                                    <div class="col-12 col-lg-5">
+                                        Order ID: @order.Id <br>
+                                        Order Total: @order.OrderTotal.ToString("N2") <br>
+                                    </div>
+                                    <div class="col-12 col-lg-5">
+                                        Order Status:
+                                        @if (order.OrderStatus == "Cancel")
+                                        {
+                                            <strong class="text-danger">@order.OrderStatus</strong>
+                                        }
+                                        else
+                                        {
+                                            <strong>@order.OrderStatus</strong>
+                                        }
+                                        <br>
+                                        Order Payment: <strong>@order.PaymentStatus</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="col-12" style="overflow-x: scroll;">
+                                    <table class="table text-center" aria-describedby="false">
+                                        <thead>
+                                            <tr>
+                                                <th>Order Number</th>
+                                                <th>Product</th>
+                                                <th>Price</th>
+                                                <th>Quantity</th>
+                                                <th>Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (@orderDetails != null)
+                                            {
+                                                var odList = orderDetails.Where(o => o.OrderId ==
+                                                order.Id).ToList();
+                                                @foreach (var item in odList)
+                                                {
+                                                    var amount = item.Price * item.Quantity;
+                                                    subtotal += amount;
+                                                    <tr>
+                                                        <td>@item.OrderNumber</td>
+                                                        <td>
+                                                            <a asp-controller="Home" asp-action="ShopSingle"
+                                                                asp-route-id="@item.Product!.Slug"
+                                                                class="text-dark text-decoration-none">
+                                                                <span class="me-2">@item.Product?.Name</span>
+                                                                <span>@item.Product?.Id</span>
+                                                            </a>
+                                                        </td>
+                                                        <td>@item.Price.ToString("N2")</td>
+                                                        <td>@item.Quantity</td>
+                                                        <td>@amount.ToString("N2")</td>
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <small class="float-end">Create on
+                                    @String.Format("{0:MM/dd/yyyy}", order.OrderDate)
+                                </small>
+                                <span class="mb-3">
+                                    @if (order.OrderStatus != "Complete")
+                                    {
+                                        <form asp-controller="ViewOrder" asp-action="CancelOrder" method="POST">
+                                            <input type="hidden" name="orderId" value="@order.Id">
+                                            <button type="submit" class="btn-sm btn-outline-secondary">Cancel order</button>
+                                        </form>
+                                    }
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="card-footer">
+                <!-- Thêm phân trang vào -->
+                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page }),
+                        new X.PagedList.Mvc.Common.PagedListRenderOptions
+                        {
+                            LiElementClasses = new string[] { "page-item" },
+                            PageClasses = new string[] { "page-link" }
+                        }
+                    )
+                <!-- Kết thúc -->
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card sidebar-sticky">
+                <div class="card-header">Action</div>
+                <div class="card-body">Action</div>
+            </div>
+        </div>
+    </div>
+</section>

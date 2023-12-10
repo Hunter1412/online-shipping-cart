@@ -1,7 +1,11 @@
 @model IEnumerable<OnlineShoppingCart.Models.DTOs.OrderDto>;
 
+@inject OnlineShoppingCart.Core.UnitOfWork.IUnitOfWork UnitOfWork;
 @{
     ViewData["Title"] = "Order List";
+
+    var Shipping = await UnitOfWork.Shippings.GetAll();
+
     double total = 0.00;
 }
 <div class="content-wrapper">
@@ -37,6 +41,7 @@
                         <thead>
                             <tr>
                                 <th>Date</th>
+                                <th>Customer</th>
                                 <th>Order ID</th>
                                 <th>Order Total</th>
                                 <th>Order status</th>
@@ -52,13 +57,18 @@
                                     total += item.OrderTotal;
                                     <tr>
                                         <td>@String.Format("{0:MM/dd/yyyy}", item.CreateAt)</td>
+                                        <td>@{
+                                                var s = Shipping!.SingleOrDefault(x => x.Id == item.ShippingId);
+                                            }
+                                            @s.Name
+                                        </td>
                                         <td>
                                             <a asp-area="OrderManage" asp-controller="Order" asp-action="Details"
                                                 asp-route-id="@item.Id" class="text-info">
                                                 @Html.DisplayFor(modelItem => item.Id)
                                             </a>
                                         </td>
-                                        <td>@item.OrderTotal.ToString("N2")</td>
+                                        <td class="text-end">@item.OrderTotal.ToString("N2")</td>
                                         <td>@item.OrderStatus</td>
                                         <td>
                                             @item.PaymentStatus
@@ -66,11 +76,9 @@
                                         </td>
                                         <td>
                                             <a asp-area="OrderManage" asp-controller="Order" asp-action="Edit"
-                                                asp-route-id="@item.Id" class="text-warning">
-                                                <i class="fas fa-edit" title="edit"></i></a> |
-                                            <a asp-area="OrderManage" asp-controller="Order" asp-action="Delete"
-                                                asp-route-id="@item.Id" class="text-danger">
-                                                <i class="fa fa-trash" aria-hidden="true"></i></a>
+                                                asp-route-id="@item.Id" class="text-warning" title="Update order status">
+                                                <i class="fas fa-edit" title="edit"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                 }
@@ -78,13 +86,15 @@
                             else
                             {
                                 <tr>
-                                    <td colspan="6">No data</td>
+                                    <td colspan="7">No data</td>
                                 </tr>
                             }
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th colspan="6">Order total: @total.ToString("N2")</th>
+                                <th colspan="3">Order total:</th>
+                                <th colspan="1" class="text-end">@total.ToString("N2")</th>
+                                <th colspan="3"></th>
                             </tr>
                         </tfoot>
                     </table>

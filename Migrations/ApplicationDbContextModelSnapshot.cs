@@ -444,7 +444,7 @@ namespace OnlineShoppingCart.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ShippingId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdateAt")
                         .HasColumnType("datetime2");
@@ -456,10 +456,6 @@ namespace OnlineShoppingCart.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ShippingId")
-                        .IsUnique()
-                        .HasFilter("[ShippingId] IS NOT NULL");
 
                     b.HasIndex("UserId");
 
@@ -573,6 +569,9 @@ namespace OnlineShoppingCart.Migrations
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("OrderId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
@@ -583,6 +582,10 @@ namespace OnlineShoppingCart.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OrderId")
+                        .IsUnique()
+                        .HasFilter("[OrderId] IS NOT NULL");
 
                     b.ToTable("Shippings");
                 });
@@ -747,10 +750,6 @@ namespace OnlineShoppingCart.Migrations
 
             modelBuilder.Entity("OnlineShoppingCart.Data.Entities.Order", b =>
                 {
-                    b.HasOne("OnlineShoppingCart.Data.Entities.Shipping", "Shipping")
-                        .WithOne("Order")
-                        .HasForeignKey("OnlineShoppingCart.Data.Entities.Order", "ShippingId");
-
                     b.HasOne("OnlineShoppingCart.Data.Entities.AppUser", "AppUser")
                         .WithMany("Orders")
                         .HasForeignKey("UserId");
@@ -760,8 +759,6 @@ namespace OnlineShoppingCart.Migrations
                         .HasForeignKey("VoucherId");
 
                     b.Navigation("AppUser");
-
-                    b.Navigation("Shipping");
 
                     b.Navigation("Voucher");
                 });
@@ -794,6 +791,15 @@ namespace OnlineShoppingCart.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("OnlineShoppingCart.Data.Entities.Shipping", b =>
+                {
+                    b.HasOne("OnlineShoppingCart.Data.Entities.Order", "Order")
+                        .WithOne("Shipping")
+                        .HasForeignKey("OnlineShoppingCart.Data.Entities.Shipping", "OrderId");
+
+                    b.Navigation("Order");
+                });
+
             modelBuilder.Entity("OnlineShoppingCart.Data.Entities.AppUser", b =>
                 {
                     b.Navigation("Carts");
@@ -820,6 +826,8 @@ namespace OnlineShoppingCart.Migrations
             modelBuilder.Entity("OnlineShoppingCart.Data.Entities.Order", b =>
                 {
                     b.Navigation("OrderDetails");
+
+                    b.Navigation("Shipping");
                 });
 
             modelBuilder.Entity("OnlineShoppingCart.Data.Entities.Product", b =>
@@ -831,11 +839,6 @@ namespace OnlineShoppingCart.Migrations
                     b.Navigation("Inventories");
 
                     b.Navigation("OrderDetails");
-                });
-
-            modelBuilder.Entity("OnlineShoppingCart.Data.Entities.Shipping", b =>
-                {
-                    b.Navigation("Order");
                 });
 #pragma warning restore 612, 618
         }

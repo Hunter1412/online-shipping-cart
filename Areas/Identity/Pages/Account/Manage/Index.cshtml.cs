@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using OnlineShoppingCart.Core.UnitOfWork;
 using OnlineShoppingCart.Data;
 using OnlineShoppingCart.Data.Entities;
 using OnlineShoppingCart.Utils;
@@ -24,16 +25,20 @@ namespace OnlineShoppingCart.Areas.Identity.Pages.Account.Manage
 
         private readonly ImageService _imageService;
 
+        protected readonly IUnitOfWork _unitOfWork;
+
 
 
         public IndexModel(
             UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
-            ImageService imageService)
+            ImageService imageService,
+            IUnitOfWork unitOfWork)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _imageService = imageService;
+            _unitOfWork = unitOfWork;
         }
 
         /// <summary>
@@ -85,6 +90,8 @@ namespace OnlineShoppingCart.Areas.Identity.Pages.Account.Manage
         public AppUser AppUser { get; set; }
         public string Roles { get; set; } = null!;
 
+        public virtual List<Order> GetOrdersBy { get; set; }
+        public List<OrderDetail> GetOrderItemAll { get; set; }
 
 
         private async Task LoadAsync(AppUser user)
@@ -109,6 +116,10 @@ namespace OnlineShoppingCart.Areas.Identity.Pages.Account.Manage
                 BirthDay = user.Birthday != null ? (DateTime)user.Birthday : DateTime.Now,
                 Avatar = user.Avatar
             };
+
+            var orderItemsAll = await _unitOfWork.OrderDetails.GetAll("Order,Product");
+            GetOrderItemAll = orderItemsAll;
+
         }
 
         public async Task<IActionResult> OnGetAsync()

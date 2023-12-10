@@ -16,6 +16,7 @@ using ImageEntity = OnlineShoppingCart.Data.Entities.Image;
 
 namespace OnlineShoppingCart.Areas.ProductManage.Controllers
 {
+    [Authorize(Roles ="admin")]
     [Area("ProductManage")]
     public class ProductController : Controller
     {

@@ -1,9 +1,13 @@
 ﻿@page "/user/profile/"
 @model IndexModel
 
+@inject OnlineShoppingCart.Core.UnitOfWork.IUnitOfWork UnitOfWork
+
 @{
     ViewData["Title"] = "Profile";
     ViewData["ActivePage"] = ManageNavPages.Index;
+
+    var productAll = await UnitOfWork.Products.GetAll() ?? new List<Product>();
 }
 
 <!-- Main content -->
@@ -15,9 +19,7 @@
             <div class="card-body box-profile row">
                 <div class="col-12 col-md-4 text-center">
                     <div class="text-center">
-                        <img class="avatar"
-                            src="~/assets/img/@Model.AppUser?.Avatar" alt="@Model.AppUser?.Avatar"
-                            >
+                        <img class="avatar" src="~/assets/img/@Model.AppUser?.Avatar" alt="@Model.AppUser?.Avatar">
                         <p class="h5 mt-3">@Model.Roles</p>
                     </div>
                 </div>
@@ -61,16 +63,6 @@
             <div class="card-header">
                 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="pills-order-tab" data-bs-toggle="pill"
-                            data-bs-target="#pills-order" role="tab" aria-controls="pills-order"
-                            aria-selected="true">Order's history</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="pills-delivery-tab" data-bs-toggle="pill"
-                            data-bs-target="#pills-delivery" type="button" role="tab" aria-controls="pills-delivery"
-                            aria-selected="false">Order processing</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
                         <button class="nav-link" id="pills-edit-tab" data-bs-toggle="pill" data-bs-target="#pills-edit"
                             type="button" role="tab" aria-controls="pills-edit" aria-selected="false">Edit
                             Profile</button>
@@ -79,53 +71,6 @@
             </div>
             <div class="card-body">
                 <div class="tab-content" id="pills-tabContent">
-                    <div class="tab-pane fade show active" id="pills-order" role="tabpanel"
-                        aria-labelledby="pills-order-tab">
-                        @for (var i = 0; i < 10; i++)
-                        {
-                            <div class="mb-3">
-                                <div class="post clearfix p-3 card">
-                                    <div class="d-flex justify-content-between">
-                                        <strong>
-                                            Order ID: #1234567890
-                                        </strong>
-                                        <span class="float-right btn-tool">
-                                            <button type="button" class="btn-sm btn-close btn-outline-danger"
-                                                aria-label="Close"></button>
-                                        </span>
-                                    </div>
-                                    <small class="user-block">
-                                        <small class="username"> Create by
-                                            <a href="#">Jonathan Burke Jr.</a>
-                                        </small>
-                                        <small class="description">on 7:30 PM today</small>
-                                    </small>
-                                </div>
-                            </div>
-                        }
-                    </div>
-
-                    <div class="tab-pane fade" id="pills-delivery" role="tabpanel" aria-labelledby="pills-delivery-tab">
-                        <div class="mb-3">
-                            <div class="post clearfix p-3 card">
-                                <div class="d-flex justify-content-between">
-                                    <strong>
-                                        Order ID: #1234567890
-                                    </strong>
-                                    <span class="float-right btn-tool">
-                                        <button type="button" class="btn-sm btn-close btn-outline-danger"
-                                            aria-label="Close"></button>
-                                    </span>
-                                </div>
-                                <small class="user-block">
-                                    <small class="username"> Create by
-                                        <a href="#">Jonathan Burke Jr.</a>
-                                    </small>
-                                    <small class="description">on 7:30 PM today</small>
-                                </small>
-                            </div>
-                        </div>
-                    </div>
 
                     <div class="tab-pane fade" id="pills-edit" role="tabpanel" aria-labelledby="pills-edit-tab">
 
@@ -187,7 +132,10 @@
         </div>
         <!-- /.card -->
     </article>
+
 </section>
+
+
 
 
 @section Scripts {

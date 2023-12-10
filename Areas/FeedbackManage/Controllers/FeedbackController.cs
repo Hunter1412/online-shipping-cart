@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OnlineShoppingCart.Core.UnitOfWork;
 using OnlineShoppingCart.Data.Entities;
@@ -11,19 +12,22 @@ using OnlineShoppingCart.Models.DTOs;
 
 namespace OnlineShoppingCart.Areas.FeedbackManage.Controllers
 {
-    [Authorize]
-    [Area("feedbackManage")]
+    [Authorize(Roles = "admin")]
+    [Area("FeedbackManage")]
     public class FeedbackController : Controller
     {
         protected readonly IMapper _mapper;
         protected readonly ILogger<FeedbackController> _logger;
         protected readonly IUnitOfWork _unitOfWork;
 
-        public FeedbackController(ILogger<FeedbackController> logger, IMapper mapper, IUnitOfWork unitOfWork)
+        protected readonly UserManager<AppUser> _userManager;
+
+        public FeedbackController(ILogger<FeedbackController> logger, IMapper mapper, IUnitOfWork unitOfWork, UserManager<AppUser> userManager = null)
         {
             _logger = logger;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _userManager = userManager;
         }
 
         [HttpGet("/admin/feedback")]
@@ -52,21 +56,53 @@ namespace OnlineShoppingCart.Areas.FeedbackManage.Controllers
 
 
 
-        [HttpPost("/contact")]
+        [HttpPost("/feedback")]
         [AllowAnonymous] //khong can phan quyen van truy cap duoc
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Content,Rating,ProductId,UserId,CreateAt")] FeedbackDto feedbackDto)
+        public async Task<IActionResult> Create(IFormCollection form)
         {
-            if (ModelState.IsValid)
+            _logger.LogInformation("Feedback - Create action");
+
+            try
             {
-                var feedback = _mapper.Map<Feedback>(feedbackDto);
-                //save db
-                feedback.Id = Guid.NewGuid().ToString();
+                AppUser? user = await _userManager.GetUserAsync(User);
+
+                var feedback = new Feedback
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    ProductId = form["productId"],
+                    Content = form["content"],
+                    Rating = Convert.ToInt32(form["rating"]),
+                    UserId = user!.Id,
+                };
+
                 await _unitOfWork.Feedbacks.Add(feedback);
                 await _unitOfWork.CompleteAsync();
-                return RedirectToAction(nameof(Index), "Home");
             }
-            return RedirectToAction("ShopSingle", "Home");
+            catch (System.Exception ex)
+            {
+                TempData["error"] = "Error input data invalid. Can not send feedback, try again...";
+                _logger.LogError(ex, "Error Create method");
+            }
+
+            return RedirectToAction("ShopSingle", "Home", new { id = form["productSlug"] });
+        }
+
+
+        [HttpPost("/admin/feedback/delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete([FromForm] string feedbackId, string productSlug)
+        {
+            if (feedbackId != null)
+            {
+                var feedback = await _unitOfWork.Feedbacks.Get(f => f.Id == feedbackId);
+                if (feedback != null)
+                {
+                    _unitOfWork.Feedbacks.Delete(feedback);
+                    await _unitOfWork.CompleteAsync();
+                }
+            }
+            return RedirectToAction("ShopSingle", "Home", new { id = productSlug });
         }
 
     }

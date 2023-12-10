@@ -127,6 +127,10 @@
             "PayPal": {
               "target": "Package",
               "version": "[1.9.1, )"
+            },
+            "X.PagedList.Mvc.Core": {
+              "target": "Package",
+              "version": "[7.6.0, )"
             }
           },
           "imports": [
