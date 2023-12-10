@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "6ohzRzj9+wh7l5lqR4CTREtSlDxq06ULGuN1jt+ozDg=",
+  "Hash": "ZWm/8SLiMN8fcTWVag9FJv3d/q3f4+9EHj7heOUqW2s=",
   "Source": "OnlineShoppingCart",
   "BasePath": "_content/OnlineShoppingCart",
   "Mode": "Default",
@@ -1596,23 +1596,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/assets/img/category_04.webp"
-    },
-    {
-      "Identity": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/category_380b41c9-69da-4892-9bf8-bf6a5adef111_coffee.png",
-      "SourceId": "OnlineShoppingCart",
-      "SourceType": "Discovered",
-      "ContentRoot": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/",
-      "BasePath": "_content/OnlineShoppingCart",
-      "RelativePath": "assets/img/category_380b41c9-69da-4892-9bf8-bf6a5adef111_coffee.png",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/assets/img/category_380b41c9-69da-4892-9bf8-bf6a5adef111_coffee.png"
     },
     {
       "Identity": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/category_img_01.jpg",

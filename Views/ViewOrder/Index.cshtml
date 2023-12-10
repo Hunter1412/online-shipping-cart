@@ -12,6 +12,8 @@
 @{
     ViewData["Title"] = "Order history";
     var orderDetails = await UnitOfWork.OrderDetails.GetAll("Product");
+    var vouchers = await UnitOfWork.Vouchers.GetAll();
+    var shipings = await UnitOfWork.Shippings.GetAll();
 }
 
 <section class="container py-md-5">
@@ -20,6 +22,13 @@
     <div class="row">
         <div class="col-md-9">
             <div class="card-header">
+                <div class="float-end row">
+                    <form class="row align-items-center" asp-controller="ViewOrder" asp-action="Index">
+                        <span class="col-6"><input type="text" name="orderid" class="form-control w-100"
+                                placeholder="Order ID"></span>
+                        <div class="col-3"><button type="submit" class="btn btn-outline-success">Search</button></div>
+                    </form>
+                </div>
                 <h3>Order History</h3>
             </div>
             <div class="card-body">
@@ -38,7 +47,7 @@
                                 <div class="row">
                                     <div class="col-12 col-lg-5">
                                         Order ID: @order.Id <br>
-                                        Order Total: @order.OrderTotal.ToString("N2") <br>
+                                        Order Total: $ @order.OrderTotal.ToString("N2") <br>
                                     </div>
                                     <div class="col-12 col-lg-5">
                                         Order Status:
@@ -79,51 +88,72 @@
                                                     <tr>
                                                         <td>@item.OrderNumber</td>
                                                         <td>
-                                                            <a asp-controller="Home" asp-action="ShopSingle"
+                                                            <a asp-controller="Shop" asp-action="ShopSingle"
                                                                 asp-route-id="@item.Product!.Slug"
                                                                 class="text-dark text-decoration-none">
                                                                 <span class="me-2">@item.Product?.Name</span>
                                                                 <span>@item.Product?.Id</span>
                                                             </a>
                                                         </td>
-                                                        <td>@item.Price.ToString("N2")</td>
+                                                        <td>$@item.Price.ToString("N2")</td>
                                                         <td>@item.Quantity</td>
-                                                        <td>@amount.ToString("N2")</td>
+                                                        <td>$@amount.ToString("N2")</td>
                                                     </tr>
                                                 }
                                             }
                                         </tbody>
                                     </table>
                                 </div>
+                                @{
+                                    var voucher = vouchers?.Where(v => v.Id == order.VoucherId).FirstOrDefault();
+                                    var discount = voucher != null ? voucher.Discount : 0;
+                                    var shipping = shipings?.Where(s => s.Id == order.Id).FirstOrDefault();
+                                    var shippingFee = shipping != null ? shipping.ShippingFee : 0.00;
+                                }
+                                <small>Voucher: -$@discount.ToString("N2")</small> <br />
+                                <small>Shipping: $@shippingFee.ToString("N2")</small>
                             </div>
                             <div class="card-footer">
                                 <small class="float-end">Create on
                                     @String.Format("{0:MM/dd/yyyy}", order.OrderDate)
                                 </small>
                                 <span class="mb-3">
-                                    @if (order.OrderStatus != "Complete")
-                                    {
-                                        <form asp-controller="ViewOrder" asp-action="CancelOrder" method="POST">
-                                            <input type="hidden" name="orderId" value="@order.Id">
-                                            <button type="submit" class="btn-sm btn-outline-secondary">Cancel order</button>
-                                        </form>
+                                    @{
+                                        var display = "";
+                                        if (
+                                        (order.OrderStatus == "Complete")
+                                        || (order.OrderStatus == "Cancel")
+                                        )
+                                        {
+                                            display = "d-none";
+                                        }
+                                        else
+                                        {
+                                            display = "d-flex";
+                                        }
                                     }
+                                    <form class="@Html.Raw(display)" asp-controller="ViewOrder" asp-action="CancelOrder"
+                                        method="POST">
+                                        <input type="hidden" name="orderId" value="@order.Id">
+                                        <button type="submit" class="btn-sm btn-outline-secondary">Cancel order</button>
+                                    </form>
                                 </span>
                             </div>
                         </div>
                     </div>
+                    <!-- End order -->
+
                 }
             </div>
             <div class="card-footer">
                 <!-- Thêm phân trang vào -->
-                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
                 @Html.PagedListPager(Model, page => Url.Action("Index", new { page }),
-                        new X.PagedList.Mvc.Common.PagedListRenderOptions
-                        {
-                            LiElementClasses = new string[] { "page-item" },
-                            PageClasses = new string[] { "page-link" }
-                        }
-                    )
+                         new X.PagedList.Mvc.Common.PagedListRenderOptions
+                {
+                    LiElementClasses = new string[] { "page-item" },
+                    PageClasses = new string[] { "page-link text-dark" }
+                })
                 <!-- Kết thúc -->
             </div>
         </div>
@@ -131,7 +161,9 @@
         <div class="col-md-3">
             <div class="card sidebar-sticky">
                 <div class="card-header">Action</div>
-                <div class="card-body">Action</div>
+                <div class="card-body">
+                    Total Order: @ViewBag.CountOrder
+                </div>
             </div>
         </div>
     </div>

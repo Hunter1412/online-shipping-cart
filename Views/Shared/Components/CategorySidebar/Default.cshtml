@@ -1,0 +1,44 @@
+@using OnlineShoppingCart.Components;
+@model OnlineShoppingCart.Components.CategorySidebar.CategorySidebarData
+@{
+    int level = Model.Level;
+}
+
+@if (Model.Categories.Count > 0)
+{
+    @if (level == 0)
+    {
+        @Html.Raw("<div class=\"category-sidebar\">")
+        <strong><a class="h3 text-decoration-none text-dark" asp-controller="Shop" asp-action="Index"
+        asp-route-categoryslug="">Categories</a></strong>
+    }
+    <ul class="list-group mb-2">
+    @foreach (var category in Model.Categories)
+        {
+            var isActive = (category.Slug == Model.SlugCategory) ? "active" : null;
+            <li>
+                <a class="collapsed" asp-controller="Shop" asp-action="Index" asp-route-categoryslug="@category.Slug">
+                    @{
+                        var bold = level == 0 ? "h3" : null;
+                    }
+                    <span class="@Html.Raw(bold)">@category.Name</span>
+                </a>
+
+                @if (category.Children?.Count > 0 && level < 1)
+                {
+                    @await Component.InvokeAsync("OnlineShoppingCart.Components.CategorySidebar",
+                             new OnlineShoppingCart.Components.CategorySidebar.CategorySidebarData()
+        {
+            Categories = category.Children.ToList(),
+            Level = level + 1,
+            SlugCategory = ViewBag.categorySlug
+        })
+                }
+            </li>
+        }
+    </ul>
+    @if (level == 0)
+    {
+        @Html.Raw("</div>")
+    }
+}

@@ -1,0 +1,77 @@
+@model X.PagedList.IPagedList<OnlineShoppingCart.Models.DTOs.ProductDto>;
+
+@using X.PagedList.Mvc.Core;
+
+@using OnlineShoppingCart.Models.DTOs;
+@using OnlineShoppingCart.Data.Entities;
+@{
+    ViewData["Title"] = "Shop";
+    List<Category> categories = ViewBag.categories as List<Category>;
+    Category category = ViewBag.currentCategory as Category;
+    ViewData["Title"] = (category != null) ? category.Name : "Categories list";
+}
+
+<article>
+    <h1>@ViewData["Title"]</h1>
+    @if (category != null)
+    {
+        <p>@Html.Raw(category.Description)</p>
+    }
+    else
+    {
+        <p>Select a category to see its products</p>
+    }
+
+
+    <div class="main">
+        <!-- 1.2.Start main content-->
+        <div class="col-12 d-flex justify-content-around align-content-around flex-column">
+            <!-- Display products list-->
+            <div class="row mb-3">
+                @if (Model.Any())
+                {
+                    @foreach (ProductDto item in Model)
+                    {
+                        var productItemSave = new OnlineShoppingCart.Models.ProductItem(item);
+                        <div class="col-md-4">
+                            <partial name="_ProductItem" model="productItemSave" />
+                        </div>
+                    }
+                }
+                else
+                {
+                    <h3 class="text-center">Sold out</h3>
+                }
+            </div>
+            <!--pagination -->
+
+            <div div="row">
+                <!-- Thêm phân trang vào -->
+                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page }),
+                         new X.PagedList.Mvc.Common.PagedListRenderOptions
+                {
+                    LiElementClasses = new string[] { "page-item" },
+                    PageClasses = new string[] { "page-link text-dark" }
+                })
+                <!-- Kết thúc -->
+            </div>
+        </div>
+    </div>
+    <!-- End main content-->
+
+</article>
+
+
+
+@section Sidebar {
+
+    @await Component.InvokeAsync("OnlineShoppingCart.Components.CategorySidebar", new
+        OnlineShoppingCart.Components.CategorySidebar.CategorySidebarData()
+{
+    Categories = categories,
+    Level = 0,
+    SlugCategory = ViewBag.categorySlug
+})
+
+}

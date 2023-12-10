@@ -145,7 +145,7 @@
                                 <small class="custom-control-description text-sm text-muted">
                                     After clicking “Pay now”, you will be redirected to Pay using online payment methods to
                                     complete your purchase securely.
-                                    <a href="/Payment/PaymentWithPayPal" class="btn btn-primary">PayPal</a>
+                                    <a href="/ShoppingCart/PaymentWithPayPal" class="btn btn-primary">PayPal</a>
                                 </small>
                             </label>
                             <label class="custom-control custom-radio">
@@ -189,7 +189,7 @@
                                             </span>
                                         </span>
                                         <span class="col-7 px-3 text-sm">
-                                            <a asp-controller="Home" asp-action="ShopSingle" asp-route-id="@item.Product.Slug"
+                                            <a asp-controller="Shop" asp-action="ShopSingle" asp-route-id="@item.Product.Slug"
                                                 class="cart-name-product text-decoration-none">
                                                 @item.Product!.Name- @item.Product!.Id
                                             </a>

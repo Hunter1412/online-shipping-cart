@@ -35,5 +35,19 @@ namespace OnlineShoppingCart.Models.DTOs
 
         [ValidateNever]
         public List<ProductDto>? Products { get; set; }
+
+
+        public void ChildrenCategoryIDs(ICollection<CategoryDto> childcates, List<string> ids)
+        {
+            if(childcates==null)
+            {
+                childcates = this.Children;
+            }
+            foreach (CategoryDto item in childcates)
+            {
+                ids.Add(item.Id);
+                ChildrenCategoryIDs(item.Children, ids);
+            }
+        }
     }
 }

@@ -1,0 +1,407 @@
+@model OnlineShoppingCart.Models.ProductItem;
+
+@using Microsoft.AspNetCore.Identity;
+@using AutoMapper;
+@using OnlineShoppingCart.Core.UnitOfWork;
+@using ProductDto = OnlineShoppingCart.Models.DTOs.ProductDto;
+@using OnlineShoppingCart.Models.DTOs;
+@using OnlineShoppingCart.Data.Entities;
+
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> _userManager
+
+@inject IUnitOfWork _unitOfWork;
+@inject IMapper _mapper;
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Product details";
+    AppUser? user = await _userManager.GetUserAsync(User);
+    bool isFeedback = false;
+
+    var products = await _unitOfWork.Products.GetAll("Inventories,Images,Feedbacks");
+    //Related Products
+    var productDtoList = products!.Select(p => _mapper.Map<ProductDto>(p))
+    .Where(p => p.Id != Model.Id)
+    .Where(x => x.CategoryId == Model.CategoryId)
+    .OrderByDescending(x => x.CreateAt).ToList();
+
+}
+
+<!--1. Open Content -->
+<section>
+    <div class="container pb-5">
+        <div class="row">
+            <div class="col-lg-5 mt-5">
+                <div class="card mb-3">
+                    <img class="card-img img-fluid" src="~/assets/img/@Model.ImageNameFirst" alt="Card image cap"
+                        id="product-detail">
+                </div>
+                <div class="row">
+                    <!--Start Controls-->
+                    <div class="col-1 align-self-center">
+                        <a href="#multi-item-example" role="button" data-bs-slide="prev">
+                            <i class="text-dark fas fa-chevron-left"></i>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </div>
+                    <!--End Controls-->
+                    <!--Start Carousel Wrapper-->
+                    <div id="multi-item-example" class="col-10 carousel slide carousel-multi-item"
+                        data-bs-ride="carousel">
+                        <!--Start Slides-->
+                        <div class="carousel-inner product-links-wap" role="listbox">
+                            <div class="row">
+                                @if (Model.Images?.Count > 0)
+                                {
+                                    @foreach (var image in Model.Images)
+                                    {
+                                        <div class="carousel-item active col-4">
+                                            <a href="#">
+                                                <img class="card-img img-fluid" src="~/assets/img/@(image.ImageName)"
+                                                    alt="Product Image 1" style="width: 100px;height: auto;">
+                                            </a>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <!--End Slides-->
+                    </div>
+                    <!--End Carousel Wrapper-->
+                    <!--Start Controls-->
+                    <div class="col-1 align-self-center">
+                        <a href="#multi-item-example" role="button" data-bs-slide="next">
+                            <i class="text-dark fas fa-chevron-right"></i>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                    <!--End Controls-->
+                </div>
+            </div>
+            <!-- col end -->
+            <div class="col-lg-7 mt-5">
+                <div class="p-3">
+                    <div class="card-body">
+                        <h1 class="h2">@Model.Name</h1>
+                        <h3 class="h3 py-2">$@Model.NewPrice.ToString("N2")</h3>
+                        @if (@Model.AverageRating > 0)
+                        {
+                            double avg = 0;
+                            <p class="py-2">
+                                @for (var i = 1; i <= 5; i++)
+                                {
+                                    avg = @Model.AverageRating;
+                                    var color = (i <= avg) ? "text-warning" : "text-muted";
+                                    <i class="@color fa fa-star" aria-hidden="true"></i>
+                                }
+                                <span class="list-inline-item text-dark">Rating @avg | (@Model.CountReview review)</span>
+                            </p>
+                        }
+
+                        <h5>Description:</h5>
+                        <p>@Html.Raw(Model.Description)</p>
+                        <ul class="list-inline">
+                            <li class="list-inline-item">
+                                <h6>Avaliable Color :</h6>
+                            </li>
+                            <li class="list-inline-item">
+                                <p class="text-muted"><strong>@Model.Color</strong></p>
+                            </li>
+                        </ul>
+
+                        <div>
+                            <div class="row">
+                                <div class="col-auto">
+                                    <ul class="list-inline pb-3">
+                                        <li class="list-inline-item text-right quantity-input">
+                                            <strong>Quantity</strong>
+                                            <span class="btn btn-success btn-minus" id="btn-minus">-</span>
+                                            <span class="btn-lg bg-secondary text-light" name="var-value">1</span>
+                                            <span class="btn btn-success btn-plus" id="btn-plus">+</span>
+                                            <input type="hidden" id="product_quantity_@(Model.Id)" data-id="@Model.Id"
+                                                name="product-quantity" value="1" data-max="1000">
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row pb-3">
+                                <div class="col d-grid">
+                                    <a type="submit" class="btn btn-success btn-lg add-to-cart" data-id="@Model.Id"
+                                        title="add-to-cart">Add To Cart</a>
+                                </div>
+                                <div class="col d-grid">
+                                    <a asp-controller="ShoppingCart" asp-action="CheckOut" type="button"
+                                        class="btn btn-success btn-lg">Buy It Now</a>
+                                </div>
+                            </div>
+                            @if (Model.Stock > 0)
+                            {
+                                <div class="text-success p-3">In stock, ready to ship (@Model.Stock)</div>
+                            }
+                            else
+                            {
+                                <div class="text-danger p-3">Out of stock</div>
+                            }
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 2.Start Feedback -->
+        <div class="feadback-container">
+            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="pills-comment-tab" data-bs-toggle="pill"
+                        data-bs-target="#pills-comment" role="tab" aria-controls="pills-comment"
+                        aria-selected="true">Comments</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-delivery-tab" data-bs-toggle="pill"
+                        data-bs-target="#pills-delivery" type="button" role="tab" aria-controls="pills-delivery"
+                        aria-selected="false">Delivery
+                        Policy</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-feedback-tab" data-bs-toggle="pill"
+                        data-bs-target="#pills-feedback" type="button" role="tab" aria-controls="pills-feedback"
+                        aria-selected="false">Feedback</button>
+                </li>
+            </ul>
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="pills-comment" role="tabpanel"
+                    aria-labelledby="pills-comment-tab">
+                    <div class="row">
+                        @if (Model.Feedbacks!.Count > 0)
+                        {
+                            var feedbackList = Model.Feedbacks.OrderByDescending(f => f.CreateAt).ToList();
+                            foreach (var feedback in feedbackList)
+                            {
+                                <div class="mb-3 col-12 col-md-6">
+                                    <div class="post clearfix p-3 card">
+                                        <div class="d-flex justify-content-between">
+                                            <strong>
+                                                @feedback.Content
+                                            </strong>
+                                            <span class="float-right btn-tool">
+                                                @if ((user != null) && (user.Id == feedback.UserId))
+                                                {
+                                                    <form asp-area="FeedbackManage" asp-controller="Feedback" asp-action="Delete"
+                                                        method="post">
+                                                        <input type="hidden" name="feedbackId" value="@feedback.Id">
+                                                        <input type="hidden" name="productSlug" value="@Model.Slug">
+                                                        <button type="submit" class="btn-sm btn-close btn-outline-danger"
+                                                            aria-label="Close"></button>
+                                                    </form>
+                                                }
+                                            </span>
+                                        </div>
+                                        <small class="user-block">
+                                            @if (@feedback.Rating > 0)
+                                            {
+                                                @for (var i = 1; i <= 5; i++)
+                                                {
+                                                    var avg = @feedback.Rating;
+                                                    var color = (i <= avg) ? "text-warning" : "text-muted";
+                                                    <i class="@color fa fa-star" aria-hidden="true"></i>
+                                                }
+                                            }
+                                            <small class="username"> Create by
+                                                @if (feedback.UserId != null)
+                                                {
+                                                    var name = await _unitOfWork.Users.Get(x => x.Id == feedback.UserId);
+                                                    <span>@name</span>
+                                                }
+                                            </small>
+                                            <small class="description">on @feedback.CreateAt</small>
+                                        </small>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <h5 class="mb-3">No Comments Yet!</h5>
+                        }
+                    </div>
+
+                </div>
+
+                <div class="tab-pane fade" id="pills-delivery" role="tabpanel" aria-labelledby="pills-delivery-tab">
+                    <article class="container py-5">
+                        <h2>Shipping policy</h2>
+                        <hr />
+                        <div style="text-align: justify;text-justify: inter-word;">
+                            <p>
+                                We aim to offer the best shipping service, irrespective of where you live. We deliver
+                                our
+                                products to hundreds of customers daily whilst ensuring that we provide the very highest
+                                levels of responsiveness to you at all times.
+                            </p>
+                            <h4>Processing Time</h4>
+                            <p>
+                                Once order verification, tailoring, quality check and packaging is done, the order is
+                                dispatched within 24-48 hours of placing it.
+                            </p>
+                            <b>Shipping Time</b>
+                            <p>
+                                This refers to the time it takes for items to be shipped from our warehouse to the
+                                destination. After processing and leaving the warehouse, prepaid orders take between 3-5
+                                business days while COD orders take
+                                5-7
+                                business days to arrive at the destination.
+                            </p>
+                            <b>Shipping Charges</b>
+                            <p>
+                                For every order you place, we'll provide free delivery. Thank you for trusting Art Shop
+                                products!
+                                In case of any concerns in regards to the delivery status, kindly contact us at
+                                onlineshoppingcart.arts@gmail.com or call us on our toll-free number
+                                +84 898313863.
+                            </p>
+                        </div>
+                    </article>
+                   
+                </div>
+                <div class="tab-pane fade" id="pills-feedback" role="tabpanel" aria-labelledby="pills-feedback-tab">
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <div class="card col-md-10 mx-auto">
+                            <h5 class="card-header bg-light text-dark">We are looking forward to your feedback!</h5>
+                            <div class="card-body row">
+                                <div class="col-12 col-md-3 text-center">
+                                    <div class="text-center">
+                                        <img class="avatar" src="~/assets/img/default-avatar-image.png" alt="avatar">
+                                        <p class="h5 mt-3">@user?.UserName</p>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-9 px-3">
+                                    <form class="mx-auto" asp-area="FeedbackManage" asp-controller="Feedback"
+                                        asp-action="Create" method="post">
+                                        <div class="form-group row mb-3">
+                                            <textarea type="text" class="form-control col-10" id="content" name="content"
+                                                placeholder="Message" rows=5 required></textarea>
+                                        </div>
+                                        <input type="hidden" name="productId" value="@Model.Id" />
+                                        <input type="hidden" name="productSlug" value="@Model.Slug" />
+                                        <div class="mb-3">
+                                            <div class="mb-3 row">
+                                                <div class="comment-form-rating">
+                                                    <span>Your rating: </span>
+                                                    <p class="stars">
+                                                        <label for="rated-1"></label>
+                                                        <input type="radio" id="rated-1" name="rating" value="1">
+                                                        <label for="rated-2"></label>
+                                                        <input type="radio" id="rated-2" name="rating" value="2">
+                                                        <label for="rated-3"></label>
+                                                        <input type="radio" id="rated-3" name="rating" value="3">
+                                                        <label for="rated-4"></label>
+                                                        <input type="radio" id="rated-4" name="rating" value="4">
+                                                        <label for="rated-5"></label>
+                                                        <input type="radio" id="rated-5" name="rating" value="5"
+                                                            checked="checked">
+                                                    </p>
+                                                </div>
+                                                <div class="form-group">
+                                                    <button type="submit"
+                                                        class="btn btn-success offset-sm-9 w-25">Send</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center">You'll need to log in before you're allowed to post.</div>
+                    }
+                </div>
+            </div>
+        </div><!-- End Feed -->
+    </div>
+
+</section>
+<!-- Close Content -->
+
+
+
+<!-- 3.Start Article -->
+<section class="bg-light py-5">
+    <div class="container">
+        <div class="row text-left p-3">
+            <h4>Related Products</h4>
+        </div>
+
+        <!--Start Carousel Wrapper-->
+        <div id="carousel_related_product">
+            <div class="row">
+                @foreach (ProductDto item in productDtoList)
+                {
+                    var productItemSave = new OnlineShoppingCart.Models.ProductItem(item);
+                    <div class="col-md-3 p-3">
+                        <partial name="_ProductItem" model="productItemSave" />
+                    </div>
+                }
+
+            </div>
+        </div>
+
+
+    </div>
+</section>
+<!-- End Article -->
+
+
+@section SlidersCss {
+    <!-- Slick -->
+    <link rel="stylesheet" type="text/css" href="~/assets/css/slick.min.css">
+    <link rel="stylesheet" type="text/css" href="~/assets/css/slick-theme.css">
+}
+
+
+@section Scripts {
+
+    <!-- Start Slider Script -->
+    <script type="text/javascript" src="~/assets/js/slick.min.js"></script>
+    <script type="text/javascript">
+        const $jq = jQuery.noConflict(); //If the error persists, try to use the noConflict mode of jQuery.
+        $jq(document).on('ready', function () {
+            $jq('#carousel_related_product').slick({
+                infinite: true,
+                arrows: false,
+                slidesToShow: 4,
+                slidesToScroll: 3,
+                dots: true,
+                autoplay: true,
+                autoplaySpeed: 3500,
+                responsive: [{
+                    breakpoint: 1024,
+                    settings: {
+                        slidesToShow: 3,
+                        slidesToScroll: 3
+                    }
+                },
+                {
+                    breakpoint: 600,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 3
+                    }
+                },
+                {
+                    breakpoint: 480,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 3
+                    }
+                }
+                ]
+            });
+        });
+
+    </script>
+    <!-- End Slider Script -->
+}

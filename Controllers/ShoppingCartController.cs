@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -12,9 +7,11 @@ using Newtonsoft.Json;
 using OnlineShoppingCart.Core.UnitOfWork;
 using OnlineShoppingCart.Data;
 using OnlineShoppingCart.Data.Entities;
+using OrderEntity = OnlineShoppingCart.Data.Entities.Order;
 using OnlineShoppingCart.Models;
 using OnlineShoppingCart.Models.DTOs;
 using OnlineShoppingCart.Utils;
+using PayPal.Api;
 
 
 namespace OnlineShoppingCart.Controllers
@@ -29,9 +26,9 @@ namespace OnlineShoppingCart.Controllers
         private readonly IHttpContextAccessor _httpContextAccessor;
         protected readonly UserManager<AppUser> _userManager;
 
+        protected readonly IConfiguration _configuration;
 
-
-        public ShoppingCartController(ILogger<ShoppingCartController> logger, ApplicationDbContext context, CartService cartService, IUnitOfWork unitOfWork, IMapper mapper, UserManager<AppUser> userManager, IHttpContextAccessor httpContextAccessor)
+        public ShoppingCartController(ILogger<ShoppingCartController> logger, ApplicationDbContext context, CartService cartService, IUnitOfWork unitOfWork, IMapper mapper, UserManager<AppUser> userManager, IHttpContextAccessor httpContextAccessor, IConfiguration configuration)
         {
             _logger = logger;
             _context = context;
@@ -40,6 +37,7 @@ namespace OnlineShoppingCart.Controllers
             _mapper = mapper;
             _userManager = userManager;
             _httpContextAccessor = httpContextAccessor;
+            _configuration = configuration;
         }
 
         public async Task<ProductDto> GetProductAsync(string id)
@@ -153,7 +151,7 @@ namespace OnlineShoppingCart.Controllers
             var cart = _cartService.GetCartItems();
             if (cart.Count == 0)
             {
-                return RedirectToAction("Shop", "Home");
+                return RedirectToAction("Index", "Shop", new { categoryslug = "" });
             }
             // Xử lý khi đặt hàng
             return View();
@@ -171,27 +169,29 @@ namespace OnlineShoppingCart.Controllers
                 return RedirectToAction(nameof(CheckOut));
             }
 
-            string SubStringAddress(string input)
+            static string SubStringAddress(string input)
             {
                 return input[(input.LastIndexOf("--") + 2)..];
             }
 
             AppUser? user = await _unitOfWork.Users.Get(x => x.Email == form.Email);
 
-            var shipping = new Shipping();
-            shipping.Id = Guid.NewGuid().ToString();
-            shipping.Name = form.Name;
-            shipping.Email = form.Email;
-            shipping.Phone = form.Phone;
+            var shipping = new Shipping
+            {
+                Id = Guid.NewGuid().ToString(),
+                Name = form.Name,
+                Email = form.Email,
+                Phone = form.Phone,
 
-            shipping.City = SubStringAddress(form.City!);
-            shipping.District = SubStringAddress(form.District!);
-            shipping.Wards = SubStringAddress(form.Ward!);
-            shipping.Address = form.Address;
-            shipping.Note = form.Note;
+                City = SubStringAddress(form.City!),
+                District = SubStringAddress(form.District!),
+                Wards = SubStringAddress(form.Ward!),
+                Address = form.Address,
+                Note = form.Note,
 
-            shipping.DeliveryType = form.DeliveryType;
-            shipping.ShippingFee = 0; //khuyen mai
+                DeliveryType = form.DeliveryType,
+                ShippingFee = 0 //khuyen mai
+            };
 
             await _unitOfWork.Shippings.Add(shipping);
 
@@ -200,8 +200,11 @@ namespace OnlineShoppingCart.Controllers
             var voucherDiscount = voucher != null ? voucher.Discount : 0;
 
             //save order
-            var guidNumber = Convert.ToString((new Random()).Next(100000000));
-            var order = new Order
+            // var guidNumber = Convert.ToString((new Random()).Next(100000000));
+            Random random = new();
+            var guidNumber = random.NextString(8);
+
+            var order = new OrderEntity
             {
                 Id = guidNumber,
                 OrderDate = DateTime.Now,
@@ -216,7 +219,6 @@ namespace OnlineShoppingCart.Controllers
                 UpdateAt = DateTime.Now,
             };
 
-            _cartService.ClearVoucher(); //delete voucher used
             await _unitOfWork.Orders.Add(order);
             await _unitOfWork.CompleteAsync();
 
@@ -250,16 +252,13 @@ namespace OnlineShoppingCart.Controllers
                 await _unitOfWork.Inventory.Add(inventory);
                 await _unitOfWork.CompleteAsync();
             }
+
             //Clear Session (carts, voucher)
             _cartService.ClearCart();
             _cartService.ClearVoucher();
 
-
             return RedirectToAction("Index", "Home");
         }
-
-        
-
 
 
 
@@ -305,52 +304,159 @@ namespace OnlineShoppingCart.Controllers
         }
 
 
-        //payment
-        [HttpGet]
-        public IActionResult Success(string paymentId, string token, string PayerID)
+        //payment for order
+        public IActionResult FailureView()
         {
-            ViewData["paymentId"] = paymentId;
-            ViewData["token"] = token;
-            ViewData["PayerId"] = PayerID;
             return View();
         }
 
-
-        [HttpPost]
-        public async Task<IActionResult> PayUsingCard(double amount = 1)
+        [Route("/ShoppingCart/PaymentWithPayPal")]
+        public ActionResult PaymentWithPaypal(string? Cancel = null, string PayerID = "", string guid = "")
         {
+            var clientId = _configuration.GetValue<string>("PayPal:Key");
+            var clientSecret = _configuration.GetValue<string>("PayPal:Secret");
+            var mode = _configuration.GetValue<string>("PayPal:mode");
+
+            //getting the apiContext
+            APIContext apiContext = PaypalConfiguration.GetAPIContext(clientId, clientSecret, mode);
             try
             {
-                if (amount == 0)
+                //A resource representing a Payer that funds a payment Payment Method as paypal
+                //Payer Id will be returned when payment proceeds or click to pay
+                string payerId = PayerID;
+                if (string.IsNullOrEmpty(payerId))
                 {
-                    TempData["error"] = "Plz enter amount";
-                    return RedirectToAction("Index");
-                }
-
-                string returnUrl = "http://localhost:5051/ShoppingCart/Success";
-                string cancelUrl = "http://localhost:5051/ShoppingCart/Cancel";
-
-                //create order
-                var createdPayment = await _unitOfWork.PaypalServices.CreateOrderAsync(amount, returnUrl, cancelUrl);
-
-                string approvalUrl = createdPayment.links.FirstOrDefault(x => x.rel.ToLower() == "approval_url")?.href;
-
-                if (!string.IsNullOrEmpty(approvalUrl))
-                {
-                    return Redirect(approvalUrl);
+                    //this section will be executed first because PayerID doesn't exist
+                    //it is returned by the create function call of the payment class
+                    // Creating a payment
+                    // baseURL is the url on which paypal sendsback the data.
+                    string baseURI = this.Request.Scheme + "://" + this.Request.Host + "/ShoppingCart/PaymentWithPayPal?";
+                    //here we are generating guid for storing the paymentID received in session
+                    //which will be used in the payment execution
+                    var guidd = Convert.ToString((new Random()).Next(100000));
+                    guid = guidd;
+                    //CreatePayment function gives us the payment approval url
+                    //on which payer is redirected for paypal account payment
+                    var createdPayment = this.CreatePayment(apiContext, baseURI + "guid=" + guid);
+                    //get links returned from paypal in response to Create function call
+                    var links = createdPayment.links.GetEnumerator();
+                    string paypalRedirectUrl = null;
+                    while (links.MoveNext())
+                    {
+                        Links lnk = links.Current;
+                        if (lnk.rel.ToLower().Trim().Equals("approval_url"))
+                        {
+                            //saving the payapalredirect URL to which user will be redirected for payment
+                            paypalRedirectUrl = lnk.href;
+                        }
+                    }
+                    // saving the paymentID in the key guid
+                    _httpContextAccessor.HttpContext.Session.SetString("payment", createdPayment.id);
+                    return Redirect(paypalRedirectUrl);
                 }
                 else
                 {
-                    TempData["error"] = "Failure to initiate Paypal payment";
+                    // This function exectues after receving all parameters for the payment
+                    var paymentId = _httpContextAccessor.HttpContext.Session.GetString("payment");
+                    var executedPayment = ExecutePayment(apiContext, payerId, paymentId as string);
+                    //If executed payment failed then we will show payment failure message to user
+                    if (executedPayment.state.ToLower() != "approved")
+                    {
+                        return View("PaymentFailed");
+                    }
                 }
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                TempData["error"] = ex.Message;
+                _logger.LogError(ex, "Error PaymentWithPayPal method");
+                return View("FailureView");
             }
-
-            return RedirectToAction(nameof(CheckOut));
+            //on successful payment, show success page to user.
+            return RedirectToAction("Success", "ShoppingCart");
         }
+
+        private PayPal.Api.Payment Payment;
+        private Payment ExecutePayment(APIContext apiContext, string payerId, string paymentId)
+        {
+            var paymentExecution = new PaymentExecution()
+            {
+                payer_id = payerId
+            };
+            Payment = new Payment()
+            {
+                id = paymentId
+            };
+            return Payment.Execute(apiContext, paymentExecution);
+        }
+        private Payment CreatePayment(APIContext apiContext, string redirectUrl)
+        {
+            var carts = _cartService.GetCartItems();
+            var voucher = _cartService.GetVoucher();
+            double discount = voucher != null ? voucher.Discount : 0.00;
+            double total = _cartService.CalculateTotal(carts) - discount;
+            //create itemlist and add item objects to it
+            var itemList = new ItemList()
+            {
+                items = new List<Item>()
+            };
+            //Adding Item Details like name, currency, price etc
+            foreach (var cartItem in carts)
+            {
+                itemList.items.Add(new Item()
+                {
+                    name = cartItem.Product!.Name,
+                    currency = "USD",
+                    price = (cartItem.Product.Price - cartItem.Product.Promotion).ToString(),
+                    quantity = cartItem.Quantity.ToString(),
+                    sku = cartItem.Product.Id
+                });
+            }
+            var payer = new Payer()
+            {
+                payment_method = "paypal"
+            };
+            // Configure Redirect Urls here with RedirectUrls object
+            var redirUrls = new RedirectUrls()
+            {
+                cancel_url = redirectUrl + "&Cancel=true",
+                return_url = redirectUrl
+            };
+            // Adding Tax, shipping and Subtotal details
+            var details = new Details()
+            {
+                tax = "0",
+                shipping = "0",
+                subtotal = total.ToString()
+            };
+            //Final amount with details
+            var amount = new Amount()
+            {
+                currency = "USD",
+                total = total.ToString(), // Total must be equal to sum of tax, shipping and subtotal.
+                details = details
+            };
+            var transactionList = new List<Transaction>();
+            // Adding description about the transaction
+            var paypalOrderId = DateTime.Now.Ticks;
+
+            transactionList.Add(new Transaction()
+            {
+                description = $"Invoice #{paypalOrderId}",
+                invoice_number = paypalOrderId.ToString(), //Generate an Invoice No
+                amount = amount,
+                item_list = itemList
+            });
+            Payment = new Payment()
+            {
+                intent = "sale",
+                payer = payer,
+                transactions = transactionList,
+                redirect_urls = redirUrls
+            };
+            // Create a payment using a APIContext
+            return Payment.Create(apiContext);
+        }
+
     }
 
 }

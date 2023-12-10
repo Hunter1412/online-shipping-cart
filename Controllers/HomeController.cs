@@ -36,6 +36,12 @@ public class HomeController : Controller
         return View();
     }
 
+    [HttpGet("/policy")]
+    public IActionResult Policy()
+    {
+        return View();
+    }
+
     [HttpGet("/collection/{id?}")]
     public async Task<IActionResult> Shop(string? id = null)
     {
@@ -61,20 +67,7 @@ public class HomeController : Controller
         return View(productDtoList);
     }
 
-    // [HttpGet("/product/{id}")]
-    [Route("/product/{id}", Name = "ShopSingle")]
-    public async Task<IActionResult> ShopSingle([FromRoute] string id)
-    {
-        var products = await _unitOfWork.Products.GetAll("Inventories,Images,Feedbacks");
-        var productDtoList = products!.Select(p => _mapper.Map<ProductDto>(p)).OrderByDescending(x => x.CreateAt).ToList();
-        var productDto = productDtoList.Find(x => x.Slug == id);
-        if (productDto != null)
-        {
-            var item = new ProductItem(productDto);
-            return View(item);
-        }
-        return RedirectToAction(nameof(Shop));
-    }
+
 
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

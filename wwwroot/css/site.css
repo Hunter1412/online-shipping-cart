@@ -18,7 +18,7 @@
 }
 
 .nav-pills .nav-link.active,
-.nav-pills .show > .nav-link {
+.nav-pills .show>.nav-link {
 	color: #fff;
 	background-color: var(--color-success);
 	border-color: var(--color-success);
@@ -105,15 +105,15 @@
 	opacity: 1;
 }
 
-.img-hover-zoom--brightness:hover ~ h3 {
+.img-hover-zoom--brightness:hover~h3 {
 	color: var(--color-success);
 }
 
-.img-hover-zoom--brightness ~ h3 {
+.img-hover-zoom--brightness~h3 {
 	position: relative;
 }
 
-.img-hover-zoom--brightness ~ h3::after {
+.img-hover-zoom--brightness~h3::after {
 	content: "";
 	position: absolute;
 	left: 0;
@@ -127,7 +127,7 @@
 	transition: transform 0.5s;
 }
 
-.img-hover-zoom--brightness:hover ~ h3::after {
+.img-hover-zoom--brightness:hover~h3::after {
 	transform-origin: left;
 	transform: scaleX(1);
 }
@@ -218,13 +218,13 @@ textarea::placeholder {
 /*product details */
 @import url("https: //use.fontawesome.com/releases/v5.13.0/js/all.js");
 
-.comment-form-rating > span {
+.comment-form-rating>span {
 	display: block;
 	float: left;
 	margin-right: 7px;
 }
 
-.comment-form-rating ~ p {
+.comment-form-rating~p {
 	margin-bottom: 0 !important;
 }
 
@@ -251,7 +251,7 @@ textarea::placeholder {
 	color: #efce4a;
 }
 
-.comment-form-rating .stars input[type="radio"]:checked ~ label::before {
+.comment-form-rating .stars input[type="radio"]:checked~label::before {
 	color: #e6e6e6;
 }
 
@@ -259,7 +259,7 @@ textarea::placeholder {
 	color: #efce4a;
 }
 
-.comment-form-rating .stars label:hover ~ label::before {
+.comment-form-rating .stars label:hover~label::before {
 	color: #e6e6e6;
 }
 
@@ -355,4 +355,56 @@ body {
 
 .card-img.rounded-0.img-fluid {
 	height: 300px;
+}
+
+.page-item.active .page-link {
+	z-index: 3;
+	color: #fff;
+	background-color: var(--color-success);
+	border-color: var(--color-success);
+}
+
+.btnSearch {
+	position: absolute;
+	top: 40%;
+	right: 10px;
+	background: none;
+	outline: none;
+	border: none;
+}
+
+.modal-content.modal-body.border-0.p-0 {
+	position: relative;
+}
+
+.tt-openMobile .tt-dataset a {
+	height: max-content;
+	display: block;
+	margin: 0;
+}
+
+.tt-openMobile .tt-dataset a .man-section .productName {
+	display: inline-block;
+	width: 100%;
+	white-space: nowrap;
+	overflow: hidden !important;
+	text-overflow: ellipsis;
+}
+
+.category-sidebar ul>li {
+	list-style: none;
+	padding-left: 10px;
+
+}
+
+.category-sidebar ul>li>a {
+	text-decoration: none;
+	color: black;
+}
+.category-sidebar ul>a:hover {
+	color: var(--color-success);
+}
+
+.category-sidebar ul>a:active {
+	color: var(--color-success);
 }

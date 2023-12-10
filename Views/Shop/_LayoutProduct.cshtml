@@ -1,0 +1,29 @@
+@{
+    Layout = "_Layout";
+}
+
+<!-- 1.Start Content -->
+<section class="container py-5">
+    <div class="row">
+        <!-- 1.1.Start sidebar-->
+        <div class="col-lg-3">
+            <div class="sidebar-sticky">
+
+                @RenderSection("Sidebar", false)
+            </div>
+        </div><!-- End sidebar-->
+        <!-- 1.2.Start main content-->
+        <div class="col-lg-9">
+            @RenderBody()
+        </div><!-- End main content-->
+    </div>
+    <!-- End Content -->
+</section>
+
+@section Css {
+    @RenderSection("Css", required: false)
+}
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}

@@ -1,12 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using OnlineShoppingCart.Core.UnitOfWork;
 using OnlineShoppingCart.Models;
+using OnlineShoppingCart.Utils;
 using PayPal.Api;
 
 namespace OnlineShoppingCart.Controllers
@@ -18,12 +13,15 @@ namespace OnlineShoppingCart.Controllers
         protected readonly IConfiguration _configuration;
         protected readonly IUnitOfWork _unitOfWork;
 
-        public PaymentController(ILogger<PaymentController> logger, IHttpContextAccessor context, IConfiguration configuration, IUnitOfWork unitOfWork)
+        private readonly CartService _cartService;
+
+        public PaymentController(ILogger<PaymentController> logger, IHttpContextAccessor context, IConfiguration configuration, IUnitOfWork unitOfWork, CartService cartService)
         {
             _logger = logger;
             this.httpContextAccessor = context;
             _configuration = configuration;
             _unitOfWork = unitOfWork;
+            _cartService = cartService;
         }
 
         public IActionResult PaymentFailed()
@@ -116,20 +114,27 @@ namespace OnlineShoppingCart.Controllers
         }
         private Payment CreatePayment(APIContext apiContext, string redirectUrl)
         {
+            var carts = _cartService.GetCartItems();
+            var voucher = _cartService.GetVoucher();
+            double discount = voucher != null ? voucher.Discount : 0.00;
+            double total = _cartService.CalculateTotal(carts) - discount;
             //create itemlist and add item objects to it
             var itemList = new ItemList()
             {
                 items = new List<Item>()
             };
             //Adding Item Details like name, currency, price etc
-            itemList.items.Add(new Item()
+            foreach (var cartItem in carts)
             {
-                name = "Item Name comes here",
-                currency = "USD",
-                price = "1",
-                quantity = "1",
-                sku = "sku"
-            });
+                itemList.items.Add(new Item()
+                {
+                    name = cartItem.Product!.Name,
+                    currency = "USD",
+                    price = (cartItem.Product.Price - cartItem.Product.Promotion).ToString(),
+                    quantity = cartItem.Quantity.ToString(),
+                    sku = cartItem.Product.Id
+                });
+            }
             var payer = new Payer()
             {
                 payment_method = "paypal"
@@ -143,20 +148,21 @@ namespace OnlineShoppingCart.Controllers
             // Adding Tax, shipping and Subtotal details
             var details = new Details()
             {
-                tax = "1",
-                shipping = "1",
-                subtotal = "1"
+                tax = "0",
+                shipping = "0",
+                subtotal = total.ToString()
             };
             //Final amount with details
             var amount = new Amount()
             {
                 currency = "USD",
-                total = "3", // Total must be equal to sum of tax, shipping and subtotal.
+                total = total.ToString(), // Total must be equal to sum of tax, shipping and subtotal.
                 details = details
             };
             var transactionList = new List<Transaction>();
             // Adding description about the transaction
             var paypalOrderId = DateTime.Now.Ticks;
+
             transactionList.Add(new Transaction()
             {
                 description = $"Invoice #{paypalOrderId}",

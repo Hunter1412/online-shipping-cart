@@ -1,5 +1,4 @@
 using OnlineShoppingCart.Core.IRepository;
-using OnlineShoppingCart.Core.Services;
 
 namespace OnlineShoppingCart.Core.UnitOfWork
 {
@@ -18,8 +17,6 @@ namespace OnlineShoppingCart.Core.UnitOfWork
         IOrderDetailRepository OrderDetails { get; }
         IOrderRepository Orders { get; }
         ICartRepository Carts { get; }
-
-        IPaypalServices PaypalServices { get; }
 
         Task CompleteAsync();
     }

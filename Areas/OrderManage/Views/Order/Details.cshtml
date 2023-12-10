@@ -135,10 +135,12 @@
                         <div class="row">
                             <!-- accepted payments column -->
                             <div class="col-6">
-                                <p class="lead">Payment Methods:</p>
-                                @Model.PaymentMethod
+                                <p class="lead">Payment Methods: <span>@Model.PaymentMethod</span></p>
+                                <p class="lead">Payment Status: <span>@Model.PaymentStatus</span></p>
+                                <p class="lead">Order Status: <span>@Model.OrderStatus</span></p>
+
                                 <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">
-                                    Note : @Model.Shipping.Note
+                                    Note : <span class="text-info">@Model.Shipping.Note</span>
                                 </p>
                             </div>
                             <!-- /.col -->
