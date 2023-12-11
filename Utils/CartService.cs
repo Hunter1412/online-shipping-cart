@@ -83,5 +83,21 @@ namespace OnlineShoppingCart.Utils
             string jsonVoucher = JsonConvert.SerializeObject(voucher);
             session.SetString(VOUCHER_KEY, jsonVoucher);
         }
+
+        public void ClearPaymentId()
+        {
+            var session = HttpContext.Session;
+            session.Remove("payment");
+        }
+
+        //clear session all
+        public void ClearSessionShoppingCart()
+        {
+            var session = HttpContext.Session;
+            session.Remove(CART_KEY);
+            session.Remove(VOUCHER_KEY);
+            session.Remove("orderid");
+            session.Remove("payment");
+        }
     }
 }

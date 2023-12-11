@@ -51,14 +51,15 @@ public class ShopController : Controller
         var productDtoList = products!.Select(p => _mapper.Map<ProductDto>(p)).OrderByDescending(x => x.CreateAt).ToList();
 
 
-        if(category!=null){
+        if (category != null)
+        {
             var categoryDto = _mapper.Map<CategoryDto>(category);
             var ids = new List<string>();
             categoryDto.ChildrenCategoryIDs(null, ids);
             ids.Add(categoryDto.Id!);
 
             productDtoList = productDtoList
-                .Where(p => ids.Contains(p.CategoryId)).OrderByDescending(d=>d.CreateAt)
+                .Where(p => ids.Contains(p.CategoryId)).OrderByDescending(d => d.CreateAt)
                 .ToList();
         }
 
@@ -68,7 +69,7 @@ public class ShopController : Controller
 
 
         if (page == null) page = 1;
-        int pageSize = 2;
+        int pageSize = 6;
         int pageNumber = (page ?? 1);
 
         return View(productDtoList.ToPagedList(pageNumber, pageSize));

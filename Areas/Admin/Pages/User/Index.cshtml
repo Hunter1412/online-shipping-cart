@@ -59,12 +59,12 @@
                                         @item.ListRoles
                                     </td>
                                     <td>
-                                        <form class="d-inline" method="post">
-                                            <button type="submit" name="Input.Id" value="@item.Id" class="btn btn-info"
-                                                asp-page="./AddRole">Add role</button>
+                                        <form class="form-group text-dark" method="post">
+                                            <button type="submit" name="Input.Id" value="@item.Id"
+                                                class="btn btn-outline-warning" asp-page="./AddRole">Add role</button>
+                                            <a class="btn btn-xs btn-outline-danger" asp-page="./SetPassword"
+                                                asp-route-id="@item.Id"><small>Set password</small></a>
                                         </form>
-                                        <a class="btn btn-sm btn-danger" asp-page="./SetPassword"
-                                            asp-route-id="@item.Id">Set password</a>
                                     </td>
                                 </tr>
                             }
@@ -83,9 +83,9 @@
 
 @section Css {
     <!-- DataTables -->
-    <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-    <link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 }
 
 @section Scripts {

@@ -1,0 +1,127 @@
+@model IEnumerable<OnlineShoppingCart.Models.DTOs.FeedbackDto>
+@using OnlineShoppingCart.Data.Entities;
+@using Microsoft.AspNetCore.Identity;
+
+@inject UserManager<AppUser> _userManager;
+@inject OnlineShoppingCart.Core.UnitOfWork.IUnitOfWork _unitOfWork;
+
+@{
+    ViewData["Title"] = "Feedback list";
+    var productAll = await _unitOfWork.Products.GetAll();
+}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">@ViewData["Title"]</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item active"><a asp-area="FeedbackManage" asp-controller="Feeddback"
+                                asp-action="Index">Feedback</a></li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <!-- Main content -->
+    <div class="content">
+        <div class="container-fluid">
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-content-center">
+                        <strong class="h3 card-title">@ViewData["Title"]</strong>
+                    </div>
+
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <table id="table_feedback" class="table table-bordered table-striped text-center"
+                        aria-label="list-contact">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Date
+                                </th>
+                                <th>
+                                    User/Customer
+                                </th>
+                                <th>
+                                    Product
+                                </th>
+                                <th>
+                                    IsAnswer
+                                </th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @String.Format("{0:MM/dd/yyyy}", item.CreateAt)
+                                    </td>
+                                    <td>
+                                        @{
+                                            var user = await _userManager.FindByIdAsync(item.UserId!);
+                                            var username = user?.UserName ?? item.UserId;
+                                        }
+                                        <span>@username</span>
+                                    </td>
+                                    <td>
+                                        @{
+                                            var product = productAll!.FirstOrDefault(s => s.Id == item.ProductId);
+                                        }
+                                        <a class="text-decoration-none" asp-controller="Shop" asp-action="ShopSingle"
+                                            asp-route-id="@product!.Slug">@item.ProductId</a>
+                                    </td>
+                                    <td>
+                                        @if (item.Children?.Count > 0)
+                                        {
+                                            <span class="badge badge-success">Yes</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge badge-danger">No</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <a asp-area="FeedbackManage" asp-controller="Feedback" asp-action="Answer"
+                                                asp-route-id="@item.Id" class="btn btn-warning">Answer</a>
+                                            <a asp-area="FeedbackManage" asp-controller="Feedback" asp-action="Remove"
+                                                asp-route-id="@item.Id" class="btn btn-danger
+                                                            ">Delete</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+</div>
+
+
+
+
+@{
+    var dataTableFb = new OnlineShoppingCart.Models.DataTableView("#table_contact");
+}
+
+@section Scripts {
+    <partial name="_Datatables" model="dataTableFb" />
+}

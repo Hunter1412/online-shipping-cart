@@ -35,8 +35,7 @@
                 <!-- /.card-header -->
                 <div class="card-body">
                     <div class="col-10 mx-auto">
-                        <form asp-area="ProductManage" asp-controller="Product" asp-action="Edit"
-                            enctype="multipart/form-data" method="post">
+                        <form asp-area="OrderManage" asp-controller="Order" asp-action="Edit" method="Post">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                             <div class="row mb-3">
@@ -53,24 +52,30 @@
                                     <input type="hidden" asp-for="OrderTotal" />
                                 </div>
                             </div>
+                            <input type="hidden" asp-for="ApprovedBy" />
+                            <input type="hidden" asp-for="ShippingId" />
+                            <input type="hidden" asp-for="VoucherId" />
+                            <input type="hidden" asp-for="UserId" />
 
                             <div class="row mb-3">
                                 <div class="form-group mb-3 col-12 col-md-6">
                                     <label asp-for="OrderStatus" class="control-label"></label><span
                                         class="text-danger mr-3">(*)</span>
-                                    <select asp-for="OrderStatus" class="form-control custom-select">
-
+                                    <select asp-for="@Model.OrderStatus" asp-items="@ViewBag.OrderStatus"
+                                        class="form-control custom-select">
                                     </select>
                                 </div>
                                 <div class="form-group mb-3 col-12 col-md-6">
                                     <label asp-for="PaymentStatus" class="control-label"></label><span
                                         class="text-danger mr-3">(*)</span>
-                                    <select asp-for="PaymentStatus" class="form-control custom-select"></select>
+                                    <select asp-for="@Model.PaymentStatus" asp-items="@ViewBag.PaymentStatus"
+                                        class="form-control custom-select"></select>
                                 </div>
+                                <input type="hidden" asp-for="@Model.PaymentMethod" class="form-control" />
                             </div>
 
                             <div class="justify-content-end d-flex">
-                                <input type="submit" value="Update" class="btn btn-primary w-25" />
+                                <input type="submit" value="Update status" class="btn btn-primary w-25" />
                             </div>
                         </form>
                     </div>

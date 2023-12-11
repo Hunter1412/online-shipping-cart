@@ -12,6 +12,8 @@ using OnlineShoppingCart.Models;
 using OnlineShoppingCart.Models.DTOs;
 using OnlineShoppingCart.Utils;
 using PayPal.Api;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using System.Text;
 
 
 namespace OnlineShoppingCart.Controllers
@@ -23,12 +25,13 @@ namespace OnlineShoppingCart.Controllers
         private readonly CartService _cartService;
         private readonly IUnitOfWork _unitOfWork;
         protected readonly IMapper _mapper;
+        protected readonly IEmailSender _emailSender;
         private readonly IHttpContextAccessor _httpContextAccessor;
         protected readonly UserManager<AppUser> _userManager;
 
         protected readonly IConfiguration _configuration;
 
-        public ShoppingCartController(ILogger<ShoppingCartController> logger, ApplicationDbContext context, CartService cartService, IUnitOfWork unitOfWork, IMapper mapper, UserManager<AppUser> userManager, IHttpContextAccessor httpContextAccessor, IConfiguration configuration)
+        public ShoppingCartController(ILogger<ShoppingCartController> logger, ApplicationDbContext context, CartService cartService, IUnitOfWork unitOfWork, IMapper mapper, UserManager<AppUser> userManager, IHttpContextAccessor httpContextAccessor, IConfiguration configuration, IEmailSender emailSender)
         {
             _logger = logger;
             _context = context;
@@ -38,6 +41,7 @@ namespace OnlineShoppingCart.Controllers
             _userManager = userManager;
             _httpContextAccessor = httpContextAccessor;
             _configuration = configuration;
+            _emailSender = emailSender;
         }
 
         public async Task<ProductDto> GetProductAsync(string id)
@@ -163,11 +167,14 @@ namespace OnlineShoppingCart.Controllers
         public async Task<IActionResult> ConfirmOrder([FromForm] FormCheckOut form)
         {
             _logger.LogInformation(">>>>>>>>>>CheckOut action>>>>>>>>>>>>>>>>>>>>");
+            TempData["start"] = true;
             if (!ModelState.IsValid)
             {
                 ModelState.AddModelError("", "Please enter your information.");
                 return RedirectToAction(nameof(CheckOut));
             }
+
+            this.PaymentWithPaypal();
 
             static string SubStringAddress(string input)
             {
@@ -199,10 +206,15 @@ namespace OnlineShoppingCart.Controllers
             Voucher? voucher = _cartService.GetVoucher();
             var voucherDiscount = voucher != null ? voucher.Discount : 0;
 
+            var paymentId = _httpContextAccessor.HttpContext.Session.GetString("payment");
+            var orderId = _httpContextAccessor.HttpContext.Session.GetString("orderid");
+
+            var paymentStatus = paymentId != null ? "Finish" : "Await Payment";
+
             //save order
             // var guidNumber = Convert.ToString((new Random()).Next(100000000));
             Random random = new();
-            var guidNumber = random.NextString(8);
+            var guidNumber = orderId ?? random.NextString(8);
 
             var order = new OrderEntity
             {
@@ -210,7 +222,7 @@ namespace OnlineShoppingCart.Controllers
                 OrderDate = DateTime.Now,
                 OrderStatus = "Pending", //dang xu ly
                 OrderTotal = _cartService.CalculateTotal(carts) - voucherDiscount,
-                PaymentStatus = "Finish", //-Await payment | Finish | Refund,
+                PaymentStatus = paymentStatus, //-Await payment | Finish | Refund,
                 PaymentMethod = form.PaymentMethod,
                 ShippingId = shipping.Id,
                 VoucherId = voucher?.Id,
@@ -253,13 +265,27 @@ namespace OnlineShoppingCart.Controllers
                 await _unitOfWork.CompleteAsync();
             }
 
+            //send mail
+            var title = $"ORDER CONFIRMATION - {order.Id}";
+            var body = @$"
+                <h3>Dear {form.Name},</h3>
+                <p>Our shop sends you this letter to confirm your order date {String.Format("{0:MM/dd/yyyy}", DateTime.Now)}.</p>
+                <p>If we do not receive your notice of change or cancellation
+                of your order within 7 days of the date you receive this letter,
+                we will proceed with delivery of the goods you have ordered on the date stated.</p>
+                <p>Sincerely thank you,</p>
+
+                <b>Online Shopping Cart</b>
+            ";
+            await _emailSender.SendEmailAsync(form.Email!, title, body);
+
             //Clear Session (carts, voucher)
-            _cartService.ClearCart();
-            _cartService.ClearVoucher();
+            _cartService.ClearSessionShoppingCart();
+
+            TempData["start"] = false;
 
             return RedirectToAction("Index", "Home");
         }
-
 
 
         //voucher
@@ -304,13 +330,74 @@ namespace OnlineShoppingCart.Controllers
         }
 
 
+
+        //payment for order1
+        [Authorize]
+        public IActionResult Success(string paymentId, string token, string PayerId)
+        {
+            string content = @$"
+                <p><strong>Your transaction is successful.</strong></p>
+                <hr />
+                <p>Payment ID: {paymentId}</p>
+                <p>Token ID:{token}</p>
+                <p>Payer ID: {PayerId}</p>
+            ";
+            return ViewComponent("MessagePage", new OnlineShoppingCart.Components.MessagePage.Message
+            {
+                Title = "Thanks for making payment",
+                HtmlContent = content,
+                SecondWait = 5,
+                UrlRedirect = "/checkout"
+            });
+        }
+
+        [Authorize]
+        public async Task<IActionResult> PayUsingCard()
+        {
+            _cartService.ClearPaymentId();
+            try
+            {
+                //get value from session
+                var carts = _cartService.GetCartItems();
+                var voucher = _cartService.GetVoucher();
+                double discount = voucher != null ? voucher.Discount : 0.00;
+                double total = _cartService.CalculateTotal(carts) - discount;
+
+
+                var hostname = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}";
+                string returnUrl = $"{hostname}/ShoppingCart/Success";
+                string cancelUrl = $"{hostname}/ShoppingCart/Cancel";
+
+                //create order-paypal
+                var createdPayment = await _unitOfWork.PaypalServices.CreateOrderAsync(total, returnUrl, cancelUrl);
+
+                string approvalUrl = createdPayment.links.FirstOrDefault(x => x.rel.ToLower().Trim().Equals("approval_url"))?.href;
+
+                if (!string.IsNullOrEmpty(approvalUrl))
+                {
+                    _httpContextAccessor.HttpContext!.Session.SetString("payment", createdPayment.id);
+                    return Redirect(approvalUrl);
+                }
+                else
+                {
+                    TempData["error"] = "Failure to initiate Paypal payment";
+                }
+            }
+            catch (System.Exception ex)
+            {
+                _logger.LogError(ex, "Error PayUsingCard method");
+                TempData["error"] = ex.Message;
+            }
+
+            return RedirectToAction(nameof(Index), "Home");
+        }
+
         //payment for order
         public IActionResult FailureView()
         {
             return View();
         }
 
-        [Route("/ShoppingCart/PaymentWithPayPal")]
         public ActionResult PaymentWithPaypal(string? Cancel = null, string PayerID = "", string guid = "")
         {
             var clientId = _configuration.GetValue<string>("PayPal:Key");
@@ -321,47 +408,35 @@ namespace OnlineShoppingCart.Controllers
             APIContext apiContext = PaypalConfiguration.GetAPIContext(clientId, clientSecret, mode);
             try
             {
-                //A resource representing a Payer that funds a payment Payment Method as paypal
-                //Payer Id will be returned when payment proceeds or click to pay
                 string payerId = PayerID;
                 if (string.IsNullOrEmpty(payerId))
                 {
-                    //this section will be executed first because PayerID doesn't exist
-                    //it is returned by the create function call of the payment class
-                    // Creating a payment
-                    // baseURL is the url on which paypal sendsback the data.
-                    string baseURI = this.Request.Scheme + "://" + this.Request.Host + "/ShoppingCart/PaymentWithPayPal?";
-                    //here we are generating guid for storing the paymentID received in session
-                    //which will be used in the payment execution
+                    string baseURI = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}" + "/ShoppingCart/PaymentWithPayPal?";
                     var guidd = Convert.ToString((new Random()).Next(100000));
                     guid = guidd;
-                    //CreatePayment function gives us the payment approval url
-                    //on which payer is redirected for paypal account payment
+
                     var createdPayment = this.CreatePayment(apiContext, baseURI + "guid=" + guid);
-                    //get links returned from paypal in response to Create function call
                     var links = createdPayment.links.GetEnumerator();
+
                     string paypalRedirectUrl = null;
                     while (links.MoveNext())
                     {
                         Links lnk = links.Current;
                         if (lnk.rel.ToLower().Trim().Equals("approval_url"))
                         {
-                            //saving the payapalredirect URL to which user will be redirected for payment
                             paypalRedirectUrl = lnk.href;
                         }
                     }
-                    // saving the paymentID in the key guid
-                    _httpContextAccessor.HttpContext.Session.SetString("payment", createdPayment.id);
+                    _httpContextAccessor.HttpContext!.Session.SetString("payment", createdPayment.id);
                     return Redirect(paypalRedirectUrl);
                 }
                 else
                 {
-                    // This function exectues after receving all parameters for the payment
-                    var paymentId = _httpContextAccessor.HttpContext.Session.GetString("payment");
+                    var paymentId = _httpContextAccessor.HttpContext!.Session.GetString("payment");
                     var executedPayment = ExecutePayment(apiContext, payerId, paymentId as string);
-                    //If executed payment failed then we will show payment failure message to user
                     if (executedPayment.state.ToLower() != "approved")
                     {
+                        _logger.LogError("Error PaymentWithPayPal method, do not approval");
                         return View("PaymentFailed");
                     }
                 }
@@ -371,6 +446,7 @@ namespace OnlineShoppingCart.Controllers
                 _logger.LogError(ex, "Error PaymentWithPayPal method");
                 return View("FailureView");
             }
+
             //on successful payment, show success page to user.
             return RedirectToAction("Success", "ShoppingCart");
         }
@@ -388,6 +464,7 @@ namespace OnlineShoppingCart.Controllers
             };
             return Payment.Execute(apiContext, paymentExecution);
         }
+
         private Payment CreatePayment(APIContext apiContext, string redirectUrl)
         {
             var carts = _cartService.GetCartItems();
@@ -437,7 +514,10 @@ namespace OnlineShoppingCart.Controllers
             };
             var transactionList = new List<Transaction>();
             // Adding description about the transaction
-            var paypalOrderId = DateTime.Now.Ticks;
+            Random random = new();
+            var paypalOrderId = random.NextString(8);
+            // saving the payID in the key
+            _httpContextAccessor.HttpContext.Session.SetString("orderid", paypalOrderId);
 
             transactionList.Add(new Transaction()
             {

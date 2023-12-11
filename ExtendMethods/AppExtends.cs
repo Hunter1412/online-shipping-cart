@@ -1,4 +1,5 @@
 using System.Net;
+using OnlineShoppingCart.Utils;
 
 namespace OnlineShoppingCart.ExtendMethods
 {
@@ -13,21 +14,16 @@ namespace OnlineShoppingCart.ExtendMethods
                 {
                     var res = context.Response;
                     var code = res.StatusCode;
-                    var content = @$"<html>
-                        <head>
-                            <title title>{code}</title>
-                        </head>
-                        <body>
-                            <section style='display: flex;align-items: center;justify-content: center; flex-direction:column;'>
+                    var content = @$"
+                            <section style='display: flex;align-items: center;justify-content: center; flex-direction:column;margin-top: 20vh;'>
                                 <h1 style='color:red;'>
                                     Error: {code} - {(HttpStatusCode)code}
                                 </h1>
                                 <h3><a href='/' style='text-decoration:none;'>Back to Home page</a></h3>
                                 <br/>
-                            </section>
-                        </body>
-                    </html>";
-                    await res.WriteAsync(content);
+                            </section>";
+                    var html = HtmlHelper.HtmlDocument($"{code}", content);
+                    await res.WriteAsync(html);
                 });
             });
         }

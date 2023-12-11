@@ -40,7 +40,7 @@
                                 <a type="button" class="btn-sm btn-close btn-outline-danger" aria-label="Close"
                                     title="delete"></a>
                             </span>
-                            <a asp-controller="Home" asp-action="ShopSingle" asp-route-id="@item.Product.Slug"
+                            <a asp-controller="Shop" asp-action="ShopSingle" asp-route-id="@item.Product.Slug"
                                 class="cart-name-product text-decoration-none" title="@item.Product.Name">
                                 @item.Product!.Name
                             </a>
@@ -71,8 +71,16 @@
                 <strong class="col-sm-6">Subtotal:</strong>
                 <strong class="col-sm-6 border-bottom text-center">$@total.ToString("N2")</strong>
             </div>
-            <div class="text-center mx-3">
-                <a asp-controller="ShoppingCart" asp-action="CheckOut" class="btn btn-success w-100 text-light">Check out</a>
+            <div class="mx-3 row">
+                <span class="col-6">
+                    <a asp-controller="ShoppingCart" asp-action="Cart" class="btn btn-success w-100 text-light">
+                        <i class="fa fa-fw fa-cart-arrow-down me-1"></i>
+                        Shopping Cart</a>
+                </span>
+                <span class="col-6">
+                    <a asp-controller="ShoppingCart" asp-action="CheckOut" class="btn btn-warning w-100 text-light"><i
+                            class="fa fa-money-bill me-1"></i>Checkout</a>
+                </span>
             </div>
         </div>
     </div>

@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - OnlineShoppingCart</title>
 
-    <link rel="apple-touch-icon" href="~/assets/img/apple-icon.png">
     <link rel="shortcut icon" type="image/x-icon" href="~/assets/img/ic_a.png">
 
     <link rel="stylesheet" href="~/assets/css/bootstrap.min.css">
@@ -105,7 +104,7 @@
                         $.each(data, function (key, item) {
                             if (item.Name.search(expression) != -1 && searchFeild != "") {
                                 var html_Search = ` <div class="tt-dataset tt-dataset-states">
-                                                        <a href="/product/${item.Slug}">
+                                                        <a href="/product/${item.Slug}.html">
                                                             <div class="man-section tt-suggestion tt-selectable">
                                                                 <div class="productName" id="${item.Id}">
                                                                     ${item.Name}

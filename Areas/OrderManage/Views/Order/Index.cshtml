@@ -37,6 +37,10 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
+                    @if (TempData["success"] != null)
+                    {
+                        <div class="alert alert-success">@TempData["success"]</div>
+                    }
                     <table id="table_order" class="table table-bordered table-striped" aria-describedby="false">
                         <thead>
                             <tr>

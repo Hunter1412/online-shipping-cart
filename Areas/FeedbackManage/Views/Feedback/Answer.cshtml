@@ -1,0 +1,118 @@
+@model OnlineShoppingCart.Models.DTOs.FeedbackDto
+
+@{
+    ViewData["Title"] = "Answer Feedback";
+}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">@ViewData["Title"]</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item active"><a asp-area="FeedbackManage" asp-controller="Feeddback"
+                                asp-action="Index">Feedback</a></li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <!-- Main content -->
+    <div class="content">
+        <div class="container-fluid">
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-content-center">
+                        <strong class="h3 card-title">@ViewData["Title"]</strong>
+                    </div>
+
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <h4>FeedbackDto</h4>
+                    <hr />
+                    <div class="row">
+                        <div col-md-6>
+                            <dl class="row">
+                                <dt class="col-sm-2">
+                                    @Html.DisplayNameFor(model => model.UserId)
+                                </dt>
+                                <dd class="col-sm-10">
+                                    @Html.DisplayFor(model => model.UserId)
+                                </dd>
+                                <dt class="col-sm-2">
+                                    @Html.DisplayNameFor(model => model.ProductId)
+                                </dt>
+                                <dd class="col-sm-10">
+                                    @Html.DisplayFor(model => model.ProductId)
+                                </dd>
+
+                                <dt class="col-sm-2">
+                                    @Html.DisplayNameFor(model => model.Content)
+                                </dt>
+                                <dd class="col-sm-10">
+                                    @Html.DisplayFor(model => model.Content)
+                                </dd>
+                                <dt class="col-sm-2">
+                                    @Html.DisplayNameFor(model => model.Rating)
+                                </dt>
+                                <dd class="col-sm-10">
+                                    @Html.DisplayFor(model => model.Rating)
+                                </dd>
+                                <dt class="col-sm-2">
+                                    @Html.DisplayNameFor(model => model.CreateAt)
+                                </dt>
+                                <dd class="col-sm-10">
+                                    @Html.DisplayFor(model => model.CreateAt)
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-md-6">
+                            <form asp-area="FeedbackManage" asp-controller="Feedback" asp-action="AdminAnswer"
+                                method="POST">
+                                <input name="parentId" type="hidden" value="@Model.Id" />
+
+                                <input name="productId" type="hidden" value="@Model.ProductId" />
+
+                                <div class="form-group">
+                                    <label class="control-label"></label>
+                                    <textarea name="content" id="content" class="form-control" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" value="Answer" class="btn btn-primary" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                    <a asp-action="Index">Back to List</a>
+                </div>
+            </div>
+            <!-- /.card -->
+
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+</div>
+
+
+
+@{
+    var summernote = new OnlineShoppingCart.Models.Summernote("#content")
+            {
+                Height = 500
+            };
+}
+@section Scripts {
+    <!-- Summernote -->
+    <partial name="_Summernote" model="summernote" />
+}

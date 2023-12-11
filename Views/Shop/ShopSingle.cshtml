@@ -175,49 +175,11 @@
                     <div class="row">
                         @if (Model.Feedbacks!.Count > 0)
                         {
-                            var feedbackList = Model.Feedbacks.OrderByDescending(f => f.CreateAt).ToList();
+                            var feedbackList = Model.Feedbacks.Where(c => c.Parent == null).OrderByDescending(f =>
+                            f.CreateAt).ToList();
                             foreach (var feedback in feedbackList)
                             {
-                                <div class="mb-3 col-12 col-md-6">
-                                    <div class="post clearfix p-3 card">
-                                        <div class="d-flex justify-content-between">
-                                            <strong>
-                                                @feedback.Content
-                                            </strong>
-                                            <span class="float-right btn-tool">
-                                                @if ((user != null) && (user.Id == feedback.UserId))
-                                                {
-                                                    <form asp-area="FeedbackManage" asp-controller="Feedback" asp-action="Delete"
-                                                        method="post">
-                                                        <input type="hidden" name="feedbackId" value="@feedback.Id">
-                                                        <input type="hidden" name="productSlug" value="@Model.Slug">
-                                                        <button type="submit" class="btn-sm btn-close btn-outline-danger"
-                                                            aria-label="Close"></button>
-                                                    </form>
-                                                }
-                                            </span>
-                                        </div>
-                                        <small class="user-block">
-                                            @if (@feedback.Rating > 0)
-                                            {
-                                                @for (var i = 1; i <= 5; i++)
-                                                {
-                                                    var avg = @feedback.Rating;
-                                                    var color = (i <= avg) ? "text-warning" : "text-muted";
-                                                    <i class="@color fa fa-star" aria-hidden="true"></i>
-                                                }
-                                            }
-                                            <small class="username"> Create by
-                                                @if (feedback.UserId != null)
-                                                {
-                                                    var name = await _unitOfWork.Users.Get(x => x.Id == feedback.UserId);
-                                                    <span>@name</span>
-                                                }
-                                            </small>
-                                            <small class="description">on @feedback.CreateAt</small>
-                                        </small>
-                                    </div>
-                                </div>
+                                await RenderFeeback(feedback);
                             }
                         }
                         else
@@ -262,7 +224,7 @@
                             </p>
                         </div>
                     </article>
-                   
+
                 </div>
                 <div class="tab-pane fade" id="pills-feedback" role="tabpanel" aria-labelledby="pills-feedback-tab">
                     @if (SignInManager.IsSignedIn(User))
@@ -353,6 +315,63 @@
     </div>
 </section>
 <!-- End Article -->
+
+
+@{
+    async Task RenderFeeback(FeedbackDto feedback)
+    {
+
+        <div class="mb-3 col-12">
+            <div class="post clearfix p-3 card">
+                <div class="d-flex justify-content-between">
+                    <strong>
+                        @Html.Raw(feedback.Content)
+                    </strong>
+                    <span class="float-right btn-tool">
+                        @if ((user != null) && (user.Id == feedback.UserId))
+                        {
+                            <form asp-area="FeedbackManage" asp-controller="Feedback" asp-action="Delete" method="post">
+                                <input type="hidden" name="feedbackId" value="@feedback.Id">
+                                <input type="hidden" name="productSlug" value="@Model.Slug">
+                                <button type="submit" class="btn-sm btn-close btn-outline-danger" aria-label="Close"></button>
+                            </form>
+                        }
+                    </span>
+                </div>
+                <small class="user-block">
+                    @if (@feedback.Rating > 0)
+                    {
+                        @for (var i = 1; i <= 5; i++)
+                        {
+                            var avg = @feedback.Rating;
+                            var color = (i <= avg) ? "text-warning" : "text-muted";
+                            <i class="@color fa fa-star" aria-hidden="true"></i>
+                        }
+                    }
+                    <small class="username"> Create by
+                        @if (feedback.UserId != null)
+                        {
+                            var name = await _unitOfWork.Users.Get(x => x.Id == feedback.UserId);
+                            <span>@name</span>
+                        }
+                    </small>
+                    <small class="description">on @feedback.CreateAt</small>
+                </small>
+            </div>
+            @if (feedback.Children?.Count > 0)
+            {
+                <div style="margin-left: 30px;">
+                    @foreach (var child in feedback.Children)
+                    {
+                        await RenderFeeback(child);
+                    }
+                </div>
+            }
+        </div>
+
+    }
+}
+
 
 
 @section SlidersCss {

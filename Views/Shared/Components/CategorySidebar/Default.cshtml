@@ -9,15 +9,17 @@
     @if (level == 0)
     {
         @Html.Raw("<div class=\"category-sidebar\">")
-        <strong><a class="h3 text-decoration-none text-dark" asp-controller="Shop" asp-action="Index"
-        asp-route-categoryslug="">Categories</a></strong>
+        <div class="text-center"><a class="h3 text-decoration-none text-dark" asp-controller="Shop" asp-action="Index"
+        asp-route-categoryslug="">
+        <h3>Categories</h3>
+    </a></div>
     }
-    <ul class="list-group mb-2">
+    <ul class="list-group list-group-flush">
     @foreach (var category in Model.Categories)
         {
             var isActive = (category.Slug == Model.SlugCategory) ? "active" : null;
-            <li>
-                <a class="collapsed" asp-controller="Shop" asp-action="Index" asp-route-categoryslug="@category.Slug">
+            <li class="list-group-item @isActive">
+                <a class="list-link" asp-controller="Shop" asp-action="Index" asp-route-categoryslug="@category.Slug">
                     @{
                         var bold = level == 0 ? "h3" : null;
                     }

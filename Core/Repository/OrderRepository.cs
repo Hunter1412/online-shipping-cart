@@ -23,6 +23,7 @@ namespace OnlineShoppingCart.Core.Repository
                 existingOrder.OrderStatus = entity.OrderStatus;
                 existingOrder.PaymentMethod = entity.PaymentStatus;
                 existingOrder.UpdateAt = DateTime.Now;
+                existingOrder.ApprovedBy = entity.ApprovedBy;
 
                 return true;
             }

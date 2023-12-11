@@ -38,6 +38,12 @@
                         @TempData["success"]
                     </div>
                 }
+                else if (TempData["error"] != null)
+                {
+                    <div class="alert alert-danger">
+                        @TempData["error"]
+                    </div>
+                }
                 @foreach (var order in @Model)
                 {
                     double subtotal = 0.00;
@@ -160,7 +166,7 @@
 
         <div class="col-md-3">
             <div class="card sidebar-sticky">
-                <div class="card-header">Action</div>
+                <div class="card-header">Summary</div>
                 <div class="card-body">
                     Total Order: @ViewBag.CountOrder
                 </div>

@@ -17,7 +17,6 @@
     var products = await UnitOfWork.Products.GetAll("Inventories,Images");
     var productsAll = Mapper.Map<List<ProductDto>>(products);
 
-
     //Save Off
     var productSaveOff = productsAll.OrderByDescending(x => x.Promotion).Take(4);
 
@@ -103,11 +102,11 @@
         </div>
     </div>
     <a class="carousel-control-prev text-decoration-none w-auto ps-3" href="#template-mo-zay-hero-carousel"
-       role="button" data-bs-slide="prev">
+        role="button" data-bs-slide="prev">
         <i class="fas fa-chevron-left"></i>
     </a>
     <a class="carousel-control-next text-decoration-none w-auto pe-3" href="#template-mo-zay-hero-carousel"
-       role="button" data-bs-slide="next">
+        role="button" data-bs-slide="next">
         <i class="fas fa-chevron-right"></i>
     </a>
 </div>
@@ -142,10 +141,6 @@
         <div class="row text-left py-3">
             <div class="m-3">
                 <h1 class="h1">Save off</h1>
-                <p>
-                    Reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                    Excepteur sint occaecat cupidatat non proident.
-                </p>
             </div>
         </div>
         <div class="carousel_list_product">
@@ -166,10 +161,6 @@
         <div class="row text-left py-3">
             <div class="m-3">
                 <h1 class="h1">Best seller</h1>
-                <p>
-                    Reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                    Excepteur sint occaecat cupidatat non proident.
-                </p>
             </div>
         </div>
         <div class="carousel_list_product">
@@ -190,11 +181,6 @@
         <div class="row text-left py-3">
             <div class="m-3">
                 <h1 class="h1">Featured Product</h1>
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat commodi consequatur odio ipsam
-                    rerum delectus quos! Natus culpa error dicta quasi consectetur ipsum, aliquam asperiores sunt, hic
-                    qui libero maxime!
-                </p>
             </div>
         </div>
         <div class="carousel_list_product">

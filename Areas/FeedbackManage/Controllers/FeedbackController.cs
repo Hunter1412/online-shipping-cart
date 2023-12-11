@@ -30,19 +30,63 @@ namespace OnlineShoppingCart.Areas.FeedbackManage.Controllers
             _userManager = userManager;
         }
 
+        public async Task<IEnumerable<FeedbackDto>> GetItemsSelectFeedbacks(string? id = null)
+        {
+
+            var feedbacks = await _unitOfWork.Feedbacks.GetAll("Parent,Children");
+
+            var itemsDto = feedbacks == null
+                ? new List<FeedbackDto>()
+                : feedbacks.Select(c => _mapper.Map<FeedbackDto>(c)).Where(c => c.Parent == null).ToList();
+
+
+            List<FeedbackDto> resultItems = new List<FeedbackDto>() {
+                new FeedbackDto() {
+                    Id = "-1",
+                    Content = "Not parent feedback"
+                }
+            };
+            Action<List<FeedbackDto>, int> _ChangeTitleFeedback = null!;
+            Action<List<FeedbackDto>, int> ChangeTitleFeedback = (itemsDto, level) =>
+            {
+                string prefix = string.Concat(Enumerable.Repeat("—", level));
+                foreach (var item in itemsDto)
+                {
+                    resultItems.Add(new FeedbackDto()
+                    {
+                        Id = item.Id,
+                        Content = prefix + " " + item.Content + "_" + item.Id
+                    });
+                    if ((item.Id != id) && (item.Children != null) && (item.Children.Count > 0))
+                    {
+                        _ChangeTitleFeedback(item.Children.ToList(), level + 1);
+                    }
+                }
+
+            };
+
+            _ChangeTitleFeedback = ChangeTitleFeedback;
+            ChangeTitleFeedback(itemsDto, 0);
+
+            return resultItems;
+        }
+
+
         [HttpGet("/admin/feedback")]
         public async Task<IActionResult> Index()
         {
-            var feedbacks = await _unitOfWork.Contacts.GetAll("AppUser");
+            var feedbacks = await _unitOfWork.Feedbacks.GetAll("Parent,Children");
+
             var feedbackDtoList = feedbacks == null
-                                ? new List<FeedbackDto>()
-                                : feedbacks.Select(c => _mapper.Map<FeedbackDto>(c)).OrderByDescending(x => x.CreateAt).ToList();
+                ? new List<FeedbackDto>()
+                : feedbacks.Select(c => _mapper.Map<FeedbackDto>(c)).Where(c => c.Parent == null).ToList();
+
             return View(feedbackDtoList);
         }
 
 
-        [HttpGet("/admin/feedback/detail/{id}")]
-        public async Task<IActionResult> Details(string id)
+        [HttpGet("/admin/feedback/answer/{id}")]
+        public async Task<IActionResult> Answer(string id)
         {
             if (id == null || _unitOfWork.Feedbacks == null)
             {
@@ -52,6 +96,38 @@ namespace OnlineShoppingCart.Areas.FeedbackManage.Controllers
             var feedbackDto = _mapper.Map<FeedbackDto>(feedback) ?? new FeedbackDto();
 
             return View(feedbackDto);
+        }
+
+        [HttpPost("/admin/feedback/admin-answer")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AdminAnswer(IFormCollection form)
+        {
+            _logger.LogInformation("Feedback - Answer action");
+
+            AppUser? user = await _userManager.GetUserAsync(User);
+            try
+            {
+                var feedback = new Feedback()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Content = form["content"],
+                    Rating = 0,
+                    Image = null,
+                    UserId = user!.Id,
+                    ProductId = form["productId"],
+                    ParentId = form["parentId"]
+                };
+
+                await _unitOfWork.Feedbacks.Add(feedback);
+                await _unitOfWork.CompleteAsync();
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (System.Exception ex)
+            {
+                _logger.LogError(ex, "Error Answer method");
+                return RedirectToAction("Answer", new { id = form["parentId"] });
+            }
         }
 
 
@@ -85,7 +161,7 @@ namespace OnlineShoppingCart.Areas.FeedbackManage.Controllers
                 _logger.LogError(ex, "Error Create method");
             }
 
-            return RedirectToAction("ShopSingle", "Home", new { id = form["productSlug"] });
+            return RedirectToAction("ShopSingle", "Shop", new { id = form["productSlug"] });
         }
 
 
@@ -102,7 +178,32 @@ namespace OnlineShoppingCart.Areas.FeedbackManage.Controllers
                     await _unitOfWork.CompleteAsync();
                 }
             }
-            return RedirectToAction("ShopSingle", "Home", new { id = productSlug });
+            return RedirectToAction("ShopSingle", "Shop", new { id = productSlug });
+        }
+
+
+        [HttpGet("/admin/feedback/remove")]
+        public async Task<IActionResult> Remove(string id)
+        {
+            var feedback = await _unitOfWork.Feedbacks.Get(f => f.Id == id);
+            return View(_mapper.Map<FeedbackDto>(feedback));
+        }
+
+
+        [HttpPost("/admin/feedback/remove")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AdminDelete(string id)
+        {
+            if (id != null)
+            {
+                var feedback = await _unitOfWork.Feedbacks.Get(f => f.Id == id);
+                if (feedback != null)
+                {
+                    _unitOfWork.Feedbacks.Delete(feedback);
+                    await _unitOfWork.CompleteAsync();
+                }
+            }
+            return RedirectToAction(nameof(Index));
         }
 
     }

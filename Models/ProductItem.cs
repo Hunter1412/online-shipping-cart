@@ -17,7 +17,7 @@ namespace OnlineShoppingCart.Models
             Size = productDto.Size;
             Color = productDto.Color;
             Price = productDto.Price;
-            Promotion = (double)productDto.Promotion! >0?(double)productDto.Promotion:0.00;
+            Promotion = (double)productDto.Promotion! > 0 ? (double)productDto.Promotion : 0.00;
             Stock = productDto.Inventories?.Select(x => x.Quantity).Sum();
             ImageNameFirst = productDto.Images?.Select(x => x.ImageName).FirstOrDefault() ?? "product_velvet-finish-notebook-a5.webp";
             Images = productDto.Images;
@@ -31,8 +31,9 @@ namespace OnlineShoppingCart.Models
             Save = (double)(productDto.Promotion / productDto.Price);
 
             CountReview = productDto.Feedbacks!.Select(f => f.Id).Count();
+
             AverageRating = CountReview > 0
-                    ? productDto.Feedbacks!.Select(r => r.Rating).Average()
+                    ? productDto.Feedbacks!.Where(f => f.ParentId == null).Select(r => r.Rating).Average()
                     : 0;
         }
 

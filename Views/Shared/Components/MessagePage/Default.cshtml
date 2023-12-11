@@ -1,16 +1,20 @@
-@model OnlineShoppingCart.Views.Shared.Component.MessagePage.Message
+@model OnlineShoppingCart.Components.MessagePage.Message
 @{
     Layout = "_Layout";
     ViewData["Title"] = @Model.Title;
 }
-<div class="card m-4">
-    <div class="card-header bg-danger text-light">
-        <h4>@Model.Title</h3>
+
+
+<section class="container py-5">
+    <div class="card col-md-5 mx-auto">
+        <div class="card-header">
+            <h3 class="text-success">@Model.Title</h3>
+        </div>
+        <div class="card-body text-center">
+            @Html.Raw(Model.HtmlContent)
+        </div>
+        <div class="card-footer">
+            Redirest to page - <a href="/@Model.UrlRedirect">@Model.UrlRedirect</a>
+        </div>
     </div>
-    <div class="card-body">
-        @Html.Raw(Model.HtmlContent)
-    </div>
-    <div class="card-footer">
-        Redirest to page - <a href="@Model.UrlRedirect">@Model.UrlRedirect</a>
-    </div>
-</div>
+</section>

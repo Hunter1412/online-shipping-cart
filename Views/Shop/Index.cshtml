@@ -12,18 +12,18 @@
 }
 
 <article>
-    <h1>@ViewData["Title"]</h1>
-    @if (category != null)
-    {
-        <p>@Html.Raw(category.Description)</p>
-    }
-    else
-    {
-        <p>Select a category to see its products</p>
-    }
-
-
-    <div class="main">
+    <div class="container-fluid">
+        <h1>@ViewData["Title"]</h1>
+        @if (category != null)
+        {
+            <p>@Html.Raw(category.Description)</p>
+        }
+        else
+        {
+            <p>Select a category to see its products</p>
+        }
+    </div>
+    <div class="main mt-3">
         <!-- 1.2.Start main content-->
         <div class="col-12 d-flex justify-content-around align-content-around flex-column">
             <!-- Display products list-->
@@ -44,7 +44,6 @@
                 }
             </div>
             <!--pagination -->
-
             <div div="row">
                 <!-- Thêm phân trang vào -->
                 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount

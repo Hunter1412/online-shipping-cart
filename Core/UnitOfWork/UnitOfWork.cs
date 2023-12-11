@@ -1,5 +1,6 @@
 using OnlineShoppingCart.Core.IRepository;
 using OnlineShoppingCart.Core.Repository;
+using OnlineShoppingCart.Core.Services;
 using OnlineShoppingCart.Data;
 
 namespace OnlineShoppingCart.Core.UnitOfWork
@@ -21,10 +22,12 @@ namespace OnlineShoppingCart.Core.UnitOfWork
         public IOrderRepository Orders { get; private set; }
         public ICartRepository Carts { get; private set; }
 
+        public IPaypalServices PaypalServices { get; private set; }
+        private readonly IConfiguration _configuration;
 
 
 
-        public UnitOfWork(ApplicationDbContext context, ILoggerFactory loggerFactory)
+        public UnitOfWork(ApplicationDbContext context, ILoggerFactory loggerFactory, IConfiguration configuration)
         {
             _context = context;
             _logger = loggerFactory.CreateLogger("logs");
@@ -41,7 +44,8 @@ namespace OnlineShoppingCart.Core.UnitOfWork
             Orders = new OrderRepository(context, _logger);
             Carts = new CartRepository(context, _logger);
 
-
+            _configuration = configuration;
+            PaypalServices = new PaypalServices(_configuration);
         }
 
         public async Task CompleteAsync()

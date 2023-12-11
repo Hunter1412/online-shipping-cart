@@ -401,10 +401,15 @@ body {
 	text-decoration: none;
 	color: black;
 }
+
 .category-sidebar ul>a:hover {
 	color: var(--color-success);
 }
 
 .category-sidebar ul>a:active {
 	color: var(--color-success);
+}
+
+.list-group-item.active {
+	background-color: #59ab6e !important;
 }

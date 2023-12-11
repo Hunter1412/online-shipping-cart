@@ -4,28 +4,32 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using OnlineShoppingCart.Core.UnitOfWork;
 using OnlineShoppingCart.Data.Entities;
+using OnlineShoppingCart.Models;
 using OnlineShoppingCart.Models.DTOs;
 
 namespace OnlineShoppingCart.Areas.OrderManage.Controllers
 {
     [Area("OrderManage")]
-    [Authorize(Roles ="admin,employee")]
+    [Authorize(Roles = "admin,employee")]
     public class OrderController : Controller
     {
         private readonly ILogger<OrderController> _logger;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
+        protected readonly UserManager<AppUser> _userManager;
 
-        public OrderController(ILogger<OrderController> logger, IMapper mapper, IUnitOfWork unitOfWork)
+        public OrderController(ILogger<OrderController> logger, IMapper mapper, IUnitOfWork unitOfWork, UserManager<AppUser> userManager)
         {
             _logger = logger;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _userManager = userManager;
         }
 
         [HttpGet("/admin/order")]
@@ -78,6 +82,28 @@ namespace OnlineShoppingCart.Areas.OrderManage.Controllers
             return View(_mapper.Map<OrderDto>(order));
         }
 
+        public List<ViewOrderStatusModel> GetOrderStatusList()
+        {
+            return new List<ViewOrderStatusModel>{
+                new() { Id = "Pending" , Name = "Pending"},
+                new() { Id = "Confirm" , Name = "Confirm"},
+                new() { Id = "Delivering" , Name = "Delivering"},
+                new() { Id = "Complete" , Name = "Complete"},
+                new() { Id = "Cancel" , Name = "Cancel"},
+                new() { Id = "Await_Return" , Name = "Await_Return"},
+                new() { Id = "Returned" , Name = "Returned"}
+            };
+
+        }
+
+        public List<ViewPaymentStatusModel> GetPaymentStatusList()
+        {
+            return new List<ViewPaymentStatusModel>{
+                new() { Id = "Await_Payment" , Name = "Await_Payment"},
+                new() { Id = "Finish" , Name = "Finish"},
+                new() { Id = "Refund" , Name = "Refund"}
+            };
+        }
 
         [HttpGet("/admin/order/edit/{id}")]
         public async Task<IActionResult> Edit(string id)
@@ -89,25 +115,30 @@ namespace OnlineShoppingCart.Areas.OrderManage.Controllers
                 return NotFound();
             }
 
+            ViewBag.OrderStatus = new SelectList(GetOrderStatusList(), "Id", "Name", order.OrderStatus);
+            ViewBag.PaymentStatus = new SelectList(GetPaymentStatusList(), "Id", "Name", order.PaymentStatus);
+
             return View(_mapper.Map<OrderDto>(order));
         }
 
         [HttpPost("/admin/order/edit/{id}")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, OrderDto orderDto)
         {
             if (id != orderDto.Id)
             {
-                TempData["error"] = "Models ID not found.";
+                TempData["error"] = "Order ID not found.";
                 return RedirectToAction(nameof(Edit));
             }
-            if (!ModelState.IsValid)
-            {
-                ModelState.AddModelError(string.Empty, "Data is invalid!");
-                return RedirectToAction(nameof(Edit));
-            }
+            // if (!ModelState.IsValid)
+            // {
+            //     return RedirectToAction(nameof(Edit));
+            // }
             try
             {
+                AppUser? user = await _userManager.GetUserAsync(User);
                 var order = _mapper.Map<Order>(orderDto);
+                order.ApprovedBy = user?.Email;
                 await _unitOfWork.Orders.Upsert(order);
                 await _unitOfWork.CompleteAsync();
 

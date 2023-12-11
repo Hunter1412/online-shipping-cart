@@ -10,6 +10,7 @@
 @using OnlineShoppingCart.Models;
 
 @inject OnlineShoppingCart.Utils.CartService CartService;
+@inject IHttpContextAccessor _httpContextAccessor;
 
 @{
     ViewData["Title"] = "CheckOut";
@@ -20,6 +21,8 @@
     var voucher = CartService.GetVoucher();
     var code = voucher != null ? voucher.Code : string.Empty;
     double discount = voucher != null ? voucher.Discount : 0.00;
+
+    var paymentId = _httpContextAccessor.HttpContext!.Session.GetString("payment");
 
 }
 
@@ -145,20 +148,25 @@
                                 <small class="custom-control-description text-sm text-muted">
                                     After clicking “Pay now”, you will be redirected to Pay using online payment methods to
                                     complete your purchase securely.
+                                    <a href="/Payment/PaymentWithPayPal" class="btn btn-primary">PayPal</a>
                                     <a href="/ShoppingCart/PaymentWithPayPal" class="btn btn-primary">PayPal</a>
+                                    <a href="/ShoppingCart/PayUsingCard" class="btn btn-primary">Pay Now</a>
                                 </small>
                             </label>
-                            <label class="custom-control custom-radio">
-                                <input type="radio" asp-for="PaymentMethod" value="COD"
-                                    class="custom-control-input chk-payment">
-                                <b class="custom-control-indicator">Pay cash at the time of delivery</b>
-                                <small class="custom-control-description text-sm text-muted">Only for customer VPP</small>
-                            </label>
+                            @if(paymentId==null)
+                            {
+                                <label class="custom-control custom-radio">
+                                    <input type="radio" asp-for="PaymentMethod" value="COD"
+                                        class="custom-control-input chk-payment">
+                                    <b class="custom-control-indicator">Pay cash at the time of delivery</b>
+                                    <small class="custom-control-description text-sm text-muted">Only for customer VPP</small>
+                                </label>
+                            }
                             <div class="col-12"><span asp-validation-for="PaymentMethod" class="text-danger"></span></div>
                         </div>
                     </div>
                     <div class="form-group mb-3">
-                        <button type="submit" class="btn btn-lg btn-success w-100" >Pay now</button>
+                        <button type="submit" class="btn btn-lg btn-success w-100">Confirm Order</button>
                     </div>
             </div>
 
@@ -231,8 +239,13 @@
                             <div class="row mt-3 text-end">
                                 <strong class="col-sm-6">Order Total:</strong>
                                 <strong class="col-sm-6 border-bottom" >$<span id="total">
-                                    @((total - discount).ToString("N2"))
-                                </span></strong>
+                                    @((total - discount).ToString("N2"))</span>
+                                </strong>
+                            </div>
+                            <div class="mb-3">
+                                @if(paymentId!=null){
+                                    <strong class="alert alert-success">PAID</strong>
+                                }
                             </div>
                         </div>
                     }

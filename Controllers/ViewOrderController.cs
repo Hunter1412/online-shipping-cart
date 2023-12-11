@@ -34,6 +34,14 @@ namespace OnlineShoppingCart.Controllers
             if (orderid != null)
             {
                 orderDtoList = orderDtoList.Where(o => o.Id.Contains(orderid)).ToList();
+                if (orderDtoList.Count > 0)
+                {
+                    TempData["success"] = $"Search order with {orderid}";
+                }
+                else
+                {
+                    TempData["error"] = $"Not found order with {orderid}";
+                }
             }
 
             if (page == null) page = 1;

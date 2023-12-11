@@ -26,7 +26,6 @@ public class HomeController : Controller
         var products = await _unitOfWork.Products.GetAll("Inventories,Images,Feedbacks");
         var productDtoList = products!.Select(p => _mapper.Map<ProductDto>(p)).OrderByDescending(x => x.CreateAt).ToList();
 
-        // var productDtoList = _mapper.Map<List<ProductDto>>(products);
         return View(productDtoList);
     }
 
@@ -42,53 +41,53 @@ public class HomeController : Controller
         return View();
     }
 
-    [HttpGet("/collection/{id?}")]
-    public async Task<IActionResult> Shop(string? id = null)
-    {
-        var products = await _unitOfWork.Products.GetAll("Inventories,Images,Feedbacks");
-        var productDtoList = products!.Select(p => _mapper.Map<ProductDto>(p)).OrderByDescending(x => x.CreateAt).ToList();
-        if (id == null)
-        {
-            return View(productDtoList);
-        }
-
-        var productDto = productDtoList.Where(x => x.CategoryId == id).ToList();
-        if (productDto != null && productDto.Count > 0)
-        {
-            return View(productDto);
-        }
-
-        var prodSearch = productDtoList.Where(x => x.Name!.ToLower().Contains(id.ToLower())).ToList();
-        if (prodSearch != null && prodSearch.Count > 0)
-        {
-            return View(prodSearch);
-        }
-
-        return View(productDtoList);
-    }
-
-
-
-
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 
-    [HttpGet]
-    public async Task<IActionResult> Search()
-    {
-        var products = await _unitOfWork.Products.GetAll("Inventories,Images,Feedbacks");
-        var productDtoList = products!.Select(p => _mapper.Map<ProductDto>(p)).OrderByDescending(x => x.CreateAt).ToList();
 
-        string value = string.Empty!;
-        value = JsonConvert.SerializeObject(productDtoList, Formatting.Indented, new JsonSerializerSettings
-        {
-            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-        });
+    // [HttpGet("/collection/{id?}")]
+    // public async Task<IActionResult> Shop(string? id = null)
+    // {
+    //     var products = await _unitOfWork.Products.GetAll("Inventories,Images,Feedbacks");
+    //     var productDtoList = products!.Select(p => _mapper.Map<ProductDto>(p)).OrderByDescending(x => x.CreateAt).ToList();
+    //     if (id == null)
+    //     {
+    //         return View(productDtoList);
+    //     }
 
-        return Json(value);
-    }
+    //     var productDto = productDtoList.Where(x => x.CategoryId == id).ToList();
+    //     if (productDto != null && productDto.Count > 0)
+    //     {
+    //         return View(productDto);
+    //     }
+
+    //     var prodSearch = productDtoList.Where(x => x.Name!.ToLower().Contains(id.ToLower())).ToList();
+    //     if (prodSearch != null && prodSearch.Count > 0)
+    //     {
+    //         return View(prodSearch);
+    //     }
+
+    //     return View(productDtoList);
+    // }
+
+
+
+    // [HttpGet]
+    // public async Task<IActionResult> Search()
+    // {
+    //     var products = await _unitOfWork.Products.GetAll("Inventories,Images,Feedbacks");
+    //     var productDtoList = products!.Select(p => _mapper.Map<ProductDto>(p)).OrderByDescending(x => x.CreateAt).ToList();
+
+    //     string value = string.Empty!;
+    //     value = JsonConvert.SerializeObject(productDtoList, Formatting.Indented, new JsonSerializerSettings
+    //     {
+    //         ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+    //     });
+
+    //     return Json(value);
+    // }
 
 }

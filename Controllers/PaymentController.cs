@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using OnlineShoppingCart.Core.UnitOfWork;
 using OnlineShoppingCart.Models;
@@ -34,7 +35,7 @@ namespace OnlineShoppingCart.Controllers
             return View();
         }
 
-        public ActionResult PaymentWithPaypal(string? Cancel = null, string PayerID = "", string guid = "")
+        public IActionResult PaymentWithPaypal(string? Cancel = null, string PayerID = "", string guid = "")
         {
             var clientId = _configuration.GetValue<string>("PayPal:Key");
             var clientSecret = _configuration.GetValue<string>("PayPal:Secret");
@@ -85,14 +86,14 @@ namespace OnlineShoppingCart.Controllers
                     //If executed payment failed then we will show payment failure message to user
                     if (executedPayment.state.ToLower() != "approved")
                     {
-                        return View("PaymentFailed");
+                        return RedirectToAction("FailureView", "ShoppingCart");
                     }
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error PaymentWithPayPal method");
-                return View("FailureView");
+                return RedirectToAction("FailureView", "ShoppingCart");
             }
             //on successful payment, show success page to user.
             return RedirectToAction("Success", "ShoppingCart");
