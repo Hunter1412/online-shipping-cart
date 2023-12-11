@@ -14,6 +14,7 @@ namespace OnlineShoppingCart.Models.DTOs
         [Required]
         public string? Id { get; set; }
         [Required]
+        [Display(Name = "Category Name")]
         public string? Name { get; set; }
         public string? Slug { get; set; }
         [DataType(DataType.Text)]

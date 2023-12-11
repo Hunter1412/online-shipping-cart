@@ -63,7 +63,17 @@
                                             <p>@item.Phone</p>
                                         </div>
                                     </td>
-                                    <td>@item.DeliveryType</td>
+                                    <td>
+                                        @{
+                                            if (item.DeliveryType == "1")
+                                            {
+                                                <span>1.Expedited Shipping</span>
+                                            }else if(item.DeliveryType == "2")
+                                            {
+                                                <span>2.Click and Collect</span>
+                                            }
+                                        }
+                                    </td>
                                     <td>
                                         @if (item.EndAt < item.CreateAt)
                                         {

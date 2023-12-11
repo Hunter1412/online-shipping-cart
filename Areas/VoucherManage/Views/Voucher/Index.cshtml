@@ -77,10 +77,12 @@
                             {
                                 <tr>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.CreateAt)
+                                        @String.Format("{0:MM/dd/yyyy}", item.CreateAt)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Name)
+                                        <a asp-action="Details" asp-route-id="@item.Id" class="text-info">
+                                            @Html.DisplayFor(modelItem => item.Name)
+                                        </a>
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Code)
@@ -104,8 +106,6 @@
                                     <td>
                                         <a asp-action="Edit" asp-route-id="@item.Id" class="text-warning">
                                             <i class="fas fa-edit" title="edit"></i></a> |
-                                        <a asp-action="Details" asp-route-id="@item.Id" class="text-info">
-                                            <i class="nav-icon fas fa-file"></i></a> |
                                         <a asp-action="Delete" asp-route-id="@item.Id" class="text-danger">
                                             <i class="fa fa-trash" aria-hidden="true"></i></a>
                                     </td>

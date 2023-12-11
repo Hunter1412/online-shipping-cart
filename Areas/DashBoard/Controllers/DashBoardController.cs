@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using OnlineShoppingCart.Core.UnitOfWork;
 using OnlineShoppingCart.Data.Entities;
 
@@ -34,7 +35,14 @@ namespace OnlineShoppingCart.Areas.DashBoard.Controllers
         public async Task<ActionResult<List<Category>>> GetCategoryAsync()
         {
             var categories = await _unitOfWork.Categories.GetAll("Parent,Children");
-            return Json(new { data = categories });
+
+            string value = string.Empty!;
+            value = JsonConvert.SerializeObject(categories, Formatting.Indented, new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            });
+
+            return Json(value );
         }
 
     }

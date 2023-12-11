@@ -21,14 +21,15 @@
     <script src="~/plugins/datatables-buttons/js/buttons.print.min.js"></script>
     <script src="~/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 }
+
 <script>
     $(function () {
         $("@Model.IDEditor").DataTable({
             "responsive": true,
             "lengthChange": true,
             "autoWidth": false,
-            "lengthMenu": [5, 20, 15, 20, 'All'],
-            order: [[1, 'desc']],
+            "lengthMenu": [5, 10, 15, 20, 'All'],
+            "order": [[0, 'desc']],
             "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
         }).buttons().container().appendTo('#table_voucher_wrapper .col-md-6:eq(0)');
     });

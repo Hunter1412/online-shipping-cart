@@ -14,8 +14,8 @@
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">@ViewData["Title"]</li>
+                        <li class="breadcrumb-item"><a asp-area="CategoryManage" asp-controller="Category"
+                                asp-action="Index">Category list</a></li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -39,9 +39,12 @@
 
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table id="example1" class="table table-bordered table-striped">
+                    <table id="table_cate" class="table table-bordered table-striped">
                         <thead>
                             <tr>
+                                <th>
+                                    Date
+                                </th>
                                 <th>
                                     @Html.DisplayNameFor(model => model.Id)
                                 </th>
@@ -95,10 +98,15 @@
         string prefix = String.Concat(Enumerable.Repeat("&nbsp;&nbsp;&nbsp;&nbsp;", level));
         <tr id="@item.Id">
             <td>
+                @String.Format("{0:MM/dd/yyyy}", item.CreateAt)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
-                @Html.Raw(prefix)@Html.DisplayFor(modelItem => item.Name)
+                <a asp-action="Details" asp-route-id="@item.Id" class="text-info">
+                    @Html.Raw(prefix)@Html.DisplayFor(modelItem => item.Name)
+                </a>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Parent!.Name)
@@ -106,8 +114,6 @@
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id" class="text-warning">
                     <i class="fas fa-edit" title="edit"></i></a> |
-                <a asp-action="Details" asp-route-id="@item.Id" class="text-info">
-                    <i class="nav-icon fas fa-file"></i></a> |
                 <a class="deleteModel text-danger" id="@item.Id"> <i class="fa fa-trash" aria-hidden="true"></i></a>
 
             </td>
@@ -125,14 +131,38 @@
 @section Css {
     <!-- Toastr -->
     <link rel="stylesheet" href="~/plugins/toastr/toastr.min.css">
-}
-
-@{
-    var dataTablePro = new OnlineShoppingCart.Models.DataTableView("#example1");
+    <!-- DataTables -->
+    <link rel="stylesheet" href="~/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 }
 
 @section Scripts {
-    <partial name="_Datatables" model="dataTablePro" />
+    <script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/plugins/jszip/jszip.min.js"></script>
+    <script src="~/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="~/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="~/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <!-- Page specific script -->
+    <script>
+        $(function () {
+            $("#table_cate").DataTable({
+                "responsive": true,
+                "lengthChange": true,
+                "autoWidth": false,
+                "lengthMenu": [5, 10, 15, 20, 'All'],
+                "order": [[0, 'desc']],
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#user_list_wrapper .col-md-6:eq(0)');
+        });
+    </script>
 
     <!-- Toastr -->
     <script src="~/plugins/toastr/toastr.min.js"></script>

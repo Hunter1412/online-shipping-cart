@@ -30,6 +30,7 @@ namespace OnlineShoppingCart.Models.DTOs
         [Required]
         public double Price { get; set; }
 
+        [Required]
         public double? Promotion { get; set; }
 
         public DateTime? CreateAt { get; set; }

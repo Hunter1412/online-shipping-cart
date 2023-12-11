@@ -13,7 +13,9 @@
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item">
+                            <a asp-area="ProductManage" asp-controller="Product" asp-action="Index">Home</a>
+                        </li>
                         <li class="breadcrumb-item active">@ViewData["Title"]</li>
                     </ol>
                 </div><!-- /.col -->
@@ -96,14 +98,13 @@
                                     <span asp-validation-for="Price" class="text-danger"></span>
                                 </div>
                                 <div class="form-group col-12 col-md-4">
-                                    <label asp-for="Promotion" class="control-label mr-3"></label>
-
+                                    <label asp-for="Promotion" class="control-label mr-3"></label><span
+                                        class="text-danger mr-3">(*)</span>
                                     <input asp-for="Promotion" class="form-control" />
                                     <span asp-validation-for="Promotion" class="text-danger"></span>
                                 </div>
                                 <div class="form-group col-12 col-md-4">
                                     <label asp-for="Quantity" class="control-label"></label>
-                                    <span class="text-danger mr-3">(*)</span>
                                     <input asp-for="Quantity" class="form-control" />
                                     <span asp-validation-for="Quantity" class="text-danger"></span>
                                 </div>
@@ -135,7 +136,7 @@
 @{
     var summernote = new OnlineShoppingCart.Models.Summernote("#Description")
             {
-                Height = 500
+                Height = 300
             };
 }
 
