@@ -13,6 +13,12 @@
 	box-sizing: border-box;
 }
 
+footer {
+	position: relative;
+	bottom: 0;
+	width: 100%;
+}
+
 .nav-pills .nav-link {
 	color: var(--color-success);
 }
@@ -410,6 +416,14 @@ body {
 	color: var(--color-success);
 }
 
-.list-group-item.active {
+.category-sidebar .list-group-item.active {
 	background-color: #59ab6e !important;
+}
+
+.product-item-body {
+	height: 140px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-self: self-end;
 }

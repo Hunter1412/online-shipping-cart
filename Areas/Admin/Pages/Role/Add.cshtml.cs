@@ -12,7 +12,7 @@ using OnlineShoppingCart.Data;
 
 namespace OnlineShoppingCart.Areas.Admin.Pages.Role
 {
-    [Authorize]
+    [Authorize(Roles = "admin")]
     public class AddModel : RolePageModel
     {
         protected readonly ILogger<AddModel> _logger;

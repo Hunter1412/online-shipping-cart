@@ -17,8 +17,6 @@ namespace OnlineShoppingCart.AutoMapper
             CreateMap<ImageDto, Image>();
             CreateMap<Image, ImageDto>();
 
-            CreateMap<CartDto, Cart>();
-            CreateMap<Cart, CartDto>();
 
             CreateMap<InventoryDto, Inventory>();
             CreateMap<Inventory, InventoryDto>();

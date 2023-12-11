@@ -20,10 +20,9 @@ namespace OnlineShoppingCart.Core.UnitOfWork
         public IShippingRepository Shippings { get; private set; }
         public IOrderDetailRepository OrderDetails { get; private set; }
         public IOrderRepository Orders { get; private set; }
-        public ICartRepository Carts { get; private set; }
 
         public IPaypalServices PaypalServices { get; private set; }
-        private readonly IConfiguration _configuration;
+        protected readonly IConfiguration _configuration;
 
 
 
@@ -42,7 +41,6 @@ namespace OnlineShoppingCart.Core.UnitOfWork
             Shippings = new ShippingRepository(context, _logger);
             OrderDetails = new OrderDetailRepository(context, _logger);
             Orders = new OrderRepository(context, _logger);
-            Carts = new CartRepository(context, _logger);
 
             _configuration = configuration;
             PaypalServices = new PaypalServices(_configuration);

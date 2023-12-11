@@ -41,7 +41,6 @@ namespace OnlineShoppingCart.Models.DTOs
         public List<FeedbackDto>? Feedbacks { get; set; }
         [ValidateNever]
         public List<ContactDto>? Contacts { get; set; }
-        [ValidateNever]
-        public List<CartDto>? Carts { get; set; }
+        
     }
 }

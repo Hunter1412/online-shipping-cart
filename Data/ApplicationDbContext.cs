@@ -15,7 +15,6 @@ public class ApplicationDbContext : IdentityDbContext<AppUser>
     public DbSet<Inventory>? Inventories { get; set; }
     public DbSet<Contact>? Contacts { get; set; }
     public DbSet<Feedback>? Feedbacks { get; set; }
-    public DbSet<Cart>? Carts { get; set; }
     public DbSet<Voucher>? Vouchers { get; set; }
     public DbSet<Shipping>? Shippings { get; set; }
     public DbSet<Order>? Orders { get; set; }

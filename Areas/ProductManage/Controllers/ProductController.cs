@@ -16,7 +16,7 @@ using ImageEntity = OnlineShoppingCart.Data.Entities.Image;
 
 namespace OnlineShoppingCart.Areas.ProductManage.Controllers
 {
-    [Authorize(Roles ="admin")]
+    [Authorize(Roles = "admin")]
     [Area("ProductManage")]
     public class ProductController : Controller
     {
@@ -36,7 +36,7 @@ namespace OnlineShoppingCart.Areas.ProductManage.Controllers
         [HttpGet("/admin/product")]
         public async Task<IActionResult> Index()
         {
-            var productList = await _unitOfWork.Products.GetAll("Inventories");
+            var productList = await _unitOfWork.Products.GetAll("Category,Inventories");
             var productDtoList = productList == null ? new List<ProductDto>()
                 : productList.Select(p => _mapper.Map<ProductDto>(p)).OrderByDescending(p => p.CreateAt).ToList();
             return View(productDtoList);

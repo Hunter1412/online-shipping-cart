@@ -41,8 +41,6 @@ namespace OnlineShoppingCart.Data.Entities
         public List<Feedback>? Feedbacks { get; set; }
         [ValidateNever]
         public List<Contact>? Contacts { get; set; }
-        [ValidateNever]
-        public List<Cart>? Carts { get; set; }
 
 
     }

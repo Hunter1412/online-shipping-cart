@@ -15,7 +15,7 @@ namespace OnlineShoppingCart.Controllers;
 [Route("[controller]")]
 public class ShopController : Controller
 {
-    private readonly ILogger<ShopController> _logger;
+    protected readonly ILogger<ShopController> _logger;
     protected readonly IUnitOfWork _unitOfWork;
     protected readonly ApplicationDbContext _context;
     private IMemoryCache _cache;
@@ -69,7 +69,7 @@ public class ShopController : Controller
 
 
         if (page == null) page = 1;
-        int pageSize = 6;
+        int pageSize = 9;
         int pageNumber = (page ?? 1);
 
         return View(productDtoList.ToPagedList(pageNumber, pageSize));

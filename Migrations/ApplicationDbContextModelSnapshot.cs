@@ -240,35 +240,6 @@ namespace OnlineShoppingCart.Migrations
                     b.ToTable("Users", (string)null);
                 });
 
-            modelBuilder.Entity("OnlineShoppingCart.Data.Entities.Cart", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime?>("CreateAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ProductId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("UpdateAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Carts");
-                });
-
             modelBuilder.Entity("OnlineShoppingCart.Data.Entities.Category", b =>
                 {
                     b.Property<string>("Id")
@@ -444,7 +415,7 @@ namespace OnlineShoppingCart.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ShippingId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime?>("UpdateAt")
                         .HasColumnType("datetime2");
@@ -456,6 +427,10 @@ namespace OnlineShoppingCart.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ShippingId")
+                        .IsUnique()
+                        .HasFilter("[ShippingId] IS NOT NULL");
 
                     b.HasIndex("UserId");
 
@@ -569,9 +544,6 @@ namespace OnlineShoppingCart.Migrations
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("OrderId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
@@ -582,10 +554,6 @@ namespace OnlineShoppingCart.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OrderId")
-                        .IsUnique()
-                        .HasFilter("[OrderId] IS NOT NULL");
 
                     b.ToTable("Shippings");
                 });
@@ -674,21 +642,6 @@ namespace OnlineShoppingCart.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("OnlineShoppingCart.Data.Entities.Cart", b =>
-                {
-                    b.HasOne("OnlineShoppingCart.Data.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId");
-
-                    b.HasOne("OnlineShoppingCart.Data.Entities.AppUser", "AppUser")
-                        .WithMany("Carts")
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("AppUser");
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("OnlineShoppingCart.Data.Entities.Category", b =>
                 {
                     b.HasOne("OnlineShoppingCart.Data.Entities.Category", "Parent")
@@ -750,6 +703,10 @@ namespace OnlineShoppingCart.Migrations
 
             modelBuilder.Entity("OnlineShoppingCart.Data.Entities.Order", b =>
                 {
+                    b.HasOne("OnlineShoppingCart.Data.Entities.Shipping", "Shipping")
+                        .WithOne("Order")
+                        .HasForeignKey("OnlineShoppingCart.Data.Entities.Order", "ShippingId");
+
                     b.HasOne("OnlineShoppingCart.Data.Entities.AppUser", "AppUser")
                         .WithMany("Orders")
                         .HasForeignKey("UserId");
@@ -759,6 +716,8 @@ namespace OnlineShoppingCart.Migrations
                         .HasForeignKey("VoucherId");
 
                     b.Navigation("AppUser");
+
+                    b.Navigation("Shipping");
 
                     b.Navigation("Voucher");
                 });
@@ -791,19 +750,8 @@ namespace OnlineShoppingCart.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("OnlineShoppingCart.Data.Entities.Shipping", b =>
-                {
-                    b.HasOne("OnlineShoppingCart.Data.Entities.Order", "Order")
-                        .WithOne("Shipping")
-                        .HasForeignKey("OnlineShoppingCart.Data.Entities.Shipping", "OrderId");
-
-                    b.Navigation("Order");
-                });
-
             modelBuilder.Entity("OnlineShoppingCart.Data.Entities.AppUser", b =>
                 {
-                    b.Navigation("Carts");
-
                     b.Navigation("Contacts");
 
                     b.Navigation("Feedbacks");
@@ -826,8 +774,6 @@ namespace OnlineShoppingCart.Migrations
             modelBuilder.Entity("OnlineShoppingCart.Data.Entities.Order", b =>
                 {
                     b.Navigation("OrderDetails");
-
-                    b.Navigation("Shipping");
                 });
 
             modelBuilder.Entity("OnlineShoppingCart.Data.Entities.Product", b =>
@@ -839,6 +785,11 @@ namespace OnlineShoppingCart.Migrations
                     b.Navigation("Inventories");
 
                     b.Navigation("OrderDetails");
+                });
+
+            modelBuilder.Entity("OnlineShoppingCart.Data.Entities.Shipping", b =>
+                {
+                    b.Navigation("Order");
                 });
 #pragma warning restore 612, 618
         }

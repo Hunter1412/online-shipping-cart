@@ -17,7 +17,6 @@ namespace OnlineShoppingCart.Core.UnitOfWork
         IVoucherRepository Vouchers { get; }
         IOrderDetailRepository OrderDetails { get; }
         IOrderRepository Orders { get; }
-        ICartRepository Carts { get; }
         IPaypalServices PaypalServices { get; }
         Task CompleteAsync();
     }

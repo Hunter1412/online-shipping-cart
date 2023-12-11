@@ -44,111 +44,120 @@
                         @TempData["error"]
                     </div>
                 }
-                @foreach (var order in @Model)
+                @if (Model.Count > 0)
                 {
-                    double subtotal = 0.00;
-                    <div class="mb-5">
-                        <div class="p-3 card">
-                            <div class="card-header">
-                                <div class="row">
-                                    <div class="col-12 col-lg-5">
-                                        Order ID: @order.Id <br>
-                                        Order Total: $ @order.OrderTotal.ToString("N2") <br>
-                                    </div>
-                                    <div class="col-12 col-lg-5">
-                                        Order Status:
-                                        @if (order.OrderStatus == "Cancel")
-                                        {
-                                            <strong class="text-danger">@order.OrderStatus</strong>
-                                        }
-                                        else
-                                        {
-                                            <strong>@order.OrderStatus</strong>
-                                        }
-                                        <br>
-                                        Order Payment: <strong>@order.PaymentStatus</strong>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="col-12" style="overflow-x: scroll;">
-                                    <table class="table text-center" aria-describedby="false">
-                                        <thead>
-                                            <tr>
-                                                <th>Order Number</th>
-                                                <th>Product</th>
-                                                <th>Price</th>
-                                                <th>Quantity</th>
-                                                <th>Amount</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @if (@orderDetails != null)
+
+
+                    @foreach (var order in @Model)
+                    {
+                        double subtotal = 0.00;
+                        <div class="mb-5">
+                            <div class="p-3 card">
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-12 col-lg-5">
+                                            Order ID: @order.Id <br>
+                                            Order Total: $ @order.OrderTotal.ToString("N2") <br>
+                                        </div>
+                                        <div class="col-12 col-lg-5">
+                                            Order Status:
+                                            @if (order.OrderStatus == "Cancel")
                                             {
-                                                var odList = orderDetails.Where(o => o.OrderId ==
-                                                order.Id).ToList();
-                                                @foreach (var item in odList)
-                                                {
-                                                    var amount = item.Price * item.Quantity;
-                                                    subtotal += amount;
-                                                    <tr>
-                                                        <td>@item.OrderNumber</td>
-                                                        <td>
-                                                            <a asp-controller="Shop" asp-action="ShopSingle"
-                                                                asp-route-id="@item.Product!.Slug"
-                                                                class="text-dark text-decoration-none">
-                                                                <span class="me-2">@item.Product?.Name</span>
-                                                                <span>@item.Product?.Id</span>
-                                                            </a>
-                                                        </td>
-                                                        <td>$@item.Price.ToString("N2")</td>
-                                                        <td>@item.Quantity</td>
-                                                        <td>$@amount.ToString("N2")</td>
-                                                    </tr>
-                                                }
+                                                <strong class="text-danger">@order.OrderStatus</strong>
                                             }
-                                        </tbody>
-                                    </table>
+                                            else
+                                            {
+                                                <strong>@order.OrderStatus</strong>
+                                            }
+                                            <br>
+                                            Order Payment: <strong>@order.PaymentStatus</strong>
+                                        </div>
+                                    </div>
                                 </div>
-                                @{
-                                    var voucher = vouchers?.Where(v => v.Id == order.VoucherId).FirstOrDefault();
-                                    var discount = voucher != null ? voucher.Discount : 0;
-                                    var shipping = shipings?.Where(s => s.Id == order.Id).FirstOrDefault();
-                                    var shippingFee = shipping != null ? shipping.ShippingFee : 0.00;
-                                }
-                                <small>Voucher: -$@discount.ToString("N2")</small> <br />
-                                <small>Shipping: $@shippingFee.ToString("N2")</small>
-                            </div>
-                            <div class="card-footer">
-                                <small class="float-end">Create on
-                                    @String.Format("{0:MM/dd/yyyy}", order.OrderDate)
-                                </small>
-                                <span class="mb-3">
+                                <div class="card-body">
+                                    <div class="col-12" style="overflow-x: scroll;">
+                                        <table class="table text-center" aria-describedby="false">
+                                            <thead>
+                                                <tr>
+                                                    <th>Order Number</th>
+                                                    <th>Product</th>
+                                                    <th>Price</th>
+                                                    <th>Quantity</th>
+                                                    <th>Amount</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if (@orderDetails != null)
+                                                {
+                                                    var odList = orderDetails.Where(o => o.OrderId ==
+                                                    order.Id).ToList();
+                                                    @foreach (var item in odList)
+                                                    {
+                                                        var amount = item.Price * item.Quantity;
+                                                        subtotal += amount;
+                                                        <tr>
+                                                            <td>@item.OrderNumber</td>
+                                                            <td>
+                                                                <a asp-controller="Shop" asp-action="ShopSingle"
+                                                                    asp-route-id="@item.Product!.Slug"
+                                                                    class="text-dark text-decoration-none">
+                                                                    <span class="me-2">@item.Product?.Name</span>
+                                                                    <span>@item.Product?.Id</span>
+                                                                </a>
+                                                            </td>
+                                                            <td>$@item.Price.ToString("N2")</td>
+                                                            <td>@item.Quantity</td>
+                                                            <td>$@amount.ToString("N2")</td>
+                                                        </tr>
+                                                    }
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
                                     @{
-                                        var display = "";
-                                        if (
-                                        (order.OrderStatus == "Complete")
-                                        || (order.OrderStatus == "Cancel")
-                                        )
-                                        {
-                                            display = "d-none";
-                                        }
-                                        else
-                                        {
-                                            display = "d-flex";
-                                        }
+                                        var voucher = vouchers?.Where(v => v.Id == order.VoucherId).FirstOrDefault();
+                                        var discount = voucher != null ? voucher.Discount : 0;
+                                        var shipping = shipings?.Where(s => s.Id == order.Id).FirstOrDefault();
+                                        var shippingFee = shipping != null ? shipping.ShippingFee : 0.00;
                                     }
-                                    <form class="@Html.Raw(display)" asp-controller="ViewOrder" asp-action="CancelOrder"
-                                        method="POST">
-                                        <input type="hidden" name="orderId" value="@order.Id">
-                                        <button type="submit" class="btn-sm btn-outline-secondary">Cancel order</button>
-                                    </form>
-                                </span>
+                                    <small>Voucher: -$@discount.ToString("N2")</small> <br />
+                                    <small>Shipping: $@shippingFee.ToString("N2")</small>
+                                </div>
+                                <div class="card-footer">
+                                    <small class="float-end">Create on
+                                        @String.Format("{0:MM/dd/yyyy}", order.OrderDate)
+                                    </small>
+                                    <span class="mb-3">
+                                        @{
+                                            var display = "";
+                                            if (
+                                            (order.OrderStatus == "Complete")
+                                            || (order.OrderStatus == "Cancel")
+                                            )
+                                            {
+                                                display = "d-none";
+                                            }
+                                            else
+                                            {
+                                                display = "d-flex";
+                                            }
+                                        }
+                                        <form class="@Html.Raw(display)" asp-controller="ViewOrder" asp-action="CancelOrder"
+                                            method="POST">
+                                            <input type="hidden" name="orderId" value="@order.Id">
+                                            <button type="submit" class="btn-sm btn-outline-secondary">Cancel order</button>
+                                        </form>
+                                    </span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- End order -->
+                        <!-- End order -->
 
+                    }
+                }
+                else
+                {
+                    <h1 class="text-center mt-5">No Order History</h1>
                 }
             </div>
             <div class="card-footer">
