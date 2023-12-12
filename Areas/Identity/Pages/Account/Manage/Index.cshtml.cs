@@ -80,7 +80,6 @@ namespace OnlineShoppingCart.Areas.Identity.Pages.Account.Manage
             public bool Gender { get; set; }
 
             [DataType(DataType.Date)]
-            [Range(typeof(DateTime), "1/1/1950", "1/1/2004", ErrorMessage = "Value for {0} must be between {1} and {2}")]
             public DateTime? BirthDay { get; set; }
             [Display(Name = "Upload avatar")]
             public IFormFile ImageFile { get; set; } = null!;

@@ -1,7 +1,7 @@
 @model IEnumerable<OnlineShoppingCart.Models.DTOs.VoucherDto>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Voucher List";
 }
 
 <div class="content-wrapper">
@@ -10,7 +10,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Order List</h1>
+                    <h1 class="m-0">@ViewData["Title"]</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -95,7 +95,7 @@
                                             DateTime date = Convert.ToDateTime(item.ExpDate);
                                             if (date <= DateTime.Now)
                                             {
-                                                <span style="color:red;">Unactive</span>
+                                                <span style="color:red;">Expired</span>
                                             }
                                             else
                                             {

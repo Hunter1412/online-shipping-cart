@@ -21,7 +21,7 @@ namespace OnlineShoppingCart.Core.Repository
                     return await Add(entity);
                 }
                 existingOrder.OrderStatus = entity.OrderStatus;
-                existingOrder.PaymentMethod = entity.PaymentStatus;
+                existingOrder.PaymentStatus = entity.PaymentStatus;
                 existingOrder.UpdateAt = DateTime.Now;
                 existingOrder.ApprovedBy = entity.ApprovedBy;
 
