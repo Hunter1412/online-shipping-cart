@@ -11,7 +11,7 @@ namespace OnlineShoppingCart.Models.DTOs
     public class ProductDto
     {
         [Key, Required]
-        [RegularExpression(@"\b(ST|OS|AS|CM)(\d{5})\b", ErrorMessage = "The Product-Id must be formatted as 'AAxxxxx', A is alphabet, x is the digits")]
+        [RegularExpression(@"\b(ST|OS|AS|CM)(\d{5})\b", ErrorMessage = "The Product-Id must be formatted as 'AAxxxxx', AA is (ST|OS|AS|CM), x is the digits")]
         public string? Id { get; set; }
 
         [Required]
@@ -30,7 +30,6 @@ namespace OnlineShoppingCart.Models.DTOs
         [Required]
         public double Price { get; set; }
 
-        [Required]
         public double? Promotion { get; set; }
 
         public DateTime? CreateAt { get; set; }
@@ -45,7 +44,7 @@ namespace OnlineShoppingCart.Models.DTOs
 
         public List<ImageDto>? Images { get; set; }
 
-        // [Required]
+        [Required]
         [Display(Name = "Click here to upload product image")]
         [NotMapped]
         public List<IFormFile>? ImageFiles { get; set; }
@@ -59,5 +58,6 @@ namespace OnlineShoppingCart.Models.DTOs
 
         [NotMapped]
         public int? Quantity { get; set; }
+
     }
 }

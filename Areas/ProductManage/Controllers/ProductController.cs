@@ -71,6 +71,9 @@ namespace OnlineShoppingCart.Areas.ProductManage.Controllers
             }
             var qty = productDto.Quantity ?? 0;
             productDto.Quantity = 0;
+
+            productDto.Promotion ??= 0;
+
             //add information product
             if (productDto.CategoryId == "-1") productDto.CategoryId = null;
 
@@ -266,6 +269,14 @@ namespace OnlineShoppingCart.Areas.ProductManage.Controllers
             {
                 return NotFound();
             }
+            //check order product
+            var productExistOrder = await _unitOfWork.OrderDetails.Get(p => p.ProductId == id);
+            if (productExistOrder != null)
+            {
+                TempData["error"] = "This product has been used! Can't delete this product!";
+                return View("Delete", _mapper.Map<ProductDto>(productExistOrder));
+            }
+
             //delete image
             if (product.Images != null && product.Images.Count > 0)
             {
@@ -299,12 +310,7 @@ namespace OnlineShoppingCart.Areas.ProductManage.Controllers
                 : categories.Select(c => _mapper.Map<CategoryDto>(c)).Where(c => c.Parent == null).ToList();
 
 
-            List<CategoryDto> resultItems = new List<CategoryDto>() {
-                new CategoryDto() {
-                    Id = "-1",
-                    Name = "Not parent category"
-                }
-            };
+            List<CategoryDto> resultItems = new List<CategoryDto>();
             Action<List<CategoryDto>, int> _ChangeTitleCategory = null!;
             Action<List<CategoryDto>, int> ChangeTitleCategory = (itemsDto, level) =>
             {

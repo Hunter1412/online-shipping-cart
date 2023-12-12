@@ -48,7 +48,7 @@
                                     <input type="hidden" asp-for="OrderDate" />
                                 </div>
                                 <div class="form-group mb-3 col-12 col-md-4">
-                                    Order Total: @Model.OrderTotal
+                                    Order Total: @Model.OrderTotal.ToString("N2")
                                     <input type="hidden" asp-for="OrderTotal" />
                                 </div>
                             </div>

@@ -95,7 +95,7 @@
                                 <div class="custom-file">
                                     <label asp-for="ImageFiles" class="control-label"></label><span
                                         class="text-danger mr-3">(*)</span>
-                                    <input asp-for="ImageFiles" class="custom-file-input" />
+                                    <input asp-for="ImageFiles" class="custom-file-input" value="@Model.ImageFiles" />
                                 </div>
                                 <div id=image-grid></div>
                             </div>
@@ -109,7 +109,7 @@
                                 </div>
                                 <div class="form-group col-12 col-md-4">
                                     <label asp-for="Promotion" class="control-label mr-3"></label>
-
+                                    <span class="text-danger mr-3">(*)</span>
                                     <input asp-for="Promotion" class="form-control" />
                                     <span asp-validation-for="Promotion" class="text-danger"></span>
                                 </div>

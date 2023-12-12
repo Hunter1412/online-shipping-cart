@@ -47,6 +47,9 @@
                         <thead>
                             <tr>
                                 <th>
+                                    @Html.DisplayNameFor(model => model.CreateAt)
+                                </th>
+                                <th>
                                     @Html.DisplayNameFor(model => model.Id)
                                 </th>
                                 <th>
@@ -68,6 +71,7 @@
                             @foreach (var item in Model)
                             {
                                 <tr>
+                                    <td>@String.Format("{0:MM/dd/yyyy}", item.CreateAt)</td>
                                     <td>
                                         <a asp-area="ProductManage" asp-controller="Product" asp-action="Details"
                                             asp-route-id="@item.Id" class="text-info">
