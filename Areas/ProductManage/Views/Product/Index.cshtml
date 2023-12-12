@@ -85,8 +85,8 @@
                                     </td>
                                     <td>
                                         @{
-                                            var price = item.Price - item.Promotion;
-                                            <span class="text-success">$@price.ToString()</span>
+                                            double price = (double)(item.Price - item.Promotion);
+                                            <span class="text-success">$@price.ToString("N2")</span>
                                         }
                                         <small style="color: red;text-decoration: line-through;">
                                             $@item.Price.ToString("N2")

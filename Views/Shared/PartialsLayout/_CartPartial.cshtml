@@ -46,12 +46,12 @@
                             </a>
                             <ul class="list-inline">
                                 <li class="list-inline-item btn-group px-3 quantity-input">
-                                    <span class="btn btn-success btn-minus" data-id="@item.Product.Id"
-                                        id="btn-minus">-</span>
+                                    @* <span class="btn btn-success btn-minus" data-id="@item.Product.Id"
+                                        id="btn-minus">-</span> *@
                                     <input type="hidden" name="product-quantity" id="product-quantity" value="1"
                                         data-max="1000">
                                     <span class="btn bg-secondary text-light" name="var-value">1</span>
-                                    <span class="btn btn-success btn-plus" data-id="@item.Product.Id" id="btn-plus">+</span>
+                                    @* <span class="btn btn-success btn-plus" data-id="@item.Product.Id" id="btn-plus">+</span> *@
                                 </li>
                                 <li class="list-inline-item float-end text-muted">
                                     <span class="text-success" title="unit price">$ @newPrice.ToString("N2")</span>

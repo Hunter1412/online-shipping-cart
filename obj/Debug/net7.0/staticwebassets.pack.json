@@ -77,6 +77,10 @@
       "PackagePath": "staticwebassets/assets/img/about-hero.svg"
     },
     {
+      "Id": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/about_lamp.jpg",
+      "PackagePath": "staticwebassets/assets/img/about_lamp.jpg"
+    },
+    {
       "Id": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/ajax-loader.gif",
       "PackagePath": "staticwebassets/assets/img/ajax-loader.gif"
     },
@@ -99,10 +103,6 @@
     {
       "Id": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/banner_img_03.jpg",
       "PackagePath": "staticwebassets/assets/img/banner_img_03.jpg"
-    },
-    {
-      "Id": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/brand_01.png",
-      "PackagePath": "staticwebassets/assets/img/brand_01.png"
     },
     {
       "Id": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/brand_02.png",

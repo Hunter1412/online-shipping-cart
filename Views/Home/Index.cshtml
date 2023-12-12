@@ -18,10 +18,11 @@
     var productsAll = Mapper.Map<List<ProductDto>>(products);
 
     //Save Off
-    var productSaveOff = productsAll.OrderByDescending(x => x.Promotion).Take(4);
+    var productSaveOff = productsAll.OrderByDescending(x => x.Promotion).Take(8);
 
     //Best Seller
     var sumProduct = productsAll.Where(p => p.OrderDetails!.Select(x => x.Quantity).Sum() > 0);
+    sumProduct = sumProduct.ToList().Any() ? sumProduct : productsAll;
     var productBestSeller = sumProduct.OrderByDescending(x => x.Quantity).Take(8);
 
     //Featured
@@ -40,20 +41,15 @@
             <div class="container">
                 <div class="row p-5">
                     <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
-                        <img class="img-fluid" src="~/assets/img/category_01_notebook.webp" alt="banner-img">
+                        <img class="img-fluid" src="~/assets/img/banner_img_01.jpg" alt="banner-img">
                     </div>
                     <div class="col-lg-6 mb-0 d-flex align-items-center">
                         <div class="text-align-left align-self-center">
-                            <h1 class="h1 text-success">Plain</h1>
-                            <h3 class="h2">Online shopping Cart</h3>
+                            <h1 class="h1 text-success">Gel Pens</h1>
                             <p>
-                                A playground for your thoughts and a blank canvas for your imagination, let your mind
-                                run
-                                amok amidst the pristine pages of these notebooks.
-                            </p>
-                            <p>
-                                Beyond the spotless sheets lie the gateway to your musings, a world of potential waiting
-                                to be inked.
+                                The ink, a velvet river, flowing without restraint - A mirror to your imagination.
+                                With gel pens, experience a song in every stroke, a symphony of elegance, vibrance, and
+                                precision.
                             </p>
                         </div>
                     </div>
@@ -64,16 +60,19 @@
             <div class="container">
                 <div class="row p-5">
                     <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
-                        <img class="img-fluid" src="~/assets/img/category_01_notebook.webp" alt="">
+                        <img class="img-fluid" src="~/assets/img/banner_img_02.jpg" alt="">
                     </div>
                     <div class="col-lg-6 mb-0 d-flex align-items-center">
                         <div class="text-align-left">
-                            <h1 class="h1">Proident occaecat</h1>
-                            <h3 class="h2">Aliquip ex ea commodo consequat</h3>
+                            <h1 class="h1">Folders & Fillings
+                            </h1>
                             <p>
-                                Arts Shop is an eCommerce Arts is a stationary shop that sells arts, gift articles,
-                                greeting cards, dolls, files, hand bags, wallets, and as well some of the beauty
-                                products, etc….
+                                Embodying the art of organization, these files and folders are the custodians of your
+                                secrets to success, preserving dreams, and aspirations, page by page, in a symphony of
+                                neatness and purpose. <br />
+
+                                These folders carry the potential to become an extension of your identity, reflecting
+                                your commitment to excellence , and a testament to your dedication to your craft.
                             </p>
                         </div>
                     </div>
@@ -84,16 +83,17 @@
             <div class="container">
                 <div class="row p-5">
                     <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
-                        <img class="img-fluid" src="~/assets/img/category_01_notebook.webp" alt="">
+                        <img class="img-fluid" src="~/assets/img/banner_img_03.jpg" alt="">
                     </div>
                     <div class="col-lg-6 mb-0 d-flex align-items-center">
                         <div class="text-align-left">
-                            <h1 class="h1">Repr in voluptate</h1>
-                            <h3 class="h2">Ullamco laboris nisi ut </h3>
+                            <h1 class="h1">Premium Notebooks</h1>
                             <p>
-                                Arts Shop is an eCommerce Arts is a stationary shop that sells arts, gift articles,
-                                greeting cards, dolls, files, hand bags, wallets, and as well some of the beauty
-                                products, etc….
+                                Your ideas deserve a home as exceptional as they are. Our premium notebooks offer an
+                                elegant platform for your thoughts, combining style and function, where each page exudes
+                                elegance and fine craftsmanship. <br />
+                                Elevate your ideas and thoughts in an aura of elegance, making your writing experience
+                                truly exceptional.
                             </p>
                         </div>
                     </div>

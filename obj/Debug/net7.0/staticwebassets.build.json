@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "3EyX7QfuzxsTA/xbsFPPDTLQMk8Ue1wJKhv8pPFh5f4=",
+  "Hash": "jQt1oOsrM8an/ju84cmL4YPxsgKrF4ZjyTsSWU7H15A=",
   "Source": "OnlineShoppingCart",
   "BasePath": "_content/OnlineShoppingCart",
   "Mode": "Default",
@@ -1360,6 +1360,23 @@
       "OriginalItemSpec": "wwwroot/assets/img/7a755491-be88-4276-81e4-4a3a8ea7cd7d_category_01_notebook.webp"
     },
     {
+      "Identity": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/about_lamp.jpg",
+      "SourceId": "OnlineShoppingCart",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/",
+      "BasePath": "_content/OnlineShoppingCart",
+      "RelativePath": "assets/img/about_lamp.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/assets/img/about_lamp.jpg"
+    },
+    {
       "Identity": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/about-hero.svg",
       "SourceId": "OnlineShoppingCart",
       "SourceType": "Discovered",
@@ -1477,23 +1494,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/assets/img/banner_img_03.jpg"
-    },
-    {
-      "Identity": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/brand_01.png",
-      "SourceId": "OnlineShoppingCart",
-      "SourceType": "Discovered",
-      "ContentRoot": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/",
-      "BasePath": "_content/OnlineShoppingCart",
-      "RelativePath": "assets/img/brand_01.png",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/assets/img/brand_01.png"
     },
     {
       "Identity": "/Users/thachnguyenlongvinh/Documents/FPT_APTECH/21_eProject_Sem3/ProjectCode/OnlineShoppingCart/wwwroot/assets/img/brand_02.png",
