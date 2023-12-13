@@ -204,7 +204,7 @@ namespace OnlineShoppingCart.Areas.ProductManage.Controllers
 
             List<ProductDto> resultItems = new() {
                 new ProductDto() {
-                    Id = "-1",
+                    Id = null,
                     Name = "Not product"
                 }
             };

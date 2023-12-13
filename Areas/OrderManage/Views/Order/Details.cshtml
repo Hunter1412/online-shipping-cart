@@ -104,7 +104,7 @@
                                     <tbody>
                                         @if (Model.OrderDetails != null)
                                         {
-                                            var n = 0;
+                                            var n = 1;
                                             @foreach (var item in Model.OrderDetails)
                                             {
                                                 var amount = item.Price * item.Quantity;

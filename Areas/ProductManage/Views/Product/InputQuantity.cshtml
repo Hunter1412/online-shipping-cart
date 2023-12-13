@@ -37,22 +37,24 @@
                     <div class="col-12 col-md-4 mx-auto">
                         <form asp-area="ProductManage" asp-controller="Product" asp-action="InputQuantityProduct"
                             method="post">
-                            <div class="form-group mb-3">
+                            <div class="form-select-lg mb-3">
                                 <label asp-for="ProductId" class="control-label"></label><span
                                     class="text-danger mr-3">(*)</span>
-                                <select asp-for="ProductId" class="form-control custom-select"
+                                <select asp-for="ProductId" class="custom-select"
                                     asp-items="ViewBag.ProductList"></select>
+                                <span asp-validation-for="ProductId" class="text-danger"></span>
                             </div>
                             <div class="form-group mb-3">
                                 <label asp-for="Note" class="control-label"></label><span
                                     class="text-danger mr-3">(*)</span>
                                 <input asp-for="Note" class="form-control" placeholder="Note" />
+                                <small>(Ex: Input product,...)</small>
                                 <span asp-validation-for="Note" class="text-danger"></span>
                             </div>
                             <div class="form-group mb-3">
                                 <label asp-for="Quantity" class="control-label"></label><span
                                     class="text-danger mr-3">(*)</span>
-                                <input asp-for="Quantity" class="form-control" placeholder="Quantity" />
+                                <input asp-for="Quantity" class="form-control" placeholder="Quantity" min="0" />
                                 <span asp-validation-for="Quantity" class="text-danger"></span>
                             </div>
                             <input type="hidden" asp-for="DateAt">
@@ -97,7 +99,7 @@
         }) *@
 
 
-                        });
+                                                    });
 
     </script>
     @{

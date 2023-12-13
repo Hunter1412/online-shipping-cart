@@ -83,11 +83,11 @@ namespace OnlineShoppingCart.Areas.ContactManage.Controllers
                     return RedirectToAction(nameof(SendContact));
                 }
                 var contact = _mapper.Map<Contact>(contactDto);
-                var email = contact!.AppUser!.Email;
-                AppUser? user = await _unitOfWork.Users.Get(x => x.Email == email);
+                var email = contact!.AppUser!.Email!.Trim();
+                AppUser user = await _unitOfWork.Users.Get(x => x.Email.ToLower().Equals(email.ToLower()));
 
                 var id = string.Empty;
-                if (user == null)
+                if (user?.Id == null)
                 {
                     //create new user
                     var newUser = new AppUser
@@ -127,8 +127,8 @@ namespace OnlineShoppingCart.Areas.ContactManage.Controllers
                 {
                     id = user.Id;
                     //send mail
-                    await _emailSender.SendEmailAsync(email!, "Thank you for your feedback",
-                            $"<h3>Thank you for your feedback!</h3>\n We will contact with you as soon as! Please patience to waiting us, many thanks with best regards."
+                    await _emailSender.SendEmailAsync(email!, "Thank you for your contact",
+                            $"<h3>Thank you for your context!</h3>\n We will contact with you as soon as! Please patience to waiting us, many thanks with best regards."
                     );
                 }
                 //save db

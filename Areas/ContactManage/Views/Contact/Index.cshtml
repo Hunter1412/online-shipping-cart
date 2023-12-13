@@ -50,6 +50,9 @@
                         <thead>
                             <tr>
                                 <th>
+                                    @Html.DisplayNameFor(model => model.CreateAt)
+                                </th>
+                                <th>
                                     Name
                                 </th>
                                 <th>
@@ -58,9 +61,6 @@
                                 <th>
                                     @Html.DisplayNameFor(model => model.Answer)
                                 </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.CreateAt)
-                                </th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -68,6 +68,9 @@
                             @foreach (var item in Model)
                             {
                                 <tr>
+                                    <td>
+                                        @String.Format("{0:MM/dd/yyyy}", item.CreateAt)
+                                    </td>
                                     <td>
                                         @item.AppUser.Email
                                     </td>
@@ -80,15 +83,12 @@
                                     <td>
                                         @if (string.IsNullOrEmpty(item.Answer))
                                         {
-                                            <span>Not yet</span>
+                                            <span class="badge badge-danger">No</span>
                                         }
                                         else
                                         {
-                                            <span>Finished</span>
+                                            <span class="badge badge-success">Yes</span>
                                         }
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.CreateAt)
                                     </td>
                                     <td>
                                         <div class="btn-group">

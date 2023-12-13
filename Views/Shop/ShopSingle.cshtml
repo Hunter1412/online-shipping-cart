@@ -19,6 +19,12 @@
     AppUser? user = await _userManager.GetUserAsync(User);
     bool isFeedback = false;
 
+    var order = await _unitOfWork.Orders.Get(o => o.UserId == user.Id);
+    if (order != null)
+    {
+        isFeedback = true;
+    }
+
     var products = await _unitOfWork.Products.GetAll("Inventories,Images,Feedbacks");
     //Related Products
     var productDtoList = products!.Select(p => _mapper.Map<ProductDto>(p))
@@ -231,7 +237,7 @@
 
                 </div>
                 <div class="tab-pane fade" id="pills-feedback" role="tabpanel" aria-labelledby="pills-feedback-tab">
-                    @if (SignInManager.IsSignedIn(User))
+                    @if (SignInManager.IsSignedIn(User) && isFeedback)
                     {
                         <div class="card col-md-10 mx-auto">
                             <h5 class="card-header bg-light text-dark">We are looking forward to your feedback!</h5>
@@ -282,7 +288,8 @@
                     }
                     else
                     {
-                        <div class="text-center">You'll need to log in before you're allowed to post.</div>
+                        <div class="text-center">You'll need to log in and buy the product before you're allowed to post.
+                        </div>
                     }
                 </div>
             </div>

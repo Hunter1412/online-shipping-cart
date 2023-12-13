@@ -88,7 +88,7 @@
                                     <span asp-validation-for="Name" class="text-danger"></span>
                                 </div>
                                 <div class="col-md-6">
-                                    <input asp-for="Phone" type="phone" class="form-control" placeholder="Phone (*)" value="@userSignIn?.PhoneNumber">
+                                    <input asp-for="Phone" type="phone" class="form-control" type="Phone" placeholder="Phone (*)" value="@userSignIn?.PhoneNumber">
                                     <span asp-validation-for="Phone" class="text-danger"></span>
                                     </div>
                             </div>
@@ -148,7 +148,6 @@
                                 <small class="custom-control-description text-sm text-muted">
                                     After clicking “Pay now”, you will be redirected to Pay using online payment methods to
                                     complete your purchase securely.
-                                    @* <a href="/Payment/PaymentWithPayPal" class="btn btn-primary">PayPal</a> *@
                                     <a href="/ShoppingCart/PayUsingCard" class="btn btn-primary">Pay Now</a>
                                 </small>
                             </label>
@@ -243,7 +242,7 @@
                             </div>
                             <div class="mb-3">
                                 @if(paymentId!=null){
-                                    <strong class="alert alert-success">PAID</strong>
+                                    <strong class="alert alert-success">PAIDED</strong>
                                 }
                             </div>
                         </div>

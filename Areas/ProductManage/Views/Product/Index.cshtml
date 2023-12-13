@@ -91,10 +91,14 @@
                                         @{
                                             double price = (double)(item.Price - item.Promotion);
                                             <span class="text-success">$@price.ToString("N2")</span>
+                                            if (price < item.Price)
+                                            {
+                                                <br />
+                                                <small style="color: red;text-decoration: line-through;">
+                                                    $@item.Price.ToString("N2")
+                                                </small>
+                                            }
                                         }
-                                        <small style="color: red;text-decoration: line-through;">
-                                            $@item.Price.ToString("N2")
-                                        </small>
 
                                     </td>
                                     <td>
