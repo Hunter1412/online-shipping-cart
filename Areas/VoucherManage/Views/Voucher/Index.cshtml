@@ -50,6 +50,14 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
+                    @if (TempData["error"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert"> @TempData["error"] </div>
+                    }
+                    else if (TempData["success"] != null)
+                    {
+                        <div class="toast successToast fade show" role="alert">@TempData["success"]</div>
+                    }
                     <table id="table_voucher" class="table table-bordered table-striped text-center"
                         aria-label="list-voucher">
                         <thead>
