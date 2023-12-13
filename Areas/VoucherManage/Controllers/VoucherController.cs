@@ -43,6 +43,9 @@ namespace App.Areas.VoucherManage.Controllers
         [HttpGet("/admin/voucher/details/{id}")]
         public async Task<IActionResult> Details(string id)
         {
+            var ordersExist = await _unitOfWork.Orders.GetAll("Shipping");
+            ViewBag.ordersExist = ordersExist?.Select(c=>_mapper.Map<OrderDto>(c)).Where(a => a.VoucherId == id).ToList();
+
             var item = await _unitOfWork.Vouchers.Get(x => x.Id == id);
             return View(_mapper.Map<VoucherDto>(item));
         }
@@ -65,6 +68,7 @@ namespace App.Areas.VoucherManage.Controllers
                 await _unitOfWork.Vouchers.Add(voucher);
                 await _unitOfWork.CompleteAsync();
 
+                TempData["success"] = "Voucher had create successfully!";
                 return RedirectToAction(nameof(Index));
             }
             return View(voucherDto);
@@ -78,6 +82,13 @@ namespace App.Areas.VoucherManage.Controllers
             {
                 return NotFound();
             }
+            var orderExist = await _unitOfWork.Orders.Get(o => o.VoucherId == id);
+            if (orderExist != null)
+            {
+                TempData["error"] = "Error: Voucher have used! Can't edit this voucher";
+                return RedirectToAction(nameof(Index));
+            }
+
             var voucher = await _unitOfWork.Vouchers.Get(x => x.Id == id);
             if (voucher == null)
             {
@@ -95,6 +106,7 @@ namespace App.Areas.VoucherManage.Controllers
             {
                 return NotFound();
             }
+
 
             if (ModelState.IsValid)
             {
@@ -128,6 +140,12 @@ namespace App.Areas.VoucherManage.Controllers
             if (id == null || _unitOfWork.Vouchers == null)
             {
                 return NotFound();
+            }
+            var orderExist = await _unitOfWork.Orders.Get(o => o.VoucherId == id);
+            if (orderExist != null)
+            {
+                TempData["error"] = "Error: Voucher have used! Can't delete this voucher";
+                return RedirectToAction(nameof(Index));
             }
             var voucher = await _unitOfWork.Vouchers.Get(x => x.Id == id);
             if (voucher == null)

@@ -54,7 +54,7 @@
                                 </dd>
 
                                 <dt class="col-sm-2">
-                                    @Html.DisplayNameFor(model => model.Content)
+                                    Message from customer:
                                 </dt>
                                 <dd class="col-sm-10">
                                     @Html.DisplayFor(model => model.Content)
@@ -109,7 +109,7 @@
 @{
     var summernote = new OnlineShoppingCart.Models.Summernote("#content")
             {
-                Height = 500
+                Height = 300
             };
 }
 @section Scripts {

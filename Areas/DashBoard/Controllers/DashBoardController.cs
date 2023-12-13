@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using OnlineShoppingCart.Core.UnitOfWork;
@@ -10,6 +11,7 @@ using OnlineShoppingCart.Data.Entities;
 
 namespace OnlineShoppingCart.Areas.DashBoard.Controllers
 {
+    [Authorize(Roles = "admin,employee")]
     [Area("Dashboard")]
     public class DashBoardController : Controller
     {
@@ -42,7 +44,7 @@ namespace OnlineShoppingCart.Areas.DashBoard.Controllers
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             });
 
-            return Json(value );
+            return Json(value);
         }
 
     }

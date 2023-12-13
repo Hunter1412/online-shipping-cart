@@ -173,6 +173,10 @@
                 <div class="tab-pane fade show active" id="pills-comment" role="tabpanel"
                     aria-labelledby="pills-comment-tab">
                     <div class="row">
+                        @if (TempData["error"] != null)
+                        {
+                            <h5 class="mb-3 text-danger">@TempData["error"]</h5>
+                        }
                         @if (Model.Feedbacks!.Count > 0)
                         {
                             var feedbackList = Model.Feedbacks.Where(c => c.Parent == null).OrderByDescending(f =>

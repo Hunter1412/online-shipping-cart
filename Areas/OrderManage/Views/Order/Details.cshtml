@@ -68,11 +68,11 @@
                             <div class="col-sm-4 invoice-col">
                                 To
                                 <address>
-                                    <strong>@Model.Shipping.Name</strong><br>
-                                    @Model.Shipping.Address, @Model.Shipping.Wards<br>
-                                    @Model.Shipping.District, @Model.Shipping.City<br>
-                                    Phone: @Model.Shipping.Phone<br>
-                                    Email: @Model.Shipping.Email
+                                    <strong>@Model.Shipping?.Name</strong><br />
+                                    @Model.Shipping?.Address, @Model.Shipping?.Wards<br />
+                                    @Model.Shipping?.District, @Model.Shipping?.City<br />
+                                    Phone: @Model.Shipping?.Phone<br />
+                                    Email: @Model.Shipping?.Email
                                 </address>
                             </div>
                             <!-- /.col -->
@@ -120,8 +120,8 @@
                                                     </td>
                                                     <td>@item.OrderNumber</td>
                                                     <td>@item.Quantity</td>
-                                                    <td>@item.Price</td>
-                                                    <td>@amount</td>
+                                                    <td>@item.Price.ToString("N2")</td>
+                                                    <td>@amount.ToString("N2")</td>
                                                 </tr>
                                             }
                                         }
@@ -135,12 +135,12 @@
                         <div class="row">
                             <!-- accepted payments column -->
                             <div class="col-6">
-                                <p class="lead">Payment Methods: <span>@Model.PaymentMethod</span></p>
-                                <p class="lead">Payment Status: <span>@Model.PaymentStatus</span></p>
-                                <p class="lead">Order Status: <span>@Model.OrderStatus</span></p>
+                                <p class="lead">Payment Methods: <strong>@Model.PaymentMethod</strong></p>
+                                <p class="lead">Payment Status: <strong>@Model.PaymentStatus</strong></p>
+                                <p class="lead">Order Status: <strong>@Model.OrderStatus</strong></p>
 
                                 <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">
-                                    Note : <span class="text-info">@Model.Shipping.Note</span>
+                                    Note : <span class="text-muted">@Model.Shipping.Note</span>
                                 </p>
                             </div>
                             <!-- /.col -->
@@ -157,7 +157,7 @@
                                         </tr>
                                         <tr>
                                             <th>Shipping:</th>
-                                            <td>$@Model.Shipping.ShippingFee</td>
+                                            <td>$@String.Format("{0:N2}", Model.Shipping.ShippingFee)</td>
                                         </tr>
                                         <tr>
                                             <th>Total:</th>

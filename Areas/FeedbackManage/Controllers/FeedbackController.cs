@@ -138,9 +138,13 @@ namespace OnlineShoppingCart.Areas.FeedbackManage.Controllers
         public async Task<IActionResult> Create(IFormCollection form)
         {
             _logger.LogInformation("Feedback - Create action");
+            var badList = new List<string> { "fuck you", "motherfucker", "get lost", "get off my back", "get the fuck out", "go away", "god damn it" };
 
             try
             {
+                var exist = badList.Where(s => s.Contains(form["content"]!)).Any();
+                if (exist) throw new Exception();
+
                 AppUser? user = await _userManager.GetUserAsync(User);
 
                 var feedback = new Feedback
@@ -155,7 +159,7 @@ namespace OnlineShoppingCart.Areas.FeedbackManage.Controllers
                 await _unitOfWork.Feedbacks.Add(feedback);
                 await _unitOfWork.CompleteAsync();
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 TempData["error"] = "Error input data invalid. Can not send feedback, try again...";
                 _logger.LogError(ex, "Error Create method");
@@ -166,6 +170,7 @@ namespace OnlineShoppingCart.Areas.FeedbackManage.Controllers
 
 
         [HttpPost("/admin/feedback/delete")]
+        [AllowAnonymous] //khong can phan quyen van truy cap duoc
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete([FromForm] string feedbackId, string productSlug)
         {

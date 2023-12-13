@@ -61,7 +61,8 @@
                                 }
                                 <div class="custom-file">
                                     <label asp-for="ImageFile" class="control-label"></label>
-                                    <input asp-for="ImageFile" class="custom-file-input" />
+                                    <input asp-for="ImageFile" class="custom-file-input"
+                                        accept="image/png, image/jpeg, image/webp" />
                                     <span asp-validation-for="Image" class="text-danger"></span>
                                 </div>
                                 <div id=image-grid></div>

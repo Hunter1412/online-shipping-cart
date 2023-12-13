@@ -101,7 +101,8 @@
                             <div class="form-group row mb-3">
                                 <label asp-for="Input.BirthDay" class="col-lg-3 col-form-label"></label>
                                 <div class="col-lg-9">
-                                    <input asp-for="Input.BirthDay" class="form-control" />
+                                    <input asp-for="Input.BirthDay" class="form-control" min="1950-01-01"
+                                        max="2005-01-01" />
                                     <span asp-validation-for="Input.BirthDay" class="text-danger"></span>
                                 </div>
                             </div>
@@ -115,7 +116,8 @@
                             <div class="form-group row mb-3">
                                 <label asp-for="Input.ImageFile" class="col-lg-3 col-form-label"></label>
                                 <div class="col-lg-9">
-                                    <input type="file" class="form-control" asp-for="Input.ImageFile">
+                                    <input type="file" class="form-control" asp-for="Input.ImageFile"
+                                        accept="image/png, image/jpeg, image/webp" />
                                     <span asp-validation-for="Input.ImageFile" class="text-danger"></span>
                                 </div>
                             </div>

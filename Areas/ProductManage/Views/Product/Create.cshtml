@@ -87,7 +87,8 @@
                                     <span asp-validation-for="ImageFiles" class="text-danger"></span>
                                     <label asp-for="ImageFiles" class="control-label"></label>
                                     <span class="text-danger mr-3">(*)</span>
-                                    <input asp-for="ImageFiles" class="custom-file-input" />
+                                    <input asp-for="ImageFiles" class="custom-file-input"
+                                        accept="image/png, image/jpeg, image/webp" />
                                 </div>
                                 <div id=image-grid></div>
                             </div>

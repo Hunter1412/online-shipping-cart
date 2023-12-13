@@ -49,13 +49,16 @@
                         </div>
                         <div class="row">
                             <div class="form-group col-6">
-                                <label asp-for="Code" class="control-label"></label><span class="text-danger"> (*)</span>
+                                <label asp-for="Code" class="control-label"></label><span class="text-danger">
+                                    (*)</span>
                                 <input asp-for="Code" class="form-control" placeholder="Enter to the code of voucher" />
                                 <span asp-validation-for="Code" class="text-danger"></span>
                             </div>
                             <div class="form-group col-6">
-                                <label asp-for="Discount" class="control-label"></label><span class="text-danger"> (*)</span>
-                                <input asp-for="Discount" class="form-control" placeholder="Enter to discount money for this voucher" />
+                                <label asp-for="Discount" class="control-label"></label><span class="text-danger">
+                                    (*)</span>
+                                <input asp-for="Discount" class="form-control"
+                                    placeholder="Enter to discount money for this voucher" />
                                 <span asp-validation-for="Discount" class="text-danger"></span>
                             </div>
                         </div>
@@ -79,7 +82,7 @@
                     </form>
                     <aside class="col-md-6 p-3">
                         <dl class="card p-3">
-                            <dt>ID</dt>
+                            <dt>ID, Code</dt>
                             <dd>Include character alphabet and number</dd>
                         </dl>
                     </aside>

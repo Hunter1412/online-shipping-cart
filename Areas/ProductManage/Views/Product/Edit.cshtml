@@ -95,7 +95,8 @@
                                 <div class="custom-file">
                                     <label asp-for="ImageFiles" class="control-label"></label><span
                                         class="text-danger mr-3">(*)</span>
-                                    <input asp-for="ImageFiles" class="custom-file-input" value="@Model.ImageFiles" />
+                                    <input asp-for="ImageFiles" class="custom-file-input" value="@Model.ImageFiles"
+                                        accept="image/png, image/jpeg, image/webp" />
                                 </div>
                                 <div id=image-grid></div>
                             </div>
