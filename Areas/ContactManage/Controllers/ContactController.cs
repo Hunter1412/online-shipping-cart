@@ -20,7 +20,7 @@ using ContactEntity = OnlineShoppingCart.Data.Entities.Contact;
 
 namespace OnlineShoppingCart.Areas.ContactManage.Controllers
 {
-    [Authorize(Roles ="admin")]
+    [Authorize(Roles = "admin")]
     [Area("ContactManage")]
     public class ContactController : Controller
     {
@@ -111,8 +111,13 @@ namespace OnlineShoppingCart.Areas.ContactManage.Controllers
                             protocol: Request.Scheme
                         );
                         //send mail
-                        await _emailSender.SendEmailAsync(email!, "Thank you for your feedback",
-                            $"<h3>Thank you for your feedback!</h3>We will contact with you as soon as! \n Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl!)}'>clicking here</a>.\n<p>Thank you so much</p>"
+                        var content = @$"<h3>Hi {contactDto.AppUser.FirstName}!</h3>
+                            We will contact with you as soon as! \n
+                            Please patience to waiting us, many thanks with best regards.\n
+                            Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl!)}'>clicking here</a>.\n
+                            <p>Thank you so much</p>";
+
+                        await _emailSender.SendEmailAsync(email!, "Thank you for your fe", content
                         );
 
                         id = userId;
@@ -123,7 +128,7 @@ namespace OnlineShoppingCart.Areas.ContactManage.Controllers
                     id = user.Id;
                     //send mail
                     await _emailSender.SendEmailAsync(email!, "Thank you for your feedback",
-                            $"<h3>Thank you for your feedback!</h3>\n We will contact with you as soon as!</a>.\n<p>Thank you so much</p>"
+                            $"<h3>Thank you for your feedback!</h3>\n We will contact with you as soon as! Please patience to waiting us, many thanks with best regards."
                     );
                 }
                 //save db

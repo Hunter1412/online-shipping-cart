@@ -159,6 +159,18 @@ namespace OnlineShoppingCart.Areas.Identity.Pages.Account.Manage
                 }
             }
 
+            if (Input.FirstName == user.FirstName)
+            {
+                StatusMessage = "Error the first name is using, try another";
+                return RedirectToPage();
+            }
+
+            if (Input.LastName == user.LastName)
+            {
+                StatusMessage = "Error the last name is using, try another";
+                return RedirectToPage();
+            }
+
             if (Input.FirstName != null)
             {
                 user.FirstName = Input.FirstName;

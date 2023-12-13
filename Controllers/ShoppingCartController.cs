@@ -44,22 +44,22 @@ namespace OnlineShoppingCart.Controllers
             _emailSender = emailSender;
         }
 
-        public async Task<ProductDto> GetProductAsync(string id)
-        {
-            var productList = await _unitOfWork.Products.GetAll("Inventories");
-            var productDtoList = productList == null ? new List<ProductDto>()
-                : productList.Select(p => _mapper.Map<ProductDto>(p)).OrderByDescending(p => p.CreateAt).ToList();
+        // public async Task<Product> GetProductAsync(string id)
+        // {
+        //     var productList = await _unitOfWork.Products.GetAll("Inventories");
+        //     var productDtoList = productList == null ? new List<Product>()
+        //         : productList.Select(p => _mapper.Map<Product>(p)).ToList();
 
-            var productDto = productDtoList.Where(p => p.Id == id).FirstOrDefault();
-            return productDto ?? new ProductDto();
-        }
+        //     var productDto = productDtoList.Where(p => p.Id == id).FirstOrDefault();
+        //     return productDto ?? new Product();
+        // }
 
-        public async Task<int> StockQuantity(string id)
-        {
-            var productExist = await GetProductAsync(id);
-            int stock = productExist.Inventories.Select(x => x.Quantity).Sum() ?? 0;
-            return stock;
-        }
+        // public async Task<int> StockQuantity(string id)
+        // {
+        //     var stockList = await _unitOfWork.Inventory.GetAll();
+        //     int stock = (int)stockList.Where(t => t.ProductId == id).Select(x => x.Quantity).Sum();
+        //     return stock;
+        // }
 
         /// Thêm sản phẩm vào cart
         [Route("/add-cart", Name = "addcart")]
@@ -75,11 +75,6 @@ namespace OnlineShoppingCart.Controllers
             var cartItem = cart.Find(p => p.Product!.Id == id);
 
             var qty = quantity > 0 ? quantity : 0;
-            // var stock = await  StockQuantity(id);
-
-            // if (stock < qty){}
-
-            // _logger.LogInformation($"CHeck >>>>>>> {stock}");
 
             var image = await _context.Images!.Where(x => x.ProductId == id).AsNoTracking().FirstAsync();
             string imageName = image.ImageName!;
@@ -343,7 +338,7 @@ namespace OnlineShoppingCart.Controllers
             {
                 Title = "Thanks for making payment",
                 HtmlContent = content,
-                SecondWait = 5,
+                SecondWait = 3,
                 UrlRedirect = "/checkout"
             });
         }
@@ -389,150 +384,6 @@ namespace OnlineShoppingCart.Controllers
             return RedirectToAction(nameof(Index), "Home");
         }
 
-        // //payment for order
-        // public IActionResult FailureView()
-        // {
-        //     return View();
-        // }
-
-        // public ActionResult PaymentWithPaypal(string? Cancel = null, string PayerID = "", string guid = "")
-        // {
-        //     var clientId = _configuration.GetValue<string>("PayPal:Key");
-        //     var clientSecret = _configuration.GetValue<string>("PayPal:Secret");
-        //     var mode = _configuration.GetValue<string>("PayPal:mode");
-
-        //     //getting the apiContext
-        //     APIContext apiContext = PaypalConfiguration.GetAPIContext(clientId, clientSecret, mode);
-        //     try
-        //     {
-        //         string payerId = PayerID;
-        //         if (string.IsNullOrEmpty(payerId))
-        //         {
-        //             string baseURI = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}" + "/ShoppingCart/PaymentWithPayPal?";
-        //             var guidd = Convert.ToString((new Random()).Next(100000));
-        //             guid = guidd;
-
-        //             var createdPayment = this.CreatePayment(apiContext, baseURI + "guid=" + guid);
-        //             var links = createdPayment.links.GetEnumerator();
-
-        //             string paypalRedirectUrl = null;
-        //             while (links.MoveNext())
-        //             {
-        //                 Links lnk = links.Current;
-        //                 if (lnk.rel.ToLower().Trim().Equals("approval_url"))
-        //                 {
-        //                     paypalRedirectUrl = lnk.href;
-        //                 }
-        //             }
-        //             _httpContextAccessor.HttpContext!.Session.SetString("payment", createdPayment.id);
-        //             return Redirect(paypalRedirectUrl);
-        //         }
-        //         else
-        //         {
-        //             var paymentId = _httpContextAccessor.HttpContext!.Session.GetString("payment");
-        //             var executedPayment = ExecutePayment(apiContext, payerId, paymentId as string);
-        //             if (executedPayment.state.ToLower() != "approved")
-        //             {
-        //                 _logger.LogError("Error PaymentWithPayPal method, do not approval");
-        //                 return View("PaymentFailed");
-        //             }
-        //         }
-        //     }
-        //     catch (Exception ex)
-        //     {
-        //         _logger.LogError(ex, "Error PaymentWithPayPal method");
-        //         return View("FailureView");
-        //     }
-
-        //     //on successful payment, show success page to user.
-        //     return RedirectToAction("Success", "ShoppingCart");
-        // }
-
-        // private PayPal.Api.Payment Payment;
-        // private Payment ExecutePayment(APIContext apiContext, string payerId, string paymentId)
-        // {
-        //     var paymentExecution = new PaymentExecution()
-        //     {
-        //         payer_id = payerId
-        //     };
-        //     Payment = new Payment()
-        //     {
-        //         id = paymentId
-        //     };
-        //     return Payment.Execute(apiContext, paymentExecution);
-        // }
-
-        // private Payment CreatePayment(APIContext apiContext, string redirectUrl)
-        // {
-        //     var carts = _cartService.GetCartItems();
-        //     var voucher = _cartService.GetVoucher();
-        //     double discount = voucher != null ? voucher.Discount : 0.00;
-        //     double total = _cartService.CalculateTotal(carts) - discount;
-        //     //create itemlist and add item objects to it
-        //     var itemList = new ItemList()
-        //     {
-        //         items = new List<Item>()
-        //     };
-        //     //Adding Item Details like name, currency, price etc
-        //     foreach (var cartItem in carts)
-        //     {
-        //         itemList.items.Add(new Item()
-        //         {
-        //             name = cartItem.Product!.Name,
-        //             currency = "USD",
-        //             price = (cartItem.Product.Price - cartItem.Product.Promotion).ToString(),
-        //             quantity = cartItem.Quantity.ToString(),
-        //             sku = cartItem.Product.Id
-        //         });
-        //     }
-        //     var payer = new Payer()
-        //     {
-        //         payment_method = "paypal"
-        //     };
-        //     // Configure Redirect Urls here with RedirectUrls object
-        //     var redirUrls = new RedirectUrls()
-        //     {
-        //         cancel_url = redirectUrl + "&Cancel=true",
-        //         return_url = redirectUrl
-        //     };
-        //     // Adding Tax, shipping and Subtotal details
-        //     var details = new Details()
-        //     {
-        //         tax = "0",
-        //         shipping = "0",
-        //         subtotal = total.ToString()
-        //     };
-        //     //Final amount with details
-        //     var amount = new Amount()
-        //     {
-        //         currency = "USD",
-        //         total = total.ToString(), // Total must be equal to sum of tax, shipping and subtotal.
-        //         details = details
-        //     };
-        //     var transactionList = new List<Transaction>();
-        //     // Adding description about the transaction
-        //     Random random = new();
-        //     var paypalOrderId = random.NextString(8);
-        //     // saving the payID in the key
-        //     _httpContextAccessor.HttpContext.Session.SetString("orderid", paypalOrderId);
-
-        //     transactionList.Add(new Transaction()
-        //     {
-        //         description = $"Invoice #{paypalOrderId}",
-        //         invoice_number = paypalOrderId.ToString(), //Generate an Invoice No
-        //         amount = amount,
-        //         item_list = itemList
-        //     });
-        //     Payment = new Payment()
-        //     {
-        //         intent = "sale",
-        //         payer = payer,
-        //         transactions = transactionList,
-        //         redirect_urls = redirUrls
-        //     };
-        //     // Create a payment using a APIContext
-        //     return Payment.Create(apiContext);
-        // }
 
     }
 

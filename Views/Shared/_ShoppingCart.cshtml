@@ -40,7 +40,6 @@
         $("#check_voucher").on("click", function (e) {
             e.preventDefault();
             let code = $("#Code").val();
-            alert(`Check voucher>>>>${code}`)
             $.ajax({
                 type: "POST",
                 url: "@Url.RouteUrl("checkvoucher")",
@@ -50,13 +49,12 @@
                 success: function (result) {
                     if (result.code) {
                         let discount = Number.parseFloat(result.discount);
-                        let total = Number.parseFloat(result.value);
+                        let total = Number.parseFloat(result.value).toLocaleString(undefined,{minimumFractionDigits:2});
                         $('#discount').html(discount);
                         $('#total').html(total);
                     }
                     if (result.error) {
-    @* toastr["error"]("Error", result.error); *@
-                            $("#error_voucher").html(result.error);
+                        $("#error_voucher").html(result.error);
                         $("#Code").empty();
                     }
                 }
