@@ -54,18 +54,15 @@
                                 <span asp-validation-for="Description" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                @if (Model.Image != null)
-                                {
-                                    <img src="~/assets/img/@Model.Image" alt="@Model.Image"
-                                        style="width:85px;height:85px;" />
-                                }
                                 <div class="custom-file">
                                     <label asp-for="ImageFile" class="control-label"></label>
                                     <input asp-for="ImageFile" class="custom-file-input"
-                                        accept="image/png, image/jpeg, image/webp" />
+                                        accept="image/png, image/jpeg, image/webp" onchange="chooseFile(this)" />
                                     <span asp-validation-for="Image" class="text-danger"></span>
                                 </div>
-                                <div id=image-grid></div>
+                                <img src="~/assets/img/@Model.Image" id="image" alt="@Model.Image"
+                                    style="width:85px;height:85px;" />
+                                @* <div id=image-grid></div> *@
                             </div>
                             <div class="form-group">
                                 <label asp-for="ParentId" class="control-label"></label>
@@ -113,20 +110,31 @@
                 }
             });
 
-            const imageGrid = document.getElementById('image-grid');
+        @* const imageGrid = document.getElementById('image-grid');
             $('#ImageFile').change(function (e) {
-                const files = e.target.files;
-                let reader = new FileReader();
-                for (const file of files) {
-                    const img = document.createElement('img');
-                    imageGrid.appendChild(img);
-                    img.src = URL.createObjectURL(file);
-                    img.alt = file.name;
-                    img.style.width = '85px';
-                    img.style.height = '85px';
+            const files = e.target.files;
+            let reader = new FileReader();
+            for (const file of files) {
+            const img = document.createElement('img');
+            imageGrid.appendChild(img);
+            img.src = URL.createObjectURL(file);
+            img.alt = file.name;
+            img.style.width = '85px';
+            img.style.height = '85px';
+            }
+            }); *@
+                    });
+
+        function chooseFile(inputFile) {
+            if (inputFile.files && inputFile.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $("#image").attr("src", e.target.result);
                 }
-            });
-        });
+                reader.readAsDataURL(inputFile.files[0]);
+            }
+        }
     </script>
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

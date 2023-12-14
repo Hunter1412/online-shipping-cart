@@ -274,7 +274,7 @@ namespace OnlineShoppingCart.Areas.ProductManage.Controllers
             if (productExistOrder != null)
             {
                 TempData["error"] = "This product has been used! Can't delete this product!";
-                return View("Delete", _mapper.Map<ProductDto>(productExistOrder));
+                return View("Delete", _mapper.Map<ProductDto>(product));
             }
 
             //delete image

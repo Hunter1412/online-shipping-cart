@@ -50,8 +50,7 @@
                             @Html.DisplayFor(model => model.Name)
                         </dd>
                         <dt class="col-sm-4">
-                            @Html.DisplayNameFor(model => model.Description)
-
+                            Description
                         </dt>
                         <dd class="col-sm-8">
                             <span>
@@ -187,7 +186,7 @@
             $("#product_details").DataTable({
                 "responsive": true, "lengthChange": true, "autoWidth": true, "order": true, "lengthMenu": [5, 10, 15, 'All'],
         @* "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"] *@
-                                        }).buttons().container().appendTo('#product_details_wrapper .col-md-6:eq(0)');
-                                    });
+                                            }).buttons().container().appendTo('#product_details_wrapper .col-md-6:eq(0)');
+                                        });
     </script>
 }
