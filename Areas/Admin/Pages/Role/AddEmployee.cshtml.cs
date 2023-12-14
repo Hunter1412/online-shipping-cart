@@ -143,12 +143,6 @@ namespace OnlineShoppingCart.Areas.Admin.Pages.Role.AddEmployee
                     {
                         return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
                     }
-                    else
-                    {
-                        //login, isPersistent - khong luu cookie
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
-                    }
                 }
                 foreach (var error in result.Errors)
                 {
