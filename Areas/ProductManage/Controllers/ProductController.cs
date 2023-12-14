@@ -336,5 +336,12 @@ namespace OnlineShoppingCart.Areas.ProductManage.Controllers
             return resultItems;
         }
 
+
+        [HttpGet("/admin/product/exists")]
+        public async Task<bool> ProductExists(string id)
+        {
+            return (await _unitOfWork.Products.Get(x => x.Id == id)) != null;
+        }
+
     }
 }

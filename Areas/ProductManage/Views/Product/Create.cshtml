@@ -149,10 +149,10 @@
     <!-- Page specific script -->
     <script>
 
-        @* $("#Id").on("change", function () {
+        $("#Id").on("change", function () {
         const id = $(this).val();
         $.ajax({
-        url: "/admin/category/categoryexists",
+        url: "/admin/product/exists",
         type: "get",
         data: {
         id: id
@@ -169,7 +169,7 @@
         }
         }
         })
-        }) *@
+        })
 
 
             $(document).ready(function (e) {

@@ -44,7 +44,7 @@ namespace App.Areas.VoucherManage.Controllers
         public async Task<IActionResult> Details(string id)
         {
             var ordersExist = await _unitOfWork.Orders.GetAll("Shipping");
-            ViewBag.ordersExist = ordersExist?.Select(c=>_mapper.Map<OrderDto>(c)).Where(a => a.VoucherId == id).ToList();
+            ViewBag.ordersExist = ordersExist?.Select(c => _mapper.Map<OrderDto>(c)).Where(a => a.VoucherId == id).ToList();
 
             var item = await _unitOfWork.Vouchers.Get(x => x.Id == id);
             return View(_mapper.Map<VoucherDto>(item));
@@ -62,14 +62,22 @@ namespace App.Areas.VoucherManage.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Code,Discount,MinimumBill,ExpDate,CreateAt")] VoucherDto voucherDto)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var voucher = _mapper.Map<Voucher>(voucherDto);
-                await _unitOfWork.Vouchers.Add(voucher);
-                await _unitOfWork.CompleteAsync();
+                if (ModelState.IsValid)
+                {
+                    var voucher = _mapper.Map<Voucher>(voucherDto);
+                    await _unitOfWork.Vouchers.Add(voucher);
+                    await _unitOfWork.CompleteAsync();
 
-                TempData["success"] = "Voucher had create successfully!";
-                return RedirectToAction(nameof(Index));
+                    TempData["success"] = "Voucher had create successfully!";
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            catch (System.Exception ex)
+            {
+                TempData["error"] = "Error Id had used";
+                _logger.LogError(ex, "Error");
             }
             return View(voucherDto);
         }

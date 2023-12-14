@@ -12,6 +12,7 @@ namespace OnlineShoppingCart.Models.DTOs
     {
         [Key]
         [Required]
+        [RegularExpression(@"\b(CP)(\d{5})\b", ErrorMessage = "The Id must be formatted as 'CPxxxxx', x is the digits")]
         public string? Id { get; set; }
         [Required]
         [Display(Name = "Category Name")]
@@ -40,7 +41,7 @@ namespace OnlineShoppingCart.Models.DTOs
 
         public void ChildrenCategoryIDs(ICollection<CategoryDto> childcates, List<string> ids)
         {
-            if(childcates==null)
+            if (childcates == null)
             {
                 childcates = this.Children;
             }
