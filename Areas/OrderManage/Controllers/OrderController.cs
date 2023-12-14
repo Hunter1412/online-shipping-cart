@@ -136,7 +136,8 @@ namespace OnlineShoppingCart.Areas.OrderManage.Controllers
             // }
             var orderOld = await _unitOfWork.Orders.Get(z => z.Id == id);
 
-            if(orderOld?.OrderStatus=="Cancel"){
+            if (orderOld?.OrderStatus == "Cancel")
+            {
                 TempData["error"] = "Error: Order status had cancel, can't change status of order.";
                 return RedirectToAction(nameof(Edit));
             }

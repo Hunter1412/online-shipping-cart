@@ -31,9 +31,6 @@
         <div class="container-fluid">
 
             <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">DataTable with default features</h3>
-                </div>
                 <!-- /.card-header -->
                 <div class="card-body">
                     <table id="table_delivery_date" class="table table-bordered table-striped" aria-describedby="false">
@@ -43,7 +40,6 @@
                                 <th>Delivery ID</th>
                                 <th>Delivery to</th>
                                 <th>Delivery Type</th>
-                                <th>EndTo</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -75,16 +71,6 @@
                                             {
                                                 <span>2.Click and Collect</span>
                                             }
-                                        }
-                                    </td>
-                                    <td>
-                                        @if (item.EndAt < item.CreateAt)
-                                        {
-                                            <span class="badge badge-danger">Not yet</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge badge-success">Done</span>
                                         }
                                     </td>
                                 </tr>

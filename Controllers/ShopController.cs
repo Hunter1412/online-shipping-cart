@@ -69,7 +69,7 @@ public class ShopController : Controller
 
 
         if (page == null) page = 1;
-        int pageSize = 9;
+        int pageSize = 12;
         int pageNumber = (page ?? 1);
 
         return View(productDtoList.ToPagedList(pageNumber, pageSize));

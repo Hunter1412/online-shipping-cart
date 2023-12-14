@@ -80,7 +80,6 @@
                                 <b>Invoice #@Model.Id</b><br>
                                 <br>
                                 <b>Order ID:</b> @Model.Id<br>
-                                <b>Payment Due:</b> @Model.UpdateAt<br>
                                 <b>Account:</b> 968-34567 <br>
                             </div>
                             <!-- /.col -->
@@ -138,6 +137,7 @@
                                 <p class="lead">Payment Methods: <strong>@Model.PaymentMethod</strong></p>
                                 <p class="lead">Payment Status: <strong>@Model.PaymentStatus</strong></p>
                                 <p class="lead">Order Status: <strong>@Model.OrderStatus</strong></p>
+                                <p class="lead">Update by: <strong>@Model.ApprovedBy</strong></p>
 
                                 <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">
                                     Note : <span class="text-muted">@Model.Shipping.Note</span>

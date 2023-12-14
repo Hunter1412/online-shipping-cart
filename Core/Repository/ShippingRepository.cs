@@ -13,5 +13,6 @@ namespace OnlineShoppingCart.Core.Repository
         public ShippingRepository(ApplicationDbContext context, ILogger logger) : base(context, logger)
         {
         }
+
     }
 }

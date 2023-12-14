@@ -203,6 +203,9 @@ namespace OnlineShoppingCart.Controllers
             var orderId = _httpContextAccessor.HttpContext.Session.GetString("orderid");
 
             var paymentStatus = paymentId != null ? "Finish" : "Await Payment";
+            // var paymentMethod = (form.PaymentMethod == "PayPal" && form.PaymentMethod==null)
+            //                     ? "COD"
+            //                     : form.PaymentMethod;
 
             //save order
             Random random = new();
@@ -382,6 +385,18 @@ namespace OnlineShoppingCart.Controllers
             }
 
             return RedirectToAction(nameof(Index), "Home");
+        }
+
+        [Authorize]
+        public IActionResult Cancel()
+        {
+            return ViewComponent("MessagePage", new OnlineShoppingCart.Components.MessagePage.Message
+            {
+                Title = "Error payment",
+                HtmlContent = "After 3s, Redirect to CheckOut page",
+                SecondWait = 3,
+                UrlRedirect = "/checkout"
+            });
         }
 
 
